@@ -1,5 +1,4 @@
 package com.calculadora.veterinaria.backend.service;
-import com.calculadora.veterinaria.backend.config.SecurityConfig;
 
 import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.repository.UsuarioRepository;

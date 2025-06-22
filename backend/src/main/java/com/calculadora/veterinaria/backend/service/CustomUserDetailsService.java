@@ -2,7 +2,6 @@ package com.calculadora.veterinaria.backend.service;
 
 import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.repository.UsuarioRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

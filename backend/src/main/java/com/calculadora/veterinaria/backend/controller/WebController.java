@@ -35,5 +35,10 @@ public class WebController {
         return "resetSenha"; 
     }
 
+    @GetMapping("/especie")
+    public String especie() {
+        return "especie"; 
+    }
+
 
 }

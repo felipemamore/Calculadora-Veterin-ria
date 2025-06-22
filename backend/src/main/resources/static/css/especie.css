@@ -1,0 +1,70 @@
+body {
+  background-color: #e9ecef; /* cinza claro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  border: 1px solid #dee2e6;
+}
+
+#titulo-especie {
+  color: #2c3e50;
+  font-weight: 700;
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  text-shadow: 1px 1px 2px #adb5bd;
+}
+
+.imagem-especie {
+  max-width: 450px;
+  max-height: 280px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto 30px auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  display: block;
+}
+
+h2 {
+  color: #34495e;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 6px;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+#resumo-especie {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #495057;
+}
+
+li {
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+section {
+  margin-bottom: 40px;
+}

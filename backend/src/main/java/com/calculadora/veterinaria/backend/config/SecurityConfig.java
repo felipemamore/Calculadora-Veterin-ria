@@ -57,16 +57,17 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/api/senha/forgot-password").permitAll()
             .requestMatchers(HttpMethod.POST, "/api/senha/reset-password").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/medicamentos").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/especies").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/especie").permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/toxicas").permitAll()
             .requestMatchers("/api/calculo/dose").permitAll()
             .requestMatchers("/api/dosagem").permitAll()
-            .requestMatchers("/","/home","/cadastro","/redefinirSenha","/pages/**",
+            .requestMatchers("/","/home","/especie","/cadastro","/redefinirSenha","/pages/**",
                 "/pagina-login", "/css/**","/templates/**", "/js/**", "/images/**").permitAll()
 
-            // liberar acesso à página de resetSenha.html
+            
             .requestMatchers("/resetSenha.html").permitAll()
             
-            // o resto exige autenticação
+            
             .anyRequest().authenticated()
         )
         .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

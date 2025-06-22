@@ -10,7 +10,7 @@ import com.calculadora.veterinaria.backend.dto.EspecieDTO;
 import com.calculadora.veterinaria.backend.entity.Especie;
 import com.calculadora.veterinaria.backend.repository.EspecieRepository;
 @RestController
-@RequestMapping("/api/especies")
+@RequestMapping("/api/especie")
 public class EspecieController {
 
     @Autowired
