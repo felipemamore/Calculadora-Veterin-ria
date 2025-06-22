@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-image: url('/images/home.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.logo-medvet {
+  max-height: 60px;
+  width: auto;
+}
+
+.titulo-topo {
+  font-size: 28px;
+  color: #1b3060;
+  font-weight: bold;
+}
+
+.breadcrumb {
+  font-size: 20px;
+  color: #444;
+  margin-top: 20px;
+}
+
+
+.current-page {
+  font-weight: bold;
+}

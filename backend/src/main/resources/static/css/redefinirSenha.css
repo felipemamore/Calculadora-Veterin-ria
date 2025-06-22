@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #f5f8fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: #ffffff;
+  padding: 40px 50px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #133b77;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.entrar-btn {
+  padding: 12px;
+  background-color: #133b77;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.entrar-btn:hover {
+  background-color: #0f2e5e;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.links a {
+  font-s
+}
