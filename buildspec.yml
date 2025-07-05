@@ -4,15 +4,28 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "DIRETORIO ATUAL ANTES DO CD:"
+      - pwd
+      - echo "LISTAGEM ANTES DO CD:"
+      - ls -F
+      - echo "Navegando para o diretorio do projeto: backend"
+      - cd "$CODEBUILD_SRC_DIR/backend"
+      - echo "DIRETORIO ATUAL DEPOIS DO CD:"
+      - pwd
+      - echo "LISTAGEM DEPOIS DO CD:"
+      - ls -F
+      - echo "Instalando dependencias Maven..."
       - mvn clean install -DskipTests=true
   pre_build:
     commands:
-      - cd backend
+      - echo "Fase pre_build pode ser removida se vazia."
   build:
     commands:
+      - echo "Construindo o arquivo JAR..."
       - mvn package -DskipTests=true
   post_build:
     commands:
+      - echo "Build concluido. Movendo artefato..."
       - mv target/*.jar application.jar
       - zip -r application.zip application.jar
 artifacts:
