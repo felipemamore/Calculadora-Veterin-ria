@@ -15,5 +15,4 @@ public class Raca {
     @JoinColumn(name = "especie_id", nullable = false)
     private Especie especie;
 
-    // Getters e setters
 }

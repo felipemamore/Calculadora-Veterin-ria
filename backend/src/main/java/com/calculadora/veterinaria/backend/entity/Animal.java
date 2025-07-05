@@ -20,5 +20,4 @@ public class Animal {
     @JoinColumn(name = "raca_id", nullable = false)
     private Raca raca;
 
-    // Getters e setters
 }

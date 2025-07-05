@@ -241,9 +241,6 @@ salvarDosagem(medicamentoMap, especieMap, "Dantroleno", "Répteis", 1.0, 10.0);
 salvarDosagem(medicamentoMap, especieMap, "Dantroleno", "Roedores", 1.2, 10.0);
 
 
-
-
-        // Continue adicionando conforme a tabela acima para todas as combinações necessárias
     }
 
     private void salvarDosagem(Map<String, Medicamento> medicamentoMap,

@@ -3,6 +3,7 @@ package com.calculadora.veterinaria.backend.service;
 import com.calculadora.veterinaria.backend.dto.DoseRequest;
 import com.calculadora.veterinaria.backend.dto.DoseResponse;
 import com.calculadora.veterinaria.backend.entity.Dosagem;
+import com.calculadora.veterinaria.backend.entity.Especie;
 import com.calculadora.veterinaria.backend.entity.Medicamento;
 import com.calculadora.veterinaria.backend.repository.DosagemRepository;
 import com.calculadora.veterinaria.backend.repository.EspecieRepository;
@@ -30,7 +31,7 @@ public class CalculoService {
         Medicamento medicamento = medicamentoRepository.findById(request.getMedicamentoId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Medicamento não encontrado"));
 
-        var especie = especieRepository.findById(request.getEspecieId())
+        Especie especie = especieRepository.findById(request.getEspecieId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Espécie não encontrada"));
 
         Dosagem dosagem = dosagemRepository.findByMedicamentoIdAndEspecieId(medicamento.getId(), especie.getId())

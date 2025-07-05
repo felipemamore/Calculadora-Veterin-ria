@@ -66,6 +66,7 @@ public class SecurityConfig {
 
             
             .requestMatchers("/resetSenha.html").permitAll()
+            .requestMatchers("/api/conta-do-usuario").authenticated()
             
             
             .anyRequest().authenticated()

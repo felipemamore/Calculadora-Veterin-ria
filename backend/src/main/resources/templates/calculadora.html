@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="/css/calculadora.css" />
 </head>
 <body>
+  <button class="btn-minha-conta" onclick="abrirMinhaConta()">Minha Conta</button>
+
   <div class="container">
     <h1 class="title">Calculadora Veterinária</h1>
 
@@ -17,19 +19,18 @@
         <h2 class="species-heading">Espécies</h2>
         <ul class="species-buttons">
           <li><button data-especie="Canina">Canina</button></li>
-            <li><button data-especie="Felina">Felina</button></li>
-            <li><button data-especie="Equina">Equina</button></li>
-            <li><button data-especie="Bovino">Bovino</button></li>
-            <li><button data-especie="Mamíferos">Mamíferos</button></li>
-            <li><button data-especie="Aves">Aves</button></li>
-            <li><button data-especie="Répteis">Répteis</button></li>
-            <li><button data-especie="Roedores">Roedores</button></li>
+          <li><button data-especie="Felina">Felina</button></li>
+          <li><button data-especie="Equina">Equina</button></li>
+          <li><button data-especie="Bovino">Bovino</button></li>
+          <li><button data-especie="Mamíferos">Mamíferos</button></li>
+          <li><button data-especie="Aves">Aves</button></li>
+          <li><button data-especie="Répteis">Répteis</button></li>
+          <li><button data-especie="Roedores">Roedores</button></li>
         </ul>
       </div>
 
       <!-- Coluna central - Box de cálculo -->
       <div class="form-section">
-
         <div class="calculation-box">
           <label for="especies-select">Espécie:</label>
           <select id="especies-select" name="especies">
@@ -42,13 +43,7 @@
           </select>
 
           <label for="peso" class="mt-3">Peso (Kg):</label>
-          <input
-            id="peso"
-            name="peso"
-            type="text"
-            placeholder="Ex: 5,5"
-            title="Digite um número válido, ex: 3,5"
-          />
+          <input id="peso" name="peso" type="text" placeholder="Ex: 5,5" title="Digite um número válido, ex: 3,5" />
 
           <label for="dose" class="mt-3">Dose recomendada (Mg/Kg):</label>
           <input id="dose" name="dose" type="number" min="0" step="0.01" placeholder="0,00" />
@@ -68,7 +63,6 @@
             </p>
           </div>
         </div>
-
       </div>
 
       <!-- Coluna direita - Medicamentos Sidebar -->
@@ -97,7 +91,6 @@
           <li>Dantroleno</li>
         </ul>
       </div>
-
     </div>
   </div>
 
