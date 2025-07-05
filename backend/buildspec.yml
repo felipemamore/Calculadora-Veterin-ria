@@ -3,16 +3,16 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17 # Verifique e ajuste para a versão do seu JDK
+      java: corretto17 # <--- Verifique e ajuste para a versão do seu JDK (ex: corretto11, corretto21)
     commands:
       - echo "Instalando dependências Maven..."
       - mvn clean install -DskipTests=true
-  pre_build: # <--- Adicione esta fase
-    commands:
+  pre_build: # <--- Esta fase
+    commands: # <--- Este "commands" deve estar alinhado com "install" e "build"
       - echo "Navegando para o diretório do projeto: backend"
       - cd backend # <--- ENTRE NESTA PASTA!
-  build:
-    commands:
+  build: # <--- Esta fase
+    commands: # <--- Este "commands" deve estar alinhado com "install" e "pre_build"
       - echo "Construindo o arquivo JAR..."
       - mvn package -DskipTests=true # Não precisa de --file pom.xml se você já está na pasta
   post_build:
