@@ -1,23 +1,27 @@
-version: 0.2 # Versão do buildspec
+version: 0.2
 
 phases:
   install:
     runtime-versions:
-      java: corretto17 # Use a versão do Java que você está usando (ex: corretto11, corretto21)
+      java: corretto17 # Verifique e ajuste para a versão do seu JDK
     commands:
-      - echo "Installing Maven dependencies..."
-      - mvn clean install -DskipTests=true # Instala dependências e pula testes para agilizar o build. Considere rodar testes em um ambiente de produção.
+      - echo "Instalando dependências Maven..."
+      - mvn clean install -DskipTests=true
+  pre_build: # <--- Adicione esta fase
+    commands:
+      - echo "Navegando para o diretório do projeto: backend"
+      - cd backend # <--- ENTRE NESTA PASTA!
   build:
     commands:
-      - echo "Building the JAR file..."
-      - mvn package -DskipTests=true # Empacota a aplicação em um JAR
+      - echo "Construindo o arquivo JAR..."
+      - mvn package -DskipTests=true # Não precisa de --file pom.xml se você já está na pasta
   post_build:
     commands:
-      - echo "Build completed. Moving artifact..."
-      - mv target/*.jar application.jar # Renomeia o JAR gerado para 'application.jar' (nome genérico)
+      - echo "Build concluído. Movendo artefato..."
+      - mv target/*.jar application.jar # O JAR estará em backend/target
       - zip -r application.zip application.jar # Zipal o JAR para o Elastic Beanstalk
 
 artifacts:
   files:
-    - application.zip # Define o arquivo que será o artefato do build
-  discard-paths: yes # Não inclui a estrutura de pastas do build no artefato
+    - application.zip # Este é o arquivo que será o artefato final
+  discard-paths: yes # Não inclui a estrutura de pastas no artefato ZIP final
