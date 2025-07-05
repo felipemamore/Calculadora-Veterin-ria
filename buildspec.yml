@@ -3,24 +3,12 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-<<<<<<< HEAD:buildspec.yml
-      java: corretto17 # Verifique e ajuste para a versão do seu JDK (ex: corretto11, corretto21)
-=======
       java: corretto17 # ATENCAO: Ajuste ESTA VERSAO DO JAVA (ex: corretto11, corretto21)
->>>>>>> 915b7b6178d6db5c85d4861f848166dd5d15e4af:backend/buildspec.yml
     commands:
       - echo "Instalando dependencias Maven..."
       - mvn clean install -DskipTests=true
   pre_build:
     commands:
-<<<<<<< HEAD:buildspec.yml
-      - echo "Navegando para o diretório do projeto: backend"
-      - cd backend # ENTRE NESTA PASTA!
-  build:
-    commands:
-      - echo "Construindo o arquivo JAR..."
-      - mvn package -DskipTests=true # Não precisa de --file pom.xml se você já está na pasta
-=======
       - echo "DIRETORIO ATUAL ANTES DO CD:"
       - pwd
       - echo "LISTAGEM ANTES DO CD:"
@@ -35,7 +23,6 @@ phases:
     commands:
       - echo "Construindo o arquivo JAR..."
       - mvn package -DskipTests=true
->>>>>>> 915b7b6178d6db5c85d4861f848166dd5d15e4af:backend/buildspec.yml
   post_build:
     commands:
       - echo "Build concluido. Movendo artefato..."
