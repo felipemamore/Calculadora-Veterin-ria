@@ -3,25 +3,46 @@ version: 0.2
 phases:
   install:
     runtime-versions:
+<<<<<<< HEAD:buildspec.yml
       java: corretto17 # Verifique e ajuste para a versão do seu JDK (ex: corretto11, corretto21)
+=======
+      java: corretto17 # ATENCAO: Ajuste ESTA VERSAO DO JAVA (ex: corretto11, corretto21)
+>>>>>>> 915b7b6178d6db5c85d4861f848166dd5d15e4af:backend/buildspec.yml
     commands:
-      - echo "Instalando dependências Maven..."
+      - echo "Instalando dependencias Maven..."
       - mvn clean install -DskipTests=true
   pre_build:
     commands:
+<<<<<<< HEAD:buildspec.yml
       - echo "Navegando para o diretório do projeto: backend"
       - cd backend # ENTRE NESTA PASTA!
   build:
     commands:
       - echo "Construindo o arquivo JAR..."
       - mvn package -DskipTests=true # Não precisa de --file pom.xml se você já está na pasta
+=======
+      - echo "DIRETORIO ATUAL ANTES DO CD:"
+      - pwd
+      - echo "LISTAGEM ANTES DO CD:"
+      - ls -F
+      - echo "Navegando para o diretorio do projeto: backend"
+      - cd "$CODEBUILD_SRC_DIR/backend" 
+      - echo "DIRETORIO ATUAL DEPOIS DO CD:"
+      - pwd
+      - echo "LISTAGEM DEPOIS DO CD:"
+      - ls -F
+  build:
+    commands:
+      - echo "Construindo o arquivo JAR..."
+      - mvn package -DskipTests=true
+>>>>>>> 915b7b6178d6db5c85d4861f848166dd5d15e4af:backend/buildspec.yml
   post_build:
     commands:
-      - echo "Build concluído. Movendo artefato..."
-      - mv target/*.jar application.jar # O JAR estará em backend/target
-      - zip -r application.zip application.jar # Zipal o JAR para o Elastic Beanstalk
+      - echo "Build concluido. Movendo artefato..."
+      - mv target/*.jar application.jar
+      - zip -r application.zip application.jar
 
 artifacts:
   files:
-    - application.zip # Este é o arquivo que será o artefato final
-  discard-paths: yes # Não inclui a estrutura de pastas no artefato ZIP final
+    - application.zip
+  discard-paths: yes
