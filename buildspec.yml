@@ -4,6 +4,10 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "Instalando dependencias Maven..."
+      - mvn clean install -DskipTests=true
+  pre_build:
+    commands:
       - echo "DIRETORIO ATUAL ANTES DO CD:"
       - pwd
       - echo "LISTAGEM ANTES DO CD:"
@@ -14,20 +18,20 @@ phases:
       - pwd
       - echo "LISTAGEM DEPOIS DO CD:"
       - ls -F
-      - echo "Instalando dependencias Maven..."
-      - mvn clean install -DskipTests=true
-  pre_build:
-    commands:
-      - echo "Fase pre_build pode ser removida se vazia."
   build:
     commands:
       - echo "Construindo o arquivo JAR..."
       - mvn package -DskipTests=true
   post_build:
     commands:
-      - echo "Build concluido. Movendo artefato..."
+      - echo "Build concluido. Criando artefato ZIP na raiz..."
       - mv target/*.jar application.jar
+      - cp application.jar "$CODEBUILD_SRC_DIR/application.jar"
+      - cd "$CODEBUILD_SRC_DIR"
       - zip -r application.zip application.jar
+      - rm application.jar
+      - echo "Artefato application.zip criado na raiz do diretorio de artefatos."
+
 artifacts:
   files:
     - application.zip
