@@ -3,33 +3,33 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17 # Verifique sua versão
+      java: corretto17 # ATENÇÃO: Verifique e ajuste ESTA VERSÃO DO JAVA para a que você usa (ex: corretto11, corretto21)
     commands:
       - echo "Instalando dependências Maven..."
       - mvn clean install -DskipTests=true
   pre_build:
     commands:
       - echo "DIRETORIO ATUAL ANTES DO CD:"
-      - pwd # Debug: mostra o diretório atual
+      - pwd # Comando de debug: mostra o diretório atual
       - echo "LISTAGEM ANTES DO CD:"
-      - ls -F # Debug: lista o conteúdo do diretório atual
+      - ls -F # Comando de debug: lista o conteúdo do diretório atual
       - echo "Navegando para o diretório do projeto: backend"
-      - cd backend
+      - cd "$CODEBUILD_SRC_DIR/backend" # <--- ESTA É A LINHA CRÍTICA CORRIGIDA!
       - echo "DIRETORIO ATUAL DEPOIS DO CD:"
-      - pwd # Debug: mostra o diretório atual depois do cd
+      - pwd # Comando de debug: mostra o diretório atual depois do cd
       - echo "LISTAGEM DEPOIS DO CD:"
-      - ls -F # Debug: lista o conteúdo do diretório atual depois do cd
+      - ls -F # Comando de debug: lista o conteúdo do diretório atual depois do cd
   build:
     commands:
       - echo "Construindo o arquivo JAR..."
-      - mvn package -DskipTests=true
+      - mvn package -DskipTests=true # Nenhuma alteração aqui, já que o 'cd backend' foi feito
   post_build:
     commands:
       - echo "Build concluído. Movendo artefato..."
-      - mv target/*.jar application.jar
+      - mv target/*.jar application.jar # Nenhuma alteração aqui (target/ estará na pasta backend)
       - zip -r application.zip application.jar
 
 artifacts:
   files:
-    - application.zip
-  discard-paths: yes
+    - application.zip # Este é o arquivo que será o artefato final
+  discard-paths: yes # Não inclui a estrutura de pastas no artefato ZIP final
