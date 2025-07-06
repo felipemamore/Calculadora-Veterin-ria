@@ -8,13 +8,18 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/calculadora.css" />
+  <link rel="stylesheet" href="/css/componenteCalculo.css" />
+
+  <script src="/js/componenteCalculo.js"></script>
+  <script src="/js/calculadora.js"></script>
+
 </head>
 <body>
 
   <div class="container py-3">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-  
       <div class="d-flex align-items-center">
         <img src="/images/medvet.png" alt="MedVet Logo" class="logo-medvet me-3">
         <h1 class="titulo-topo mb-0">Calculadora Veterinária</h1>
@@ -22,11 +27,11 @@
 
       <div class="d-flex gap-2">
         <a href="pagina-login" class="btn btn-outline-primary d-flex align-items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Ícone de usuário" width="20" height="20">
+          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" width="20" height="20">
           <span>Entre</span>
         </a>
         <a href="cadastro" class="btn btn-outline-success d-flex align-items-center gap-2">
-          <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Ícone de registro" width="20" height="20">
+          <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" width="20" height="20">
           <span>Registre-se</span>
         </a>
       </div>
@@ -35,15 +40,48 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item d-flex align-items-center">
-          <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Ícone de casa" width="20" height="20" class="me-1">
+          <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" width="20" height="20" class="me-1">
           <span>Home</span>
         </li>
         <li class="breadcrumb-item active" aria-current="page">Calculadora</li>
       </ol>
     </nav>
 
+
+    <div id="componente-calculo-container" class="mt-4"></div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Script para carregar o HTML do componente central
+    window.addEventListener("DOMContentLoaded", async () => {
+      const componenteContainer = document.getElementById("componente-calculo-container");
+      if (componenteContainer) {
+        try {
+          const componente = await fetch("/templates/componenteCalculo.html");
+          if (!componente.ok) {
+            throw new Error(`Erro ao carregar componente HTML: ${componente.statusText}`);
+          }
+          const html = await componente.text();
+          componenteContainer.innerHTML = html;
+
+          // Chamar a função de inicialização do componente de cálculo principal
+          // (do js/componenteCalculo.js, que renomeamos para ser único)
+          if (typeof inicializarCalculadoraCoreLogic === "function") {
+            inicializarCalculadoraCoreLogic();
+          } else {
+            console.error("Função inicializarCalculadoraCoreLogic não encontrada! Verifique se o script componenteCalculo.js foi carregado.");
+          }
+
+        } catch (error) {
+          console.error("Erro ao carregar o componente de cálculo:", error);
+          componenteContainer.innerHTML = "<p style='color: red;'>Erro ao carregar a calculadora. Por favor, tente novamente mais tarde.</p>";
+        }
+      }
+    });
+  </script>
+
 </body>
 </html>

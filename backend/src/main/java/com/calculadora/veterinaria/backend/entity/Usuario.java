@@ -1,10 +1,19 @@
 package com.calculadora.veterinaria.backend.entity;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Collections;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,9 +22,11 @@ public class Usuario {
     private String rg;
     private String cpf;
     private String email;
+
+    @NotBlank
     private String senha;
 
-
+    // Getters e Setters personalizados
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -33,4 +44,39 @@ public class Usuario {
 
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

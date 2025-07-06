@@ -1,7 +1,6 @@
 package com.calculadora.veterinaria.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -21,9 +20,12 @@ public class Dosagem {
     @JsonBackReference
     private Especie especie;
 
+
+
     private Double doseRecomendadaMgPorKg;
     private Double concentracaoMgPorMl;
 
+    // Getters e setters
     public Long getId() {
         return id;
     }
@@ -47,6 +49,7 @@ public class Dosagem {
     public void setEspecie(Especie especie) {
         this.especie = especie;
     }
+
 
     public Double getDoseRecomendadaMgPorKg() {
         return doseRecomendadaMgPorKg;

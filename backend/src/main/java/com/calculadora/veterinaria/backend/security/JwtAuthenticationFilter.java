@@ -24,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public JwtAuthenticationFilter(TokenService tokenService, CustomUserDetailsService userDetailsService) {
         this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
+        System.out.println("DEBUG: JwtAuthenticationFilter está sendo criado.");
     }
 
     @Override
@@ -45,6 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             path.startsWith("/api/users") ||
             path.startsWith("/api/calculo/dose")||
             path.startsWith("/api/especie")||
+            path.startsWith("/api/medicamentos") ||         
+            path.startsWith("/api/dosagem") ||         
+            path.startsWith("/api/toxicas") ||
             path.equals("/resetSenha.html")) {
             filterChain.doFilter(request, response);
             return;

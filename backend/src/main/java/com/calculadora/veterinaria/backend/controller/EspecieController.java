@@ -1,9 +1,13 @@
 package com.calculadora.veterinaria.backend.controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.calculadora.veterinaria.backend.dto.EspecieDTO;
@@ -27,4 +31,13 @@ public class EspecieController {
 
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/todos")
+    public ResponseEntity<List<EspecieDTO>> listarTodos() {
+        List<EspecieDTO> lista = especieRepository.findAll().stream()
+         .map(e -> new EspecieDTO(e.getId(), e.getNome()))
+        .toList();
+
+    return ResponseEntity.ok(lista);
+}
 }

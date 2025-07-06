@@ -6,6 +6,7 @@ import com.calculadora.veterinaria.backend.service.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -45,37 +47,39 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            // liberar acesso aos arquivos estáticos (css, js, imagens, páginas estáticas)
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/pages/**").permitAll()
-            
-            // liberar endpoints públicos
-            .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/senha/forgot-password").permitAll()
-            .requestMatchers(HttpMethod.POST, "/api/senha/reset-password").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/medicamentos").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/especie").permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/toxicas").permitAll()
-            .requestMatchers("/api/calculo/dose").permitAll()
-            .requestMatchers("/api/dosagem").permitAll()
-            .requestMatchers("/","/home","/especie","/cadastro","/redefinirSenha","/pages/**",
-                "/pagina-login", "/css/**","/templates/**", "/js/**", "/images/**").permitAll()
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                // Liberar acesso a arquivos estáticos (css, js, imagens, páginas estáticas)
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/pages/**").permitAll()
 
-            
-            .requestMatchers("/resetSenha.html").permitAll()
-            .requestMatchers("/api/conta-do-usuario").authenticated()
-            
-            
-            .anyRequest().authenticated()
-        )
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                // Liberar endpoints públicos
+                .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/senha/forgot-password").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/senha/reset-password").permitAll()
 
-    return http.build();
-}
+                // Corrigir para aceitar qualquer caminho após (ex: /api/medicamentos e /api/medicamentos/qualquerCoisa)
+                .requestMatchers(HttpMethod.GET, "/api/medicamentos/**").permitAll()
+                .requestMatchers("/especie.html", "/api/especie/**").permitAll()
 
-     
+                .requestMatchers(HttpMethod.GET, "/api/toxicas").permitAll()
+                .requestMatchers("/api/calculo/dose").permitAll()
+                .requestMatchers("/api/dosagem").permitAll()
+
+                // Outras páginas públicas
+                .requestMatchers("/", "/home", "/especie", "/cadastro", "/redefinirSenha", "/pages/**",
+                        "/pagina-login", "/css/**", "/templates/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/resetSenha.html").permitAll()
+
+                .anyRequest().authenticated()
+            )
+            .exceptionHandling(exceptions -> exceptions
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // 401 para não autenticado
+            )
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }

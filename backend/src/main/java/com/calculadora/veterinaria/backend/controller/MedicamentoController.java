@@ -9,6 +9,9 @@ import com.calculadora.veterinaria.backend.repository.MedicamentoRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
@@ -29,5 +32,14 @@ public class MedicamentoController {
 
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/todos")
+    public ResponseEntity<List<MedicamentoDTO>> listarTodos() {
+        List<MedicamentoDTO> lista = medicamentoRepository.findAll().stream()
+            .map(m -> new MedicamentoDTO(m.getId(), m.getNome()))
+            .toList();
+
+        return ResponseEntity.ok(lista);
+}
 }
 

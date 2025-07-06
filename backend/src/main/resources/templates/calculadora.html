@@ -1,99 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculadora Veterinária</title>
-  <link rel="stylesheet" href="/css/calculadora.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora Veterinária</title>
+    <link rel="stylesheet" href="/css/calculadora.css" />
+    <link rel="stylesheet" href="/css/componenteCalculo.css" /> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-  <button class="btn-minha-conta" onclick="abrirMinhaConta()">perfil Conta</button>
+    <button class="btn-minha-conta" onclick="abrirMinhaConta()">Minha Conta</button>
 
-  <div class="container">
-    <h1 class="title">Calculadora Veterinária</h1>
+    <div class="container">
+        <h1 class="title">Calculadora Veterinária</h1>
 
-    <div class="main-content">
+        <div class="main-content">
 
-      <!-- Coluna esquerda - Espécies -->
-      <div class="sidebar">
-        <h2 class="species-heading">Espécies</h2>
-        <ul class="species-buttons">
-          <li><button data-especie="Canina">Canina</button></li>
-          <li><button data-especie="Felina">Felina</button></li>
-          <li><button data-especie="Equina">Equina</button></li>
-          <li><button data-especie="Bovino">Bovino</button></li>
-          <li><button data-especie="Mamíferos">Mamíferos</button></li>
-          <li><button data-especie="Aves">Aves</button></li>
-          <li><button data-especie="Répteis">Répteis</button></li>
-          <li><button data-especie="Roedores">Roedores</button></li>
-        </ul>
-      </div>
+            <div class="sidebar">
+                <h2 class="species-heading">Espécies</h2>
+                <input type="text" id="buscar-especie" placeholder="Buscar espécie..." />
+                <ul class="species-list" id="species-list">
+                    <li>Canina</li>
+                    <li>Felina</li>
+                    <li>Equina</li>
+                    <li>Bovino</li>
+                    <li>Mamíferos</li>
+                    <li>Aves</li>
+                    <li>Répteis</li>
+                    <li>Roedores</li>
+                </ul>
+            </div>
 
-      <!-- Coluna central - Box de cálculo -->
-      <div class="form-section">
-        <div class="calculation-box">
-          <label for="especies-select">Espécie:</label>
-          <select id="especies-select" name="especies">
-            <option value="">Selecione</option>
-          </select>
+           <div id="componente-calculo-container"></div>
 
-          <label for="medicamentos-select" class="mt-3">Medicamento:</label>
-          <select id="medicamentos-select" name="medicamentos">
-            <option value="">Selecione</option>
-          </select>
 
-          <label for="peso" class="mt-3">Peso (Kg):</label>
-          <input id="peso" name="peso" type="text" placeholder="Ex: 5,5" title="Digite um número válido, ex: 3,5" />
-
-          <label for="dose" class="mt-3">Dose recomendada (Mg/Kg):</label>
-          <input id="dose" name="dose" type="number" min="0" step="0.01" placeholder="0,00" />
-
-          <label for="concentracao" class="mt-3">Concentração do medicamento (Mg/ml):</label>
-          <input id="concentracao" name="concentracao" type="number" min="0" step="0.01" placeholder="0,00" />
-
-          <button class="calculate-btn mt-4">Calcular</button>
-
-          <div class="resultado-box mt-4" style="display:none;">
-            <strong>Dose a ser administrada = </strong>
-            <span id="resultado-valor"></span> ml
-            <p class="formula mt-2">
-              (Peso do animal (kg) x Dose recomendada (mg/kg)) <br />
-              -------------------------------------------<br />
-              Concentração do medicamento (mg/ml)
-            </p>
-          </div>
+            <div class="medication-section">
+                <h2>Medicamentos</h2>
+                <input type="text" id="buscar-medicamento" placeholder="Buscar medicamento..." />
+                <ul class="medication-list" id="medication-list">
+                    <li>Acebrofilina</li>
+                    <li>Acetato de dexametasona</li>
+                    <li>Albenza (Albendazol)</li>
+                    <li>Amoxicilina</li>
+                    <li>Ansiolítico (Diazepam)</li>
+                    <li>Apomorfina</li>
+                    <li>Avermectina</li>
+                    <li>Betametasona</li>
+                    <li>Bupivacaína</li>
+                    <li>Butorfanol</li>
+                    <li>Captopril</li>
+                    <li>Carprofeno</li>
+                    <li>Cefalexina</li>
+                    <li>Ceftriaxona</li>
+                    <li>Cloridrato de tramadol</li>
+                    <li>Cloranfenicol</li>
+                    <li>Ciprofloxacina</li>
+                    <li>Clindamicina</li>
+                    <li>Dantroleno</li>
+                </ul>
+            </div>
         </div>
-      </div>
-
-      <!-- Coluna direita - Medicamentos Sidebar -->
-      <div class="medication-section">
-        <h2>Medicamentos</h2>
-        <input type="text" id="buscar-medicamento" placeholder="Buscar medicamento..." />
-        <ul class="medication-list" id="medication-list">
-          <li>Acebrofilina</li>
-          <li>Acetato de dexametasona</li>
-          <li>Albenza (Albendazol)</li>
-          <li>Amoxicilina</li>
-          <li>Ansiolítico (Diazepam)</li>
-          <li>Apomorfina</li>
-          <li>Avermectina</li>
-          <li>Betametasona</li>
-          <li>Bupivacaína</li>
-          <li>Butorfanol</li>
-          <li>Captopril</li>
-          <li>Carprofeno</li>
-          <li>Cefalexina</li>
-          <li>Ceftriaxona</li>
-          <li>Cloridrato de tramadol</li>
-          <li>Cloranfenicol</li>
-          <li>Ciprofloxacina</li>
-          <li>Clindamicina</li>
-          <li>Dantroleno</li>
-        </ul>
-      </div>
     </div>
-  </div>
 
-  <script src="/js/calculadora.js"></script>
+    <script src="/js/componenteCalculo.js"></script>
+    <script src="/js/calculadora.js"></script>
+
 </body>
 </html>

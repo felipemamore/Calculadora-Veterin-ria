@@ -21,9 +21,14 @@ public class UsuarioService {
     }
 
     public Usuario salvar(Usuario usuario) {
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        return usuarioRepository.save(usuario);
+    if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
+        throw new IllegalArgumentException("Senha não pode ser nula ou vazia");
     }
+
+    usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+    return usuarioRepository.save(usuario);
+}
+
 
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();

@@ -1,0 +1,56 @@
+.componente-calculo-central {
+  margin: 20px auto; 
+ 
+}
+
+.form-section {
+  min-width: 320px;
+}
+
+.calculation-box {
+  background: rgba(228, 234, 243, 0.9);
+  border-radius: 10px;
+  padding: 25px 30px;
+  box-shadow: 0 0 12px rgba(19, 59, 119, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.calculation-box label {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.calculation-box select,
+.calculation-box input {
+  padding: 10px 12px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Georgia', serif;
+}
+
+.resultado-box {
+  background: rgba(208, 215, 230, 0.9); /* Deixa semitransparente */
+  padding: 15px 20px;
+  border-radius: 6px;
+  color: #133b77;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.resultado-box .formula {
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #1b3060;
+}
+
+@media (max-width: 768px) {
+  .componente-calculo-central {
+    padding: 20px 15px;
+    max-width: 90%; 
+  }
+}

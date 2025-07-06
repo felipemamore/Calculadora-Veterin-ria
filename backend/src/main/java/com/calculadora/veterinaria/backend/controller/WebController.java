@@ -1,6 +1,6 @@
 package com.calculadora.veterinaria.backend.controller;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class WebController {
@@ -39,6 +39,16 @@ public class WebController {
     public String especie() {
         return "especie"; 
     }
+    
+    @GetMapping("/usuario")
+    public String usuario(){
+        return "usuario";
+    }
+
+    @GetMapping("/componenteCalculo")
+    public String componenteCalculo() {
+        return "componenteCalculo";
+}
 
 
 }

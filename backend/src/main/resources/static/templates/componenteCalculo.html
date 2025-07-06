@@ -1,0 +1,33 @@
+<div class="row justify-content-center componente-calculo-central">
+  <div class="col-md-8 col-lg-6">
+    <div class="form-section">
+      <div class="calculation-box">
+        <label for="especies-select">Espécie</label>
+        <select id="especies-select">
+          <option value="">Selecione</option>
+          </select>
+
+        <label for="medicamentos-select">Medicamento</label>
+        <select id="medicamentos-select">
+          <option value="">Selecione</option>
+        </select>
+
+        <label for="peso">Peso (kg)</label>
+        <input type="number" id="peso" step="0.01" placeholder="Informe o peso em kg">
+
+        <label for="dose">Dose Recomendada (mg/kg)</label>
+        <input type="text" id="dose" readonly>
+
+        <label for="concentracao">Concentração (mg/mL)</label>
+        <input type="text" id="concentracao" readonly>
+
+        <button class="calculate-btn btn btn-primary">Calcular</button>
+      </div>
+
+      <div class="resultado-box mt-3" style="display:none">
+        💉 Dose total: <span id="resultado-valor">0.00</span> mL
+        <div class="formula">Fórmula: (peso × dose) ÷ concentração</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,30 +1,41 @@
 package com.calculadora.veterinaria.backend.dto;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import com.calculadora.veterinaria.backend.entity.Dosagem;
 import com.calculadora.veterinaria.backend.entity.Usuario;
 
 public class MinhaContaDTO {
     private String nome;
     private String email;
-    private List<String> historicoMedicamentos;
+    private List<CalculoResponse> historico;
 
-    public MinhaContaDTO(Usuario usuario, List<Dosagem> dosagens) {
+    public MinhaContaDTO(Usuario usuario, List<CalculoResponse> historico) {
         this.nome = usuario.getNomeCompleto();
         this.email = usuario.getEmail();
-        this.historicoMedicamentos = dosagens.stream()
-            .filter(d -> d.getMedicamento() != null && d.getMedicamento().getNome() != null &&
-                         d.getEspecie() != null && d.getEspecie().getNome() != null)
-            .map(d -> d.getMedicamento().getNome() + " (" + d.getEspecie().getNome() + ")")
-            .distinct()
-            .limit(5)
-            .collect(Collectors.toList());
+        this.historico = historico;
     }
 
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public List<String> getHistoricoMedicamentos() { return historicoMedicamentos; }
-}
+    // Getters e Setters
+    public String getNome() {
+        return nome;
+    }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<CalculoResponse> getHistorico() {
+        return historico;
+    }
+
+    public void setHistorico(List<CalculoResponse> historico) {
+        this.historico = historico;
+    }
+}

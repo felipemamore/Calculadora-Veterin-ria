@@ -132,6 +132,7 @@ salvarDosagem(medicamentoMap, especieMap, "Avermectina", "Répteis", 0.0015, 1.0
 salvarDosagem(medicamentoMap, especieMap, "Avermectina", "Roedores", 0.002, 1.0);
 
 // Betametasona
+salvarDosagem(medicamentoMap, especieMap, "Betametasona", "Canina", 2.0, 5.0);
 salvarDosagem(medicamentoMap, especieMap, "Betametasona", "Felina", 0.25, 4.0);
 salvarDosagem(medicamentoMap, especieMap, "Betametasona", "Equina", 0.15, 4.0);
 salvarDosagem(medicamentoMap, especieMap, "Betametasona", "Bovino", 0.1, 4.0);

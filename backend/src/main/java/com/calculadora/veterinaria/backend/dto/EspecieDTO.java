@@ -4,6 +4,14 @@ public class EspecieDTO {
     private Long id;
     private String nome;
 
+    public EspecieDTO() {
+    }
+
+    public EspecieDTO(Long id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
+
      public Long getId() {
         return id;
 }

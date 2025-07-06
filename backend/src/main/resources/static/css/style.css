@@ -1,17 +1,19 @@
+/* style.css */
+
 body {
-  margin: 0;
   font-family: 'Georgia', serif;
   background-image: url('/images/home.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  background-attachment: fixed; 
 }
 
 .container {
   max-width: 1300px;
   margin: 0 auto;
   padding: 40px 20px;
+  background: transparent; 
 }
 
 .logo-medvet {
@@ -30,7 +32,6 @@ body {
   color: #444;
   margin-top: 20px;
 }
-
 
 .current-page {
   font-weight: bold;

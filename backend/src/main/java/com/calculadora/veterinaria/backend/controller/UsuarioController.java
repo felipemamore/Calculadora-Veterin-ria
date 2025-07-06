@@ -2,6 +2,8 @@ package com.calculadora.veterinaria.backend.controller;
 
 import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.service.UsuarioService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +20,10 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
-        Usuario novo = usuarioService.salvar(usuario);
-        return ResponseEntity.ok(novo);
-    }
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody @Valid Usuario usuario) {
+            Usuario novo = usuarioService.salvar(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novo);
+}
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
