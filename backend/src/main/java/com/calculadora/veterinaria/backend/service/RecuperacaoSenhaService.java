@@ -6,6 +6,7 @@ import com.calculadora.veterinaria.backend.repository.PasswordResetTokenReposito
 import com.calculadora.veterinaria.backend.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,8 +65,11 @@ public class RecuperacaoSenhaService {
     }
 
 
-    public boolean solicitarRedefinicaoSenha(String email) {
-    Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
+    @Value("${APP_BASE_URL}")
+    private String appBaseUrl;
+
+        public boolean solicitarRedefinicaoSenha(String email) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
 
     if (optionalUsuario.isPresent()) {
         Usuario usuario = optionalUsuario.get();
@@ -74,7 +78,7 @@ public class RecuperacaoSenhaService {
         PasswordResetToken resetToken = new PasswordResetToken(token, usuario, LocalDateTime.now().plusHours(2));
         tokenRepository.save(resetToken);
 
-        String link = "http://localhost:8080/pages/resetSenha.html?token=" + token;
+        String link = appBaseUrl + "/pages/resetSenha.html?token=" + token;
         String mensagem = "Você solicitou a redefinição de senha. Clique no link abaixo para continuar:\n" + link;
 
         emailService.enviarEmail(usuario.getEmail(), "Recuperação de Senha", mensagem);
@@ -83,6 +87,5 @@ public class RecuperacaoSenhaService {
     }
 
     return false;
-}
-
+    }
 }

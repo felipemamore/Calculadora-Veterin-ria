@@ -35,8 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
             return;
-        }
+}
 
         String path = request.getServletPath();
         if (path.startsWith("/api/senha/forgot-password") ||
