@@ -5,7 +5,6 @@ import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.repository.PasswordResetTokenRepository;
 import com.calculadora.veterinaria.backend.repository.UsuarioRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class RecuperacaoSenhaService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
-    @Autowired
     public RecuperacaoSenhaService(UsuarioRepository usuarioRepository, 
     PasswordResetTokenRepository tokenRepository, 
     PasswordEncoder passwordEncoder, EmailService emailService) {

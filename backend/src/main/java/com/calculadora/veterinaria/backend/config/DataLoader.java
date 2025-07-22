@@ -181,6 +181,17 @@ salvarDosagem(medicamentoMap, especieMap, "Carprofeno", "Aves", 0.8, 50.0);
 salvarDosagem(medicamentoMap, especieMap, "Carprofeno", "Répteis", 1.0, 50.0);
 salvarDosagem(medicamentoMap, especieMap, "Carprofeno", "Roedores", 2.0, 50.0);
 
+// Cefalexina
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Canina", 30.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Felina", 25.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Equina", 20.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Bovino", 15.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Mamíferos", 22.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Aves", 8.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Répteis", 10.0, 50.0);
+salvarDosagem(medicamentoMap, especieMap, "Cefalexina", "Roedores", 18.0, 50.0);
+
+
 // Ceftriaxona
 salvarDosagem(medicamentoMap, especieMap, "Ceftriaxona", "Canina", 25.0, 100.0);
 salvarDosagem(medicamentoMap, especieMap, "Ceftriaxona", "Felina", 20.0, 100.0);
