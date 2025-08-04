@@ -169,8 +169,8 @@ function controleCalculoParaVisitante(event) {
     if (window.location.pathname === "/" || window.location.pathname.endsWith("index.html")) {
         if (usuarioNaoLogado()) {
             if (calculosFeitos >= 3) {
-                alert("Você atingiu o limite de 3 cálculos sem estar cadastrado. Crie sua conta gratuita para continuar.");
-                window.location.href = "/cadastro";
+                alert("Você atingiu o limite de 3 cálculos sem estar cadastrado. Faça o login ou crie sua conta gratuita para continuar.");
+                window.location.href = "/pagina-login";
                 return;
             }
             calculosFeitos++;
