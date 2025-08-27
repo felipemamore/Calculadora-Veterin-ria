@@ -64,11 +64,12 @@ public class SecurityConfig {
                 .requestMatchers("/especie.html", "/api/especie/**").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/toxicas").permitAll()
+                //.requestMatchers(HttpMethod.GET, "/api/conta-do-usuario").permitAll()
                 .requestMatchers("/api/calculo/dose").permitAll()
                 .requestMatchers("/api/dosagem").permitAll()
 
                 // Outras páginas públicas
-                .requestMatchers("/", "/home", "/especie", "/cadastro", "/redefinirSenha", "/pages/**",
+                .requestMatchers("/","/minhaConta", "/home", "/especie", "/cadastro", "/redefinirSenha", "/pages/**",
                         "/pagina-login", "/css/**", "/templates/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/resetSenha.html").permitAll()
 

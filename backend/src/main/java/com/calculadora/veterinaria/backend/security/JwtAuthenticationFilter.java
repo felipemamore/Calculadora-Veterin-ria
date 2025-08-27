@@ -27,51 +27,50 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("DEBUG: JwtAuthenticationFilter está sendo criado.");
     }
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+   @Override
+protected void doFilterInternal(HttpServletRequest request,
+                                HttpServletResponse response,
+                                FilterChain filterChain)
+        throws ServletException, IOException {
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            filterChain.doFilter(request, response);
-            return;
-}
+    // 1. Pega o cabeçalho de autorização da requisição.
+    final String authHeader = request.getHeader("Authorization");
 
-        String path = request.getServletPath();
-        if (path.startsWith("/api/senha/forgot-password") ||
-            path.startsWith("/api/senha/reset-password") ||
-            path.startsWith("/api/auth/login") ||
-            path.startsWith("/api/teste-email")||
-            path.startsWith("/api/users") ||
-            path.startsWith("/api/calculo/dose")||
-            path.startsWith("/api/especie")||
-            path.startsWith("/api/medicamentos") ||         
-            path.startsWith("/api/dosagem") ||         
-            path.startsWith("/api/toxicas") ||
-            path.equals("/resetSenha.html")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            try {
-                String email = tokenService.getEmailFromToken(token);
-                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (Exception e) {
-                // Token inválido ou expirado
-            }
-        }
-
+    // 2. Verifica se o cabeçalho existe e se começa com "Bearer ".
+    // Se não existir, a requisição pode ser para um endpoint público.
+    if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        // Deixa a requisição continuar seu caminho.
+        // Se a rota for protegida, o Spring Security a bloqueará mais tarde.
+        // Se for pública, ela será permitida.
         filterChain.doFilter(request, response);
+        return; // Encerra a execução do filtro para esta requisição.
+    }
+
+    // 3. Se o cabeçalho existir, extrai o token.
+    String token = authHeader.substring(7);
+
+    // 4. Valida o token e, se for válido, define a autenticação no contexto de segurança.
+    // Este bloco só é executado se a requisição de fato veio com um token.
+    try {
+        String email = tokenService.getEmailFromToken(token);
+        // Garante que o usuário ainda não está autenticado nesta sessão.
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+    } catch (Exception e) {
+        // Se houver um erro na validação do token (expirado, inválido, etc.),
+        // apenas registramos o erro e deixamos a requisição passar sem autenticação.
+        // O Spring Security irá barrá-la mais tarde se a rota for protegida.
+        System.err.println("Erro ao processar o token JWT: " + e.getMessage());
+    }
+
+    // 5. Passa a requisição (agora possivelmente autenticada) para o próximo filtro na cadeia.
+    filterChain.doFilter(request, response);
     }
 }

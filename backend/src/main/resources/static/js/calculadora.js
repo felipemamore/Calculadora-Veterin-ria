@@ -42,29 +42,49 @@ function inicializarLayoutCompletoLogic() {
         });
     }
 
-    window.abrirMinhaConta = async function () {
-        try {
-            const response = await fetch("/api/minha-conta");
-            if (!response.ok) throw new Error("Erro ao obter dados da conta.");
-            const dados = await response.json();
+   window.abrirMinhaConta = async function () {
+    try {
+        // 1. RECUPERAR O TOKEN DO LOCALSTORAGE
+        const token = localStorage.getItem('jwtToken'); // <-- MUITO IMPORTANTE! Verifique se 'jwtToken' é a chave correta.
 
-            const historicoLocal = JSON.parse(localStorage.getItem("historico-medicamentos")) || [];
-            const ultimosCalculos = historicoLocal.map(item => `${item.medicamento} para ${item.especie} (${item.data})`);
-
-            const mensagem = `
-👤 Nome: ${dados.nome || 'Não informado'}
-📧 Email: ${dados.email || 'Não informado'}
-
-📋 Últimos Cálculos (local):
-${ultimosCalculos.length > 0 ? ultimosCalculos.join("\n") : "Nenhum registrado"}
-`.trim();
-
-            alert(mensagem);
-        } catch (err) {
-            alert("Erro ao carregar informações da conta.");
-            console.error("Erro ao abrir minha conta:", err);
+        // Se não houver token, nem tenta fazer a requisição.
+        if (!token) {
+            alert("Você não está logado. Por favor, faça o login.");
+            window.location.href = '/pagina-login'; // Use o nome correto da sua página de login
+            return;
         }
-    };
+
+        // 2. MONTAR OS CABEÇALHOS DA REQUISIÇÃO
+        const headers = {
+            'Authorization': `Bearer ${token}` // Formato padrão para JWT
+        };
+
+        // 3. FAZER A REQUISIÇÃO 'FETCH' ENVIANDO OS CABEÇALHOS
+        const response = await fetch("/api/conta-do-usuario", {
+            method: 'GET', // É uma boa prática especificar o método
+            headers: headers
+        });
+
+        // O resto do seu código continua igual...
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                alert("Sua sessão expirou. Por favor, faça o login novamente.");
+                localStorage.removeItem('jwtToken'); // Limpa o token antigo
+                window.location.href = '/pagina-login';
+                return;
+            }
+            throw new Error("Erro ao obter dados da conta.");
+        }
+
+        const dados = await response.json();
+        sessionStorage.setItem('dadosUsuario', JSON.stringify(dados));
+        window.location.href = '/minhaConta';
+
+    } catch (err) {
+        alert("Erro ao carregar informações da conta. Tente fazer o login novamente.");
+        console.error("Erro ao abrir minha conta:", err);
+    }
+};
 
     if (typeof inicializarCalculadoraCoreLogic === 'function') {
         inicializarCalculadoraCoreLogic();

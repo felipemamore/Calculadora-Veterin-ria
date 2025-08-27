@@ -1,0 +1,5 @@
+2025-08-27T00:06:07.477-03:00  INFO 11540 --- [calculadora-vet-backend] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-27T00:06:07.747-03:00  INFO 11540 --- [calculadora-vet-backend] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-27T00:06:07.751-03:00  INFO 11540 --- [calculadora-vet-backend] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-27T00:06:07.752-03:00  INFO 11540 --- [calculadora-vet-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-27T00:06:09.644-03:00  INFO 11540 --- [calculadora-vet-backend] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

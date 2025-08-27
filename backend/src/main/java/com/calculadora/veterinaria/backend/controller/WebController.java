@@ -49,6 +49,10 @@ public class WebController {
     public String componenteCalculo() {
         return "componenteCalculo";
 }
+    @GetMapping("/minhaConta")
+    public String minhaConta() {
+        return "minhaConta"; 
+    }
 
 
 }

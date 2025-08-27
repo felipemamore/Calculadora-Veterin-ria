@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Detalhes da Conta</h1>
+        
+        <div class="info-usuario">
+            <p><strong>Nome Completo:</strong> <span id="nome-usuario">Carregando...</span></p>
+            <p><strong>Email:</strong> <span id="email-usuario">Carregando...</span></p>
+            <p><strong>CPF:</strong> <span id="cpf-usuario">Carregando...</span></p>
+            <p><strong>RG:</strong> <span id="rg-usuario">Carregando...</span></p>
+        </div>
+
+        <button onclick="window.history.back()">Voltar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dadosSalvos = sessionStorage.getItem('dadosUsuario');
+
+            if (dadosSalvos) {
+                const dados = JSON.parse(dadosSalvos);
+
+                document.getElementById('nome-usuario').textContent = dados.nome || 'Não informado';
+                document.getElementById('email-usuario').textContent = dados.email || 'Não informado';
+                document.getElementById('cpf-usuario').textContent = dados.cpf || 'Não informado';
+                document.getElementById('rg-usuario').textContent = dados.rg || 'Não informado';
+
+            } else {
+                alert('Não foi possível carregar os dados do usuário. Tente novamente.');
+                window.location.href = '/'; 
+            }
+        });
+    </script>
+
+</body>
+</html>
