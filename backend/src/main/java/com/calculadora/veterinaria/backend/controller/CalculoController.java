@@ -28,10 +28,8 @@ public class CalculoController {
 
     @GetMapping("/historico")
     public ResponseEntity<List<CalculoDTO>> buscarHistoricoDoUsuarioLogado() {
-    // 1. Esta parte está perfeita. Você busca a lista de entidades do banco.
     List<Calculo> calculos = calculoService.buscarUltimosCalculosDoUsuario();
 
-    // 2. Aqui está a conversão correta de Entidade para DTO.
     List<CalculoDTO> dtos = calculos.stream()
             .map(calculo -> new CalculoDTO(
                 calculo.getDosagem().getMedicamento().getNome(),
