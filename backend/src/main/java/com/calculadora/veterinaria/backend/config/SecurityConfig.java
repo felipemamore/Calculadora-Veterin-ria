@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .requestMatchers("/especie.html", "/api/especie/**").permitAll()
 
                 .requestMatchers(HttpMethod.GET, "/api/toxicas").permitAll()
-                //.requestMatchers(HttpMethod.GET, "/api/conta-do-usuario").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/calculo/historico").permitAll()
                 .requestMatchers("/api/calculo/dose").permitAll()
                 .requestMatchers("/api/dosagem").permitAll()
 

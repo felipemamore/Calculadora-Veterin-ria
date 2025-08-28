@@ -123,10 +123,19 @@ function inicializarCalculadoraCoreLogic() {
                 medicamentoId: medicamento.id,
                 especieId: especie.id,
             };
+            
+            const token = localStorage.getItem('jwtToken'); 
+
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+}
 
             const response = await fetch("/api/calculo/dose", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: headers,
                 body: JSON.stringify(body),
             });
 
