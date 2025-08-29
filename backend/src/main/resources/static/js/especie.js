@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const headers = { 'Authorization': `Bearer ${token}` };
 
-        // 1. CHAMA A NOVA API QUE CRIAMOS NO BACKEND
         const response = await fetch('/api/calculo/historico', { headers });
 
         if (!response.ok) {
@@ -73,7 +72,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const historico = await response.json();
 
-        // 2. LIMPA A LISTA E A PREENCHE COM OS DADOS CORRETOS E FILTRADOS
         historicoLista.innerHTML = "";
         const historicoFiltrado = historico.filter(item => item.especie === especieNome);
 
@@ -82,10 +80,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             historicoFiltrado.forEach(item => {
                 const li = document.createElement("li");
-                // Ajuste os nomes dos campos para corresponder ao seu DTO
-                li.textContent = `${item.nome} - ${item.data}`;
-                historicoLista.appendChild(li);
+                const dataFormatada = new Date(item.data).toLocaleString('pt-BR', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
             });
+                li.textContent = `${item.nome} - ${dataFormatada}`;
+                    historicoLista.appendChild(li);
+          });
         }
 
     } catch (error) {
@@ -93,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         historicoLista.innerHTML = "<li>Erro ao carregar histórico.</li>";
     }
 }
+    carregarHistoricoFiltrado(especieNome);
 
   } catch (err) {
     console.error("Erro ao carregar dados da espécie:", err);

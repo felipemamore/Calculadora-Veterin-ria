@@ -1,19 +1,21 @@
 package com.calculadora.veterinaria.backend.dto;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CalculoDTO {
     private String nome;
     private LocalDateTime data;
+    private String especie;
 
     public CalculoDTO(){
 
     }
 
-    public CalculoDTO(String nome, LocalDateTime data){
+    public CalculoDTO(String nome, String especie, LocalDateTime data){
         this.nome = nome;
         this.data = data;
+        this.especie = especie;
+        
+        
     }
     
     public String getNome(){
@@ -30,6 +32,14 @@ public class CalculoDTO {
 
     public void setData(LocalDateTime data){
         this.data = data;
+    }
+
+    public String getEspecie(){
+        return especie;
+    }
+
+    public void setEspecie(String especie){
+        this.especie = especie;
     }
 
 }

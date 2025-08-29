@@ -23,29 +23,59 @@ function inicializarLayoutCompletoLogic() {
     const medicamentosList = document.querySelectorAll(".medication-list li");
     const inputBuscarMedicamento = document.getElementById("buscar-medicamento");
 
-    if (inputBuscarMedicamento && medicamentosList.length > 0) {
-        inputBuscarMedicamento.addEventListener("input", function () {
-            const filtro = this.value.toLowerCase();
-            medicamentosList.forEach((li) => {
-                li.style.display = li.textContent.toLowerCase().includes(filtro) ? "" : "none";
-            });
+// Variável para guardar qual item está atualmente selecionado
+let itemSelecionado = null;
+
+if (inputBuscarMedicamento && medicamentosList.length > 0) {
+    inputBuscarMedicamento.addEventListener("input", function () {
+        const filtro = this.value.toLowerCase();
+        medicamentosList.forEach((li) => {
+            li.style.display = li.firstChild.textContent.toLowerCase().includes(filtro) ? "" : "none";
+        });
+    });
+
+    medicamentosList.forEach((li) => {
+        // Lógica para SELECIONAR o medicamento (PRIMEIRO CLIQUE)
+        li.addEventListener("click", function() {
+            const medicamentoNome = li.firstChild.textContent.trim();
+            const selectMedicamentos = document.getElementById("medicamentos-select");
+
+            // Remove a seleção do item anterior, se houver
+            if (itemSelecionado) {
+                itemSelecionado.classList.remove('selecionado');
+            }
+            
+            // Adiciona a classe 'selecionado' ao item clicado
+            li.classList.add('selecionado');
+            itemSelecionado = li; // Atualiza a referência do item selecionado
+
+            // Preenche o formulário
+            if (selectMedicamentos) {
+                selectMedicamentos.value = medicamentoNome;
+                selectMedicamentos.dispatchEvent(new Event('change'));
+            }
         });
 
-        medicamentosList.forEach((li) => {
-            li.addEventListener("click", function() {
-                const selectMedicamentos = document.getElementById("medicamentos-select");
-                if (selectMedicamentos) {
-                    selectMedicamentos.value = li.textContent.trim();
-                    selectMedicamentos.dispatchEvent(new Event('change'));
-                }
+        // Lógica para ABRIR A BULA (CLIQUE NO BOTÃO)
+        const linkBula = li.querySelector(".bula-link");
+        if (linkBula) {
+            linkBula.addEventListener("click", function(event) {
+                // Impede que o clique no botão se propague para o <li>
+                event.stopPropagation(); 
+                
+                const medicamentoNome = li.firstChild.textContent.trim();
+                
+                // Redireciona para a página da bula
+                window.location.href = `/bula?medicamento=${encodeURIComponent(medicamentoNome)}`;
             });
-        });
-    }
+        }
+    });
+}
 
    window.abrirMinhaConta = async function () {
     try {
         // 1. RECUPERAR O TOKEN DO LOCALSTORAGE
-        const token = localStorage.getItem('jwtToken'); // <-- MUITO IMPORTANTE! Verifique se 'jwtToken' é a chave correta.
+        const token = localStorage.getItem('jwtToken'); // Verifique se 'jwtToken' é a chave correta.
 
         // Se não houver token, nem tenta fazer a requisição.
         if (!token) {
@@ -65,7 +95,6 @@ function inicializarLayoutCompletoLogic() {
             headers: headers
         });
 
-        // O resto do seu código continua igual...
         if (!response.ok) {
             if (response.status === 401 || response.status === 403) {
                 alert("Sua sessão expirou. Por favor, faça o login novamente.");
@@ -93,8 +122,8 @@ function inicializarLayoutCompletoLogic() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    inicializarLayoutCompletoLogic();
+    document.addEventListener("DOMContentLoaded", async () => {
+        inicializarLayoutCompletoLogic();
 
     try {
         const resposta = await fetch("/templates/componenteCalculo.html");
@@ -110,3 +139,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Erro ao carregar componente de cálculo:", e);
     }
 });
+function fazerLogout() {
+    localStorage.removeItem('jwtToken');
+
+    sessionStorage.removeItem('dadosUsuario');
+
+    alert("Você saiu da sua conta.");
+
+    window.location.href = '/pagina-login';
+}

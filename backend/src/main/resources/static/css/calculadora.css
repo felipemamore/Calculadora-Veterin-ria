@@ -21,7 +21,7 @@
 
 .sidebar,
 .medication-section {
-    max-height: 490px; /* ajuste conforme desejar */
+    max-height: 490px;
     overflow-y: auto;
 }
 
@@ -110,6 +110,7 @@
 }
 
 .medication-list li {
+    position: relative;
     padding: 8px 10px;
     cursor: pointer;
     border-radius: 5px;
@@ -208,4 +209,34 @@
     color: #555;
     margin-top: 10px;
     line-height: 1.5;
+}
+
+.bula-link {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    
+    background-color: #0d6efd;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.medication-list li.selecionado {
+    background-color: #cdd8e8; 
+}
+
+.medication-list li.selecionado:hover > .bula-link {
+    opacity: 1;
+    visibility: visible;
 }

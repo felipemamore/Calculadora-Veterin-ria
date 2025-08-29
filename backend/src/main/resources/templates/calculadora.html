@@ -10,6 +10,7 @@
 </head>
 <body>
     <button class="btn-minha-conta" onclick="abrirMinhaConta()">Minha Conta</button>
+    <button onclick="fazerLogout()">Sair da Conta</button>
 
     <div class="container">
         <h1 class="title">Calculadora Veterinária</h1>
@@ -34,33 +35,24 @@
            <div id="componente-calculo-container"></div>
 
 
-            <div class="medication-section">
-                <h2>Medicamentos</h2>
-                <input type="text" id="buscar-medicamento" placeholder="Buscar medicamento..." />
-                <ul class="medication-list" id="medication-list">
-                    <li>Acebrofilina</li>
-                    <li>Acetato de dexametasona</li>
-                    <li>Albenza (Albendazol)</li>
-                    <li>Amoxicilina</li>
-                    <li>Ansiolítico (Diazepam)</li>
-                    <li>Apomorfina</li>
-                    <li>Avermectina</li>
-                    <li>Betametasona</li>
-                    <li>Bupivacaína</li>
-                    <li>Butorfanol</li>
-                    <li>Captopril</li>
-                    <li>Carprofeno</li>
-                    <li>Cefalexina</li>
-                    <li>Ceftriaxona</li>
-                    <li>Cloridrato de tramadol</li>
-                    <li>Cloranfenicol</li>
-                    <li>Ciprofloxacina</li>
-                    <li>Clindamicina</li>
-                    <li>Dantroleno</li>
+        <div class="medication-section">
+            <h2>Medicamentos</h2>
+            <input type="text" id="buscar-medicamento" placeholder="Buscar medicamento..." />
+            <ul class="medication-list" id="medication-list"> 
+                <li>Acebrofilina<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Acetato de dexametasona<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Albenza (Albendazol)<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Amoxicilina<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Ansiolítico (Diazepam)<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Apomorfina<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Avermectina<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Betametasona<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Bupivacaína<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Butorfanol<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Captopril<span class="bula-link">📄 Abrir Bula</span></li>
+                <li>Carprofeno<span class="bula-link">📄 Abrir Bula</span></li>
                 </ul>
-            </div>
         </div>
-    </div>
 
     <script src="/js/componenteCalculo.js"></script>
     <script src="/js/calculadora.js"></script>

@@ -33,8 +33,11 @@ public class CalculoController {
     List<CalculoDTO> dtos = calculos.stream()
             .map(calculo -> new CalculoDTO(
                 calculo.getDosagem().getMedicamento().getNome(),
-
+                calculo.getDosagem().getEspecie().getNome(),
                 calculo.getDataHora()
+                
+
+                
             ))
             .collect(Collectors.toList());
 
