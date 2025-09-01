@@ -123,23 +123,21 @@
 }
 
 .btn-minha-conta {
-    position: absolute;
-    top: 20px;
-    right: 40px;
     background-color: #133b77;
     color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(19, 59, 119, 0.2);
-    transition: background-color 0.3s;
-    z-index: 999;
 }
 
 .btn-minha-conta:hover {
     background-color: #245a9c;
+}
+
+.btn-logout {
+    background-color: #6c757d; 
+    color: white;
+}
+
+.btn-logout:hover {
+    background-color: #5a6268;
 }
 
 @media (max-width: 992px) {
@@ -239,4 +237,27 @@
 .medication-list li.selecionado:hover > .bula-link {
     opacity: 1;
     visibility: visible;
+}
+
+.main-header {
+    display: flex;
+    justify-content: flex-end; 
+    padding: 20px 40px;
+    gap: 15px; 
+}
+
+.header-btn {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.header-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

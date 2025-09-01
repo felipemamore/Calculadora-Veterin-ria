@@ -1,44 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Conta</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{/css/minhaConta.css}">
 </head>
 <body>
 
-    <div class="container">
+    <div class="account-container">
         <h1>Detalhes da Conta</h1>
         
-        <div class="info-usuario">
-            <p><strong>Nome Completo:</strong> <span id="nome-usuario">Carregando...</span></p>
-            <p><strong>Email:</strong> <span id="email-usuario">Carregando...</span></p>
-            <p><strong>CPF:</strong> <span id="cpf-usuario">Carregando...</span></p>
-            <p><strong>RG:</strong> <span id="rg-usuario">Carregando...</span></p>
-        </div>
+        <form id="profile-form">
+            <div class="info-display">
+                <p><strong>Nome Completo:</strong> <span id="nome-display">Carregando...</span></p>
+                <p><strong>Email:</strong> <span id="email-display">Carregando...</span></p>
+            </div>
 
-        <button onclick="window.history.back()">Voltar</button>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cpf-input">CPF</label>
+                    <span id="cpf-display" class="info-text">Não informado</span>
+                    <input type="text" id="cpf-input" class="info-input hidden">
+                </div>
+                <div class="form-group">
+                    <label for="rg-input">RG</label>
+                    <span id="rg-display" class="info-text">Não informado</span>
+                    <input type="text" id="rg-input" class="info-input hidden">
+                </div>
+                <div class="form-group">
+                    <label for="ocupacao-input">Ocupação</label>
+                    <span id="ocupacao-display" class="info-text">Não informado</span>
+                    <input type="text" id="ocupacao-input" class="info-input hidden" placeholder="Ex: Estudante, Veterinário...">
+                </div>
+                <div class="form-group">
+                    <label for="crmv-input">CRMV (se aplicável)</label>
+                    <span id="crmv-display" class="info-text">Não informado</span>
+                    <input type="text" id="crmv-input" class="info-input hidden">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="btn-editar" class="btn-edit">Editar Perfil</button>
+                <button type="submit" id="btn-salvar" class="btn-save hidden">Salvar Alterações</button>
+                <button type="button" id="btn-cancelar" class="btn-back hidden">Cancelar</button>
+                <a href="/home" id="btn-voltar" class="btn-back">Voltar</a>
+            </div>
+        </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dadosSalvos = sessionStorage.getItem('dadosUsuario');
-
-            if (dadosSalvos) {
-                const dados = JSON.parse(dadosSalvos);
-
-                document.getElementById('nome-usuario').textContent = dados.nome || 'Não informado';
-                document.getElementById('email-usuario').textContent = dados.email || 'Não informado';
-                document.getElementById('cpf-usuario').textContent = dados.cpf || 'Não informado';
-                document.getElementById('rg-usuario').textContent = dados.rg || 'Não informado';
-
-            } else {
-                alert('Não foi possível carregar os dados do usuário. Tente novamente.');
-                window.location.href = '/'; 
-            }
-        });
-    </script>
+    <script th:src="@{/js/minhaConta.js}"></script>
 
 </body>
 </html>

@@ -20,7 +20,6 @@ public class TokenService {
     public String gerarToken(String email) {
         try {
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
-            // Versão sem o .withIssuer() para garantir consistência
             return JWT.create()
                     .withSubject(email)
                     .withExpiresAt(gerarDataDeExpiracao())

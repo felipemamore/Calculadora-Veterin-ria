@@ -1,5 +1,5 @@
 package com.calculadora.veterinaria.backend.controller;
-
+import com.calculadora.veterinaria.backend.dto.UserRegistrationDTO;
 import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.service.UsuarioService;
 
@@ -20,9 +20,9 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody @Valid Usuario usuario) {
-            Usuario novo = usuarioService.salvar(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novo);
+    public ResponseEntity<Usuario> criarUsuario(@RequestBody @Valid UserRegistrationDTO registrationDTO) {
+            usuarioService.salvar(registrationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 }
 
     @GetMapping

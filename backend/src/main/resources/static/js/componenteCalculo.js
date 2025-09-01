@@ -1,4 +1,3 @@
-// Garante que o script só rode depois que o HTML estiver pronto
 document.addEventListener("DOMContentLoaded", function() {
     inicializarCalculadoraCoreLogic();
 });
@@ -81,9 +80,6 @@ function inicializarCalculadoraCoreLogic() {
             `/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
         );
 
-        // --- LÓGICA DE ERRO REESTRUTURADA ---
-        
-        // Caso 1: Dosagem NÃO ENCONTRADA (404)
         if (dosagemRes.status === 404) {
             console.warn(`Dosagem não encontrada para ${medicamentoNome} em ${especieNome}.`);
             const mensagem = "Não se aplica a esta espécie";
@@ -93,11 +89,9 @@ function inicializarCalculadoraCoreLogic() {
             concentracaoInput.disabled = true;
             btnCalcular.disabled = true;
 
-        // Caso 2: Outro erro da API (500, 401, etc.)
         } else if (!dosagemRes.ok) {
             throw new Error(`Erro na API de dosagem: ${dosagemRes.status}`);
 
-        // Caso 3: SUCESSO (200 OK)
         } else {
             const dosagem = await dosagemRes.json();
             
@@ -110,7 +104,6 @@ function inicializarCalculadoraCoreLogic() {
         }
 
     } catch (err) {
-        // O catch agora só lida com erros de rede ou os que foram explicitamente lançados
         console.error("O erro capturado foi:", err);
         console.error("Erro ao obter dosagem ou concentração:", err);
         alert("Não foi possível obter a dosagem. Verifique as seleções ou se as APIs de busca funcionam.");

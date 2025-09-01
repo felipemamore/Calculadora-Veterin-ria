@@ -1,4 +1,5 @@
 package com.calculadora.veterinaria.backend.service;
+import com.calculadora.veterinaria.backend.dto.UserRegistrationDTO;
 
 import com.calculadora.veterinaria.backend.entity.Usuario;
 import com.calculadora.veterinaria.backend.repository.UsuarioRepository;
@@ -20,13 +21,19 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Usuario salvar(Usuario usuario) {
-    if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
-        throw new IllegalArgumentException("Senha não pode ser nula ou vazia");
-    }
+    public Usuario salvar(UserRegistrationDTO registrationDTO) {
+        if (usuarioRepository.existsByEmail(registrationDTO.getEmail())) {
+            throw new IllegalArgumentException("O e-mail informado já está cadastrado.");
+        }
+        if (registrationDTO.getSenha() == null || registrationDTO.getSenha().isBlank()) {
+            throw new IllegalArgumentException("Senha não pode ser nula ou vazia");
+        }
 
-    usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-    return usuarioRepository.save(usuario);
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setNomeCompleto(registrationDTO.getNomeCompleto());
+        novoUsuario.setEmail(registrationDTO.getEmail());
+        novoUsuario.setSenha(passwordEncoder.encode(registrationDTO.getSenha()));
+        return usuarioRepository.save(novoUsuario);
 }
 
 

@@ -20,6 +20,8 @@ public class Usuario implements UserDetails {
     private String rg;
     private String cpf;
     private String email;
+    private String crmv;
+    private String ocupacao;
 
     @NotBlank
     private String senha;
@@ -42,6 +44,12 @@ public class Usuario implements UserDetails {
 
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
+
+    public String getCrmv() { return crmv; }
+    public void setCrmv(String crmv) { this.crmv = crmv; }
+
+    public String getOcupacao() { return ocupacao; }
+    public void setOcupacao(String ocupacao) { this.ocupacao = ocupacao; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -23,7 +23,6 @@ function inicializarLayoutCompletoLogic() {
     const medicamentosList = document.querySelectorAll(".medication-list li");
     const inputBuscarMedicamento = document.getElementById("buscar-medicamento");
 
-// Variável para guardar qual item está atualmente selecionado
 let itemSelecionado = null;
 
 if (inputBuscarMedicamento && medicamentosList.length > 0) {
@@ -35,41 +34,31 @@ if (inputBuscarMedicamento && medicamentosList.length > 0) {
     });
 
     medicamentosList.forEach((li) => {
-        // Lógica para SELECIONAR o medicamento (PRIMEIRO CLIQUE)
         li.addEventListener("click", function() {
             const medicamentoNome = li.firstChild.textContent.trim();
             const selectMedicamentos = document.getElementById("medicamentos-select");
 
-            // Remove a seleção do item anterior, se houver
             if (itemSelecionado) {
                 itemSelecionado.classList.remove('selecionado');
             }
             
-            // Adiciona a classe 'selecionado' ao item clicado
             li.classList.add('selecionado');
-            itemSelecionado = li; // Atualiza a referência do item selecionado
+            itemSelecionado = li; 
 
-            // Preenche o formulário
             if (selectMedicamentos) {
                 selectMedicamentos.value = medicamentoNome;
                 selectMedicamentos.dispatchEvent(new Event('change'));
             }
         });
 
-        // Lógica para ABRIR A BULA (CLIQUE NO BOTÃO)
-        // Procure por este trecho no seu JavaScript que cria a lista
         const linkBula = li.querySelector(".bula-link");
         if (linkBula) {
 
-        // SUBSTITUA o addEventListener existente por este
         linkBula.addEventListener("click", function(event) {
-        // Impede que o clique no botão também selecione o item da lista
         event.stopPropagation();
         
-        // Pega o nome do medicamento a partir do elemento pai (o <li>)
         const medicamentoNome = li.firstChild.textContent.trim();
         
-        // Simplesmente redireciona o navegador para a página estática bula.html
         window.location.href = `/bula.html?medicamento=${encodeURIComponent(medicamentoNome)}`;
     });
 }
