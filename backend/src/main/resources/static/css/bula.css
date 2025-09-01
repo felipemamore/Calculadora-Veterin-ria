@@ -1,0 +1,59 @@
+body {
+    background-color: #f4f7f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    padding: 20px 0;
+}
+
+.bula-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    color: #0d2c4f;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 15px;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.bula-section {
+    margin-bottom: 25px;
+}
+
+.bula-section h2 {
+    color: #1a5a9e;
+    font-size: 1.4rem;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 500;
+}
+
+.bula-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: justify;
+    color: #555;
+}
+
+.btn-primary {
+    background-color: #1a5a9e;
+    border-color: #1a5a9e;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0d2c4f;
+    border-color: #0d2c4f;
+}

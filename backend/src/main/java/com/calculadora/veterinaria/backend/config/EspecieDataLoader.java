@@ -3,10 +3,12 @@ package com.calculadora.veterinaria.backend.config;
 import com.calculadora.veterinaria.backend.entity.Especie;
 import com.calculadora.veterinaria.backend.repository.EspecieRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
+@Order(1)
 public class EspecieDataLoader implements CommandLineRunner {
 
     @Autowired
@@ -32,5 +34,6 @@ public class EspecieDataLoader implements CommandLineRunner {
                 especieRepository.save(e);
             }
         }
+        System.out.println("Carga inicial de espécies finalizada.");
     }
 }

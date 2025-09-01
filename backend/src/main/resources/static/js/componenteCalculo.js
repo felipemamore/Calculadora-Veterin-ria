@@ -1,3 +1,8 @@
+// Garante que o script só rode depois que o HTML estiver pronto
+document.addEventListener("DOMContentLoaded", function() {
+    inicializarCalculadoraCoreLogic();
+});
+
 function inicializarCalculadoraCoreLogic() {
 
     const selectEspecies = document.getElementById("especies-select");
@@ -16,7 +21,7 @@ function inicializarCalculadoraCoreLogic() {
 
     async function atualizarSelects() {
         try {
-            const especiesRes = await fetch("/api/especie/todos"); 
+            const especiesRes = await fetch("/api/especie/todos");
             if (!especiesRes.ok) throw new Error(`Erro HTTP ao buscar espécies: ${especiesRes.status}`);
             const especies = await especiesRes.json();
             
@@ -28,7 +33,7 @@ function inicializarCalculadoraCoreLogic() {
                 selectEspecies.appendChild(opt);
             });
 
-            const medicamentosRes = await fetch("/api/medicamentos/todos"); 
+            const medicamentosRes = await fetch("/api/medicamentos/todos");
             if (!medicamentosRes.ok) throw new Error(`Erro HTTP ao buscar medicamentos: ${medicamentosRes.status}`);
             const medicamentos = await medicamentosRes.json();
             
@@ -46,50 +51,77 @@ function inicializarCalculadoraCoreLogic() {
     }
 
     async function atualizarDosagem() {
-        const medicamentoNome = selectMedicamentos.value;
-        const especieNome = selectEspecies.value;
+    const medicamentoNome = selectMedicamentos.value.trim();
+    const especieNome = selectEspecies.value.trim();
 
-        if (!medicamentoNome || !especieNome) {
-            doseInput.value = "";
-            concentracaoInput.value = "";
-            return;
-        }
+    resultadoBox.style.display = 'none';
 
-        try {
-            const [medicamentoRes, especieRes] = await Promise.all([
-                fetch(`/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-                fetch(`/api/especie?nome=${encodeURIComponent(especieNome)}`),
-            ]);
-
-            if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado ou erro na API: ${medicamentoRes.status}`);
-            if (!especieRes.ok) throw new Error(`Espécie não encontrada ou erro na API: ${especieRes.status}`);
-            
-            const medicamento = await medicamentoRes.json();
-            const especie = await especieRes.json();
-
-            const dosagemRes = await fetch(
-                `/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
-            );
-            if (!dosagemRes.ok) {
-                if (dosagemRes.status === 404) {
-                    console.warn(`Dosagem não encontrada para ${medicamentoNome} em ${especieNome}.`);
-                    alert(`Não há dosagem cadastrada para ${medicamentoNome} em ${especieNome}.`);
-                } else {
-                    throw new Error(`Erro ao buscar dosagem na API: ${dosagemRes.status}`);
-                }
-            }
-            const dosagem = await dosagemRes.json();
-
-            doseInput.value = (dosagem.doseRecomendadaMgPorKg !== undefined) ? dosagem.doseRecomendadaMgPorKg.toFixed(2) : "";
-            concentracaoInput.value = (dosagem.concentracaoMgPorMl !== undefined) ? dosagem.concentracaoMgPorMl.toFixed(2) : "";
-
-        } catch (err) {
-            console.error("Erro ao obter dosagem ou concentração:", err);
-            alert("Não foi possível obter a dosagem. Verifique as seleções ou se as APIs de busca funcionam.");
-            doseInput.value = "";
-            concentracaoInput.value = "";
-        }
+    if (!medicamentoNome || !especieNome) {
+        doseInput.value = "";
+        concentracaoInput.value = "";
+        doseInput.disabled = false;
+        concentracaoInput.disabled = false;
+        btnCalcular.disabled = false;
+        return;
     }
+
+    try {
+        const [medicamentoRes, especieRes] = await Promise.all([
+            fetch(`/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
+            fetch(`/api/especie?nome=${encodeURIComponent(especieNome)}`),
+        ]);
+
+        if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
+        if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
+        
+        const medicamento = await medicamentoRes.json();
+        const especie = await especieRes.json();
+
+        const dosagemRes = await fetch(
+            `/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
+        );
+
+        // --- LÓGICA DE ERRO REESTRUTURADA ---
+        
+        // Caso 1: Dosagem NÃO ENCONTRADA (404)
+        if (dosagemRes.status === 404) {
+            console.warn(`Dosagem não encontrada para ${medicamentoNome} em ${especieNome}.`);
+            const mensagem = "Não se aplica a esta espécie";
+            doseInput.value = mensagem;
+            concentracaoInput.value = mensagem;
+            doseInput.disabled = true;
+            concentracaoInput.disabled = true;
+            btnCalcular.disabled = true;
+
+        // Caso 2: Outro erro da API (500, 401, etc.)
+        } else if (!dosagemRes.ok) {
+            throw new Error(`Erro na API de dosagem: ${dosagemRes.status}`);
+
+        // Caso 3: SUCESSO (200 OK)
+        } else {
+            const dosagem = await dosagemRes.json();
+            
+            doseInput.disabled = false;
+            concentracaoInput.disabled = false;
+            btnCalcular.disabled = false;
+            
+            doseInput.value = dosagem.doseRecomendadaMgPorKg.toFixed(2).replace('.', ',');
+            concentracaoInput.value = dosagem.concentracaoMgPorMl.toFixed(2).replace('.', ',');
+        }
+
+    } catch (err) {
+        // O catch agora só lida com erros de rede ou os que foram explicitamente lançados
+        console.error("O erro capturado foi:", err);
+        console.error("Erro ao obter dosagem ou concentração:", err);
+        alert("Não foi possível obter a dosagem. Verifique as seleções ou se as APIs de busca funcionam.");
+        
+        doseInput.value = "";
+        concentracaoInput.value = "";
+        doseInput.disabled = false;
+        concentracaoInput.disabled = false;
+        btnCalcular.disabled = false;
+    }
+}
 
     async function calcularDose() {
         const pesoStr = pesoInput.value.trim().replace(",", ".");
@@ -101,10 +133,10 @@ function inicializarCalculadoraCoreLogic() {
         if (!medicamentoNome) return alert("Selecione um medicamento.");
         if (!especieNome) return alert("Selecione uma espécie.");
 
-        const doseRecomendada = parseFloat(doseInput.value);
-        const concentracaoMedicamento = parseFloat(concentracaoInput.value);
+        const doseRecomendada = parseFloat(doseInput.value.replace(",", "."));
+        const concentracaoMedicamento = parseFloat(concentracaoInput.value.replace(",", "."));
 
-        if (isNaN(doseRecomendada) || doseRecomendada <= 0) return alert("Dose recomendada inválida. Selecione uma espécie e medicamento válidos.");
+        if (isNaN(doseRecomendada) || doseRecomendada < 0) return alert("Dose recomendada inválida. Selecione uma espécie e medicamento válidos.");
         if (isNaN(concentracaoMedicamento) || concentracaoMedicamento <= 0) return alert("Concentração do medicamento inválida. Selecione uma espécie e medicamento válidos.");
         
         try {
@@ -126,12 +158,10 @@ function inicializarCalculadoraCoreLogic() {
             
             const token = localStorage.getItem('jwtToken'); 
 
-            const headers = {
-                'Content-Type': 'application/json'
-            };
+            const headers = { 'Content-Type': 'application/json' };
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
-}
+            }
 
             const response = await fetch("/api/calculo/dose", {
                 method: "POST",
@@ -170,30 +200,27 @@ function inicializarCalculadoraCoreLogic() {
 
     let calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
 
-function usuarioNaoLogado() {
-    return !localStorage.getItem("jwt"); // ou verifique o método que você usa para login
-}
-
-function controleCalculoParaVisitante(event) {
-    if (window.location.pathname === "/" || window.location.pathname.endsWith("index.html")) {
-        if (usuarioNaoLogado()) {
-            if (calculosFeitos >= 3) {
-                alert("Você atingiu o limite de 3 cálculos sem estar cadastrado. Faça o login ou crie sua conta gratuita para continuar.");
-                window.location.href = "/pagina-login";
-                return;
-            }
-            calculosFeitos++;
-            localStorage.setItem("calculos-visitante", calculosFeitos);
-        }
+    function usuarioNaoLogado() {
+        return !localStorage.getItem("jwtToken");
     }
 
-    calcularDose(); // chama a função original
-}
+    function controleCalculoParaVisitante(event) {
+        if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
+            if (usuarioNaoLogado()) {
+                if (calculosFeitos >= 3) {
+                    alert("Você atingiu o limite de 3 cálculos como visitante. Por favor, faça login ou cadastre-se para continuar.");
+                    window.location.href = "pagina-login"; // Redireciona para a página de login
+                    return; 
+                }
+                calculosFeitos++;
+                localStorage.setItem("calculos-visitante", calculosFeitos.toString());
+            }
+        }
+        calcularDose();
+    }
 
     btnCalcular.addEventListener("click", controleCalculoParaVisitante);
 
 
     atualizarSelects(); 
 }
-
-window.inicializarCalculadoraCoreLogic = inicializarCalculadoraCoreLogic;

@@ -33,7 +33,6 @@ public class TokenService {
     public String getEmailFromToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC512(secretKey);
-            // CORREÇÃO: Removido o .withIssuer() para corresponder ao token gerado
             return JWT.require(algorithm)
                     .build()
                     .verify(token)

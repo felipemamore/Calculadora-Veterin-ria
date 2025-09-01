@@ -1,15 +1,19 @@
 package com.calculadora.veterinaria.backend.config;
-
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.calculadora.veterinaria.backend.entity.Medicamento;
 import com.calculadora.veterinaria.backend.repository.MedicamentoRepository;
-
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Order(2)
 public class MedicamentoDataLoader implements CommandLineRunner {
 
     @Autowired
@@ -17,33 +21,22 @@ public class MedicamentoDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<String> nomes = Arrays.asList(
-            "Acebrofilina",
-            "Acetato de dexametasona",
-            "Albenza (Albendazol)",
-            "Amoxicilina",
-            "Ansiolítico (Diazepam)",
-            "Apomorfina",
-            "Avermectina",
-            "Betametasona",
-            "Bupivacaína",
-            "Butorfanol",
-            "Captopril",
-            "Carprofeno",
-            "Cefalexina",
-            "Ceftriaxona",
-            "Cloridrato de tramadol",
-            "Cloranfenicol",
-            "Ciprofloxacina",
-            "Clindamicina",
-            "Dantroleno"
-        );
+        List<String> nomes = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new ClassPathResource("medicamentos.csv").getInputStream(), StandardCharsets.UTF_8))) {
+            reader.readLine();
+
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                nomes.add(linha);
+            }
+        }
 
         for (String nome : nomes) {
             if (!medicamentoRepository.existsByNome(nome)) {
                 Medicamento m = new Medicamento();
                 m.setNome(nome);
-                // Você pode deixar as outras propriedades nulas ou setar valores padrão
                 medicamentoRepository.save(m);
             }
         }

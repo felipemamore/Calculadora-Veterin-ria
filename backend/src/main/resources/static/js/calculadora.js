@@ -57,24 +57,27 @@ if (inputBuscarMedicamento && medicamentosList.length > 0) {
         });
 
         // Lógica para ABRIR A BULA (CLIQUE NO BOTÃO)
+        // Procure por este trecho no seu JavaScript que cria a lista
         const linkBula = li.querySelector(".bula-link");
         if (linkBula) {
-            linkBula.addEventListener("click", function(event) {
-                // Impede que o clique no botão se propague para o <li>
-                event.stopPropagation(); 
-                
-                const medicamentoNome = li.firstChild.textContent.trim();
-                
-                // Redireciona para a página da bula
-                window.location.href = `/bula?medicamento=${encodeURIComponent(medicamentoNome)}`;
-            });
-        }
+
+        // SUBSTITUA o addEventListener existente por este
+        linkBula.addEventListener("click", function(event) {
+        // Impede que o clique no botão também selecione o item da lista
+        event.stopPropagation();
+        
+        // Pega o nome do medicamento a partir do elemento pai (o <li>)
+        const medicamentoNome = li.firstChild.textContent.trim();
+        
+        // Simplesmente redireciona o navegador para a página estática bula.html
+        window.location.href = `/bula.html?medicamento=${encodeURIComponent(medicamentoNome)}`;
+    });
+}
     });
 }
 
    window.abrirMinhaConta = async function () {
     try {
-        // 1. RECUPERAR O TOKEN DO LOCALSTORAGE
         const token = localStorage.getItem('jwtToken'); // Verifique se 'jwtToken' é a chave correta.
 
         // Se não houver token, nem tenta fazer a requisição.
@@ -84,14 +87,12 @@ if (inputBuscarMedicamento && medicamentosList.length > 0) {
             return;
         }
 
-        // 2. MONTAR OS CABEÇALHOS DA REQUISIÇÃO
         const headers = {
             'Authorization': `Bearer ${token}` // Formato padrão para JWT
         };
 
-        // 3. FAZER A REQUISIÇÃO 'FETCH' ENVIANDO OS CABEÇALHOS
         const response = await fetch("/api/conta-do-usuario", {
-            method: 'GET', // É uma boa prática especificar o método
+            method: 'GET',
             headers: headers
         });
 
