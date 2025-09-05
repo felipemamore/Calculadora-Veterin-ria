@@ -1,0 +1,25 @@
+# Versão do Docker Compose
+version: '3.8'
+
+# Lista de serviços (contêineres) que vamos criar
+services:
+  # Nosso serviço de banco de dados PostgreSQL
+  postgres-db:
+    image: postgres:15-alpine  # A imagem oficial do PostgreSQL, versão 15 (leve)
+    container_name: calculadora-vet-db # Um nome fácil para identificar o contêiner
+    restart: always # Sempre reiniciar o contêiner se ele parar
+
+    # Variáveis de ambiente para configurar o banco de dados
+    environment:
+      POSTGRES_USER: root           # <-- Defina o usuário do seu banco local
+      POSTGRES_PASSWORD: 1toEEavpoMt4bmERkj2wnNWGrh8PXGal   # <-- Defina uma senha forte
+      POSTGRES_DB: calculadora_vet_db    # <-- Defina o nome do banco
+
+    # Mapeamento de portas: conecta a porta 5432 do seu PC à porta 5432 do contêiner
+    ports:
+      - "5432:5432"
+
+    # Persistência de dados: mapeia uma pasta local para guardar os dados do banco
+    # Assim, mesmo que você pare o contêiner, os dados não são perdidos.
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
