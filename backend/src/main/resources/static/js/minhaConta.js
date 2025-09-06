@@ -1,3 +1,4 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
 document.addEventListener("DOMContentLoaded", async () => {
     const elements = {
         nomeDisplay: document.getElementById("nome-display"),
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let currentUserData = {};
     try {
-        const response = await fetch("/api/conta-do-usuario", {
+        const response = await fetch(`${API_BASE_URL}/api/conta-do-usuario`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) throw new Error("Falha ao buscar dados da conta.");
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
         try {
-            const updateResponse = await fetch("/api/conta-do-usuario", {
+            const updateResponse = await fetch(`${API_BASE_URL}/api/conta-do-usuario`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

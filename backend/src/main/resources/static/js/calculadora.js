@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 function inicializarLayoutCompletoLogic() {
     
     const speciesList = document.getElementById("species-list");
@@ -80,7 +82,7 @@ if (inputBuscarMedicamento && medicamentosList.length > 0) {
             'Authorization': `Bearer ${token}` // Formato padrão para JWT
         };
 
-        const response = await fetch("/api/conta-do-usuario", {
+        const response = await fetch(`${API_BASE_URL}/api/conta-do-usuario`, {
             method: 'GET',
             headers: headers
         });
@@ -116,7 +118,7 @@ if (inputBuscarMedicamento && medicamentosList.length > 0) {
         inicializarLayoutCompletoLogic();
 
     try {
-        const resposta = await fetch("/templates/componenteCalculo.html");
+        const resposta = await fetch(`${API_BASE_URL}/templates/componenteCalculo.html`);
         const html = await resposta.text();
         document.getElementById("componente-calculo-container").innerHTML = html;
 

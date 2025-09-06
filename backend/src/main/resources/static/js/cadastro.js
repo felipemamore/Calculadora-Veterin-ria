@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 document.addEventListener("DOMContentLoaded", function() {
     
     const form = document.querySelector(".cadastro-form");
@@ -16,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             try {
-              const response = await fetch("/api/users", {
+              const response = await fetch(`${API_BASE_URL}/api/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

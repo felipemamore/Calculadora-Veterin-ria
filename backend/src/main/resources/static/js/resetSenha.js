@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 window.onload = function () {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
@@ -20,7 +22,7 @@ window.onload = function () {
     }
 
     try {
-      const response = await fetch(`/api/senha/reset-password?token=${encodeURIComponent(token)}`, {
+      const response = await fetch(`${API_BASE_URL}/api/senha/reset-password?token=${encodeURIComponent(token)}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

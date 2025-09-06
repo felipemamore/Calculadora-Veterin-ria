@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 document.addEventListener("DOMContentLoaded", async function() {
     const nomeMedicamentoEl = document.getElementById("bula-nome");
     const conteudoBulaEl = document.getElementById("bula-content");
@@ -12,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     }
 
     try {
-        const response = await fetch(`/api/bula?nome=${encodeURIComponent(medicamentoNome)}`);
+        const response = await fetch(`${API_BASE_URL}/api/bula?nome=${encodeURIComponent(medicamentoNome)}`);
         
         if (!response.ok) {
             throw new Error(`Bula não encontrada para ${medicamentoNome}. Status: ${response.status}`);

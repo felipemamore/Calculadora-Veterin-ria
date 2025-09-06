@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 document.getElementById('reset-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -8,7 +10,7 @@ document.getElementById('reset-form').addEventListener('submit', function (e) {
     return;
   }
 
-  fetch('/api/senha/forgot-password', {
+  fetch(`${API_BASE_URL}/api/senha/forgot-password`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

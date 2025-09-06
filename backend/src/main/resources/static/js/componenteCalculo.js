@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 document.addEventListener("DOMContentLoaded", function() {
     inicializarCalculadoraCoreLogic();
 });
@@ -20,7 +22,7 @@ function inicializarCalculadoraCoreLogic() {
 
     async function atualizarSelects() {
         try {
-            const especiesRes = await fetch("/api/especie/todos");
+            const especiesRes = await fetch(`${API_BASE_URL}/api/especie/todos`);
             if (!especiesRes.ok) throw new Error(`Erro HTTP ao buscar espécies: ${especiesRes.status}`);
             const especies = await especiesRes.json();
             
@@ -32,7 +34,7 @@ function inicializarCalculadoraCoreLogic() {
                 selectEspecies.appendChild(opt);
             });
 
-            const medicamentosRes = await fetch("/api/medicamentos/todos");
+            const medicamentosRes = await fetch(`${API_BASE_URL}/api/medicamentos/todos`);
             if (!medicamentosRes.ok) throw new Error(`Erro HTTP ao buscar medicamentos: ${medicamentosRes.status}`);
             const medicamentos = await medicamentosRes.json();
             
@@ -66,8 +68,8 @@ function inicializarCalculadoraCoreLogic() {
 
     try {
         const [medicamentoRes, especieRes] = await Promise.all([
-            fetch(`/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-            fetch(`/api/especie?nome=${encodeURIComponent(especieNome)}`),
+            fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
+            fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
         ]);
 
         if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
@@ -77,7 +79,7 @@ function inicializarCalculadoraCoreLogic() {
         const especie = await especieRes.json();
 
         const dosagemRes = await fetch(
-            `/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
+            `${API_BASE_URL}/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
         );
 
         if (dosagemRes.status === 404) {
@@ -134,8 +136,8 @@ function inicializarCalculadoraCoreLogic() {
         
         try {
             const [medicamentoRes, especieRes] = await Promise.all([
-                fetch(`/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-                fetch(`/api/especie?nome=${encodeURIComponent(especieNome)}`),
+                fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
+                fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
             ]);
             if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
             if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
@@ -156,7 +158,7 @@ function inicializarCalculadoraCoreLogic() {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            const response = await fetch("/api/calculo/dose", {
+            const response = await fetch(`${API_BASE_URL}/api/calculo/dose`, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify(body),

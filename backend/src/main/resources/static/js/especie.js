@@ -1,3 +1,5 @@
+const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+
 document.addEventListener("DOMContentLoaded", async () => {
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -32,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
     document.getElementById("imagem-especie").src = imagens[especieNome] || "images/default.jpg";
 
-    const toxicasResponse = await fetch(`/api/toxicas?especie=${encodeURIComponent(especieNome)}`);
+    const toxicasResponse = await fetch(`${API_BASE_URL}/api/toxicas?especie=${encodeURIComponent(especieNome)}`);
     const toxicasLista = document.getElementById("toxicas-lista");
     toxicasLista.innerHTML = "";
 
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const headers = { 'Authorization': `Bearer ${token}` };
 
-        const response = await fetch('/api/calculo/historico', { headers });
+        const response = await fetch(`${API_BASE_URL}/api/calculo/historico`, { headers });
 
         if (!response.ok) {
             throw new Error('Falha ao buscar histórico do usuário.');
