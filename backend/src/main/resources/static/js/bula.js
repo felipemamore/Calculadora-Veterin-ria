@@ -1,5 +1,3 @@
-const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
-
 document.addEventListener("DOMContentLoaded", async function() {
     const nomeMedicamentoEl = document.getElementById("bula-nome");
     const conteudoBulaEl = document.getElementById("bula-content");

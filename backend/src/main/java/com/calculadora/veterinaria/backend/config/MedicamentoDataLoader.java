@@ -25,7 +25,6 @@ public class MedicamentoDataLoader implements CommandLineRunner {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 new ClassPathResource("medicamentos.csv").getInputStream(), StandardCharsets.UTF_8))) {
-            reader.readLine();
 
             String linha;
             while ((linha = reader.readLine()) != null) {

@@ -1,5 +1,3 @@
-const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
-
 document.addEventListener("DOMContentLoaded", async () => {
 
   const urlParams = new URLSearchParams(window.location.search);

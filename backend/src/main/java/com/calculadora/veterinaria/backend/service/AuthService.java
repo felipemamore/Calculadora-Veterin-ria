@@ -9,13 +9,12 @@ public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService; // <- Adicionado
+    private final TokenService tokenService; // 
 
-    // Injetamos o TokenService no construtor
     public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService; // <- Adicionado
+        this.tokenService = tokenService; 
     }
 
     public String login(String email, String senha) throws Exception {
@@ -25,11 +24,8 @@ public class AuthService {
         if (!passwordEncoder.matches(senha, usuario.getSenha())) {
             throw new Exception("Credenciais inválidas");
         }
-
-        // AGORA USAMOS O TOKENSERVICE PARA GERAR O TOKEN
         return tokenService.gerarToken(usuario.getEmail());
     }
 
-    // O MÉTODO private generateToken() FOI REMOVIDO DAQUI
 }
     
