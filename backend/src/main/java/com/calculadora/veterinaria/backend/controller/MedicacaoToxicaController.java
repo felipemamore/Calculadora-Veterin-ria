@@ -25,7 +25,7 @@ public class MedicacaoToxicaController {
         List<MedicacaoToxica> medicamentosToxicos = repository.findByEspecieNomeIgnoreCase(especie);
         
         List<String> nomesMedicamentos = medicamentosToxicos.stream()
-            .map(mt -> mt.getMedicamento().getNome())  // Pega o nome do medicamento relacionado
+            .map(mt -> mt.getMedicamento().getNome())
             .collect(Collectors.toList());
         
         return ResponseEntity.ok(nomesMedicamentos);

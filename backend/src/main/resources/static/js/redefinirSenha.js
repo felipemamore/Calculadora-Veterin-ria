@@ -1,4 +1,12 @@
-const API_BASE_URL = "https://calculadora-veterinaria-api.fly.dev";
+let API_BASE_URL;
+
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // Se estiver rodando localmente, aponte para o backend local
+    API_BASE_URL = 'http://localhost:8081'; 
+} else {
+    // Se não for local, use a URL de produção
+    API_BASE_URL = 'https://calculadora-veterinaria-api.fly.dev';
+}
 
 document.getElementById('reset-form').addEventListener('submit', function (e) {
   e.preventDefault();

@@ -51,52 +51,73 @@ document.addEventListener("DOMContentLoaded", async () => {
       toxicasLista.innerHTML = "<li>Erro ao carregar dados de medicamentos tóxicos.</li>";
     }
 
-    async function carregarHistoricoFiltrado(especieNome) {
+    const alimentosToxicosResponse = await fetch(`${API_BASE_URL}/api/alimentos-toxicos?especieNome=${encodeURIComponent(especieNome)}`);
+        const alimentosToxicosLista = document.getElementById("alimentos-toxicos-lista");
+        alimentosToxicosLista.innerHTML = "";
+        
+        if (alimentosToxicosResponse.ok) {
+            const alimentos = await alimentosToxicosResponse.json();
+            if (alimentos.length === 0) {
+                alimentosToxicosLista.innerHTML = "<li class='list-group-item'>Nenhuma informação disponível.</li>";
+            } else {
+                alimentos.forEach(alimento => {
+                    const li = document.createElement("li");
+                    li.className = 'list-group-item';
+                    // Cria um título em negrito e a descrição abaixo
+                    li.innerHTML = `<strong>${alimento.nome}</strong><br><small>${alimento.descricao}</small>`;
+                    alimentosToxicosLista.appendChild(li);
+                });
+            }
+        } else {
+            alimentosToxicosLista.innerHTML = "<li class='list-group-item'>Erro ao carregar dados.</li>";
+        }
+
+        // --- Lógica do Histórico (chamada da função) ---
+        carregarHistoricoFiltrado(especieNome);
+
+    } catch (err) {
+        console.error("Erro ao carregar dados da espécie:", err);
+    }
+});
+
+async function carregarHistoricoFiltrado(especieNome) {
     const historicoLista = document.getElementById("historico-lista");
-    historicoLista.innerHTML = "<li>Carregando histórico...</li>"; // Mensagem de feedback
+    historicoLista.innerHTML = "<li class='list-group-item'>Carregando histórico...</li>";
 
     try {
         const token = localStorage.getItem('jwtToken');
         if (!token) {
-            historicoLista.innerHTML = "<li>Faça o login para ver seu histórico.</li>";
+            historicoLista.innerHTML = "<li class='list-group-item'>Faça o login para ver seu histórico.</li>";
             return;
         }
 
         const headers = { 'Authorization': `Bearer ${token}` };
-
         const response = await fetch(`${API_BASE_URL}/api/calculo/historico`, { headers });
-
-        if (!response.ok) {
-            throw new Error('Falha ao buscar histórico do usuário.');
-        }
+        if (!response.ok) throw new Error('Falha ao buscar histórico.');
 
         const historico = await response.json();
-
         historicoLista.innerHTML = "";
         const historicoFiltrado = historico.filter(item => item.especie === especieNome);
 
         if (historicoFiltrado.length === 0) {
-            historicoLista.innerHTML = "<li>Nenhum histórico encontrado para esta espécie.</li>";
+            historicoLista.innerHTML = "<li class='list-group-item'>Nenhum histórico encontrado para esta espécie.</li>";
         } else {
             historicoFiltrado.forEach(item => {
                 const li = document.createElement("li");
+                li.className = 'list-group-item';
                 const dataFormatada = new Date(item.data).toLocaleString('pt-BR', {
-                        day: '2-digit', month: '2-digit', year: 'numeric',
-                        hour: '2-digit', minute: '2-digit'
-            });
+                  day: '2-digit', 
+                  month: '2-digit', 
+                  year: 'numeric',
+                  hour: '2-digit', 
+                  minute: '2-digit'
+                      });
                 li.textContent = `${item.nome} - ${dataFormatada}`;
-                    historicoLista.appendChild(li);
-          });
+                historicoLista.appendChild(li);
+            });
         }
-
     } catch (error) {
         console.error("Erro ao carregar histórico:", error);
-        historicoLista.innerHTML = "<li>Erro ao carregar histórico.</li>";
+        historicoLista.innerHTML = "<li class='list-group-item'>Erro ao carregar histórico.</li>";
     }
 }
-    carregarHistoricoFiltrado(especieNome);
-
-  } catch (err) {
-    console.error("Erro ao carregar dados da espécie:", err);
-  }
-});

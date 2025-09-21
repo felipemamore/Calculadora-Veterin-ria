@@ -1,0 +1,32 @@
+alimento_nome;descricao;especie
+Chocolate;"Contém teobromina, uma substância que afeta o sistema nervoso central e o coração.";Canina
+Chocolate;"A teobromina presente no chocolate é igualmente venenosa para os gatos.";Felina
+Chocolate;"A teobromina é tóxica para cavalos e pode ser detectada em testes de doping.";Equina
+Chocolate;"Tóxico para a maioria dos animais de estimação, incluindo roedores.";Roedores
+Chocolate;"Extremamente tóxico para aves, afeta o sistema nervoso e pode ser fatal.";Aves
+Uvas e Passas;"Podem causar insuficiência renal aguda.";Canina
+Uvas e Passas;"Podem provocar problemas renais em gatos também.";Felina
+Cebola e Alho;"Contêm tiossulfato, que pode danificar os glóbulos vermelhos e levar à anemia.";Canina
+Cebola e Alho;"São tóxicos para os glóbulos vermelhos dos gatos, podendo causar anemia.";Felina
+Cebola e Alho;"Podem causar problemas gastrointestinais e sanguíneos em roedores.";Roedores
+Xilitol;"Um adoçante artificial que pode causar insuficiência hepática.";Canina
+Xilitol;"Perigoso para muitas espécies, notavelmente cães.";Mamíferos
+Tomate;"As folhas, caules e o fruto verde contêm atropina, que pode causar cólicas severas.";Equina
+Abacate;"Todas as partes do abacateiro são tóxicas para cavalos.";Equina
+Abacate;"Contém persina, uma toxina prejudicial para aves, coelhos, cavalos e ruminantes.";Mamíferos
+Abacate;"Contém persina, uma toxina que pode causar insuficiência respiratória e problemas cardíacos em aves.";Aves
+Abacate;"Tóxico para muitas espécies de animais, incluindo répteis.";Répteis
+Vegetais Crucíferos;"Alimentos como repolho e brócolis podem causar produção excessiva de gases e cólicas.";Equina
+Samambaia;"Causa comum de intoxicação em bovinos, podendo levar a hemorragias e tumores.";Bovino
+Mamona (Ricinus communis);"Sementes extremamente tóxicas, ingeridas em períodos de escassez de pasto.";Bovino
+Cafezinho (Palicourea marcgravii);"Considerada a planta que mais causa mortes em bovinos no Brasil.";Bovino
+Batatas com brotos ou casca verde;"Contêm solanina, que pode causar problemas neurológicos e gastrointestinais.";Bovino
+Bebidas Alcoólicas;"Depressor do sistema nervoso central, tóxico para praticamente todos os mamíferos.";Mamíferos
+Álcool;"Depressor do sistema nervoso central, tóxico para praticamente todos os mamíferos.";Felina
+Sementes de Maçã;"Contêm cianeto e podem envenenar aves se ingeridas em quantidade.";Aves
+Cafeína;"Pode causar arritmia e aumento do ritmo cardíaco em aves.";Aves
+Laticínios;"Répteis não conseguem digerir a lactose, causando problemas gastrointestinais.";Répteis
+Ruibarbo e Espinafre;"Contêm oxalatos que prejudicam a absorção de cálcio em répteis.";Répteis
+Insetos Selvagens;"Podem conter pesticidas ou parasitas prejudiciais aos répteis.";Répteis
+Frutas Cítricas (em excesso);"A acidez pode causar problemas digestivos em roedores.";Roedores
+Feijão Cru;"Contém toxinas que são prejudiciais para roedores se não forem cozidos.";Roedores

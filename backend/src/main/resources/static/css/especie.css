@@ -68,3 +68,47 @@ li {
 section {
   margin-bottom: 40px;
 }
+
+
+#toxicas-lista,
+#alimentos-toxicos-lista,
+#historico-lista {
+    list-style: none; 
+    padding: 0;       
+}
+
+#toxicas-lista li,
+#alimentos-toxicos-lista li,
+#historico-lista li {
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa; 
+    border-left: 4px solid #0d6efd; 
+    border-radius: 4px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#toxicas-lista li:hover,
+#alimentos-toxicos-lista li:hover,
+#historico-lista li:hover {
+    background-color: #e9ecef;
+}
+
+#alimentos-toxicos-lista li strong {
+    display: block;
+    font-size: 1.1em;
+    color: #333;
+}
+
+#alimentos-toxicos-lista li small {
+    color: #555;
+}
+
+.row .col-md-4 .h4 {
+    height: 70px; 
+    display: flex;
+    align-items: center; 
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 8px;
+    margin-bottom: 1rem;
+}

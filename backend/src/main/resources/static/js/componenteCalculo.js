@@ -1,23 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
-    inicializarCalculadoraCoreLogic();
-});
+function inicializarComponenteCalculo() {
+    
+    //Abas
+    const tabs = document.querySelectorAll('.tab-link');
+    const panes = document.querySelectorAll('.tab-pane');
+    if (tabs.length > 0) {
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetPaneId = tab.getAttribute('data-tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                panes.forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(targetPaneId).classList.add('active');
+            });
+        });
+    }
+    inicializarCalculadoraDose();
+    inicializarCalculadoraEnergia();
+    inicializarCalculadoraGestacao();
+}
 
-function inicializarCalculadoraCoreLogic() {
-
+//DOSE DE MEDICAMENTO
+function inicializarCalculadoraDose() {
     const selectEspecies = document.getElementById("especies-select");
     const selectMedicamentos = document.getElementById("medicamentos-select");
     const pesoInput = document.getElementById("peso");
-    const doseInput = document.getElementById("dose");
+    const doseInput = document.getElementById("dose-recomendada");
     const concentracaoInput = document.getElementById("concentracao");
-    const resultadoBox = document.querySelector(".resultado-box");
+    const resultadoBox = document.querySelector("#dose .resultado-box");
     const resultadoValor = document.getElementById("resultado-valor");
-    const btnCalcular = document.querySelector(".calculate-btn");
+    const btnCalcular = document.querySelector("#dose .calculate-btn");
 
-    if (!selectEspecies || !selectMedicamentos || !pesoInput || !doseInput || !concentracaoInput || !resultadoBox || !resultadoValor || !btnCalcular) {
-        console.warn("Elementos essenciais do componente de cálculo não encontrados. A inicialização da calculadora central foi interrompida.");
+    if (!selectEspecies) {
+        console.warn("Componente da calculadora de dose não encontrado.");
         return;
     }
-
+    
     async function atualizarSelects() {
         try {
             const especiesRes = await fetch(`${API_BASE_URL}/api/especie/todos`);
@@ -50,71 +67,61 @@ function inicializarCalculadoraCoreLogic() {
     }
 
     async function atualizarDosagem() {
-    const medicamentoNome = selectMedicamentos.value.trim();
-    const especieNome = selectEspecies.value.trim();
+        const medicamentoNome = selectMedicamentos.value.trim();
+        const especieNome = selectEspecies.value.trim();
+        resultadoBox.style.display = 'none';
 
-    resultadoBox.style.display = 'none';
-
-    if (!medicamentoNome || !especieNome) {
-        doseInput.value = "";
-        concentracaoInput.value = "";
-        doseInput.disabled = false;
-        concentracaoInput.disabled = false;
-        btnCalcular.disabled = false;
-        return;
-    }
-
-    try {
-        const [medicamentoRes, especieRes] = await Promise.all([
-            fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-            fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
-        ]);
-
-        if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
-        if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
-        
-        const medicamento = await medicamentoRes.json();
-        const especie = await especieRes.json();
-
-        const dosagemRes = await fetch(
-            `${API_BASE_URL}/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
-        );
-
-        if (dosagemRes.status === 404) {
-            console.warn(`Dosagem não encontrada para ${medicamentoNome} em ${especieNome}.`);
-            const mensagem = "Não se aplica a esta espécie";
-            doseInput.value = mensagem;
-            concentracaoInput.value = mensagem;
-            doseInput.disabled = true;
-            concentracaoInput.disabled = true;
-            btnCalcular.disabled = true;
-
-        } else if (!dosagemRes.ok) {
-            throw new Error(`Erro na API de dosagem: ${dosagemRes.status}`);
-
-        } else {
-            const dosagem = await dosagemRes.json();
-            
+        if (!medicamentoNome || !especieNome) {
+            doseInput.value = "";
+            concentracaoInput.value = "";
             doseInput.disabled = false;
             concentracaoInput.disabled = false;
             btnCalcular.disabled = false;
-            
-            doseInput.value = dosagem.doseRecomendadaMgPorKg.toFixed(2).replace('.', ',');
-            concentracaoInput.value = dosagem.concentracaoMgPorMl.toFixed(2).replace('.', ',');
+            return;
         }
 
-    } catch (err) {
-        console.error("O erro capturado foi:", err);
-        console.error("Erro ao obter dosagem ou concentração:", err);
-        alert("Não foi possível obter a dosagem. Verifique as seleções ou se as APIs de busca funcionam.");
-        
-        doseInput.value = "";
-        concentracaoInput.value = "";
-        doseInput.disabled = false;
-        concentracaoInput.disabled = false;
-        btnCalcular.disabled = false;
+        try {
+            const [medicamentoRes, especieRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
+                fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
+            ]);
+            
+            if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
+            if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
+            
+            const medicamento = await medicamentoRes.json();
+            const especie = await especieRes.json();
+            
+            const dosagemRes = await fetch(
+                `${API_BASE_URL}/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
+            );
+
+            if (dosagemRes.status === 404) {
+                const mensagem = "Não se aplica a esta espécie";
+                doseInput.value = mensagem;
+                concentracaoInput.value = mensagem;
+                doseInput.disabled = true;
+                concentracaoInput.disabled = true;
+                btnCalcular.disabled = true;
+            } else if (!dosagemRes.ok) {
+                throw new Error(`Erro na API de dosagem: ${dosagemRes.status}`);
+            } else {
+                const dosagem = await dosagemRes.json();
+                doseInput.disabled = false;
+                concentracaoInput.disabled = false;
+                btnCalcular.disabled = false;
+                doseInput.value = dosagem.doseRecomendadaMgPorKg.toFixed(2).replace('.', ',');
+                concentracaoInput.value = dosagem.concentracaoMgPorMl.toFixed(2).replace('.', ',');
+            }
+        } catch (err) {
+            console.error("Erro ao obter dosagem ou concentração:", err);
+            doseInput.value = "";
+            concentracaoInput.value = "";
+            doseInput.disabled = false;
+            concentracaoInput.disabled = false;
+            btnCalcular.disabled = false;
+        }
     }
-}
 
     async function calcularDose() {
         const pesoStr = pesoInput.value.trim().replace(",", ".");
@@ -128,7 +135,6 @@ function inicializarCalculadoraCoreLogic() {
 
         const doseRecomendada = parseFloat(doseInput.value.replace(",", "."));
         const concentracaoMedicamento = parseFloat(concentracaoInput.value.replace(",", "."));
-
         if (isNaN(doseRecomendada) || doseRecomendada < 0) return alert("Dose recomendada inválida. Selecione uma espécie e medicamento válidos.");
         if (isNaN(concentracaoMedicamento) || concentracaoMedicamento <= 0) return alert("Concentração do medicamento inválida. Selecione uma espécie e medicamento válidos.");
         
@@ -150,7 +156,6 @@ function inicializarCalculadoraCoreLogic() {
             };
             
             const token = localStorage.getItem('jwtToken'); 
-
             const headers = { 'Content-Type': 'application/json' };
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
@@ -168,20 +173,8 @@ function inicializarCalculadoraCoreLogic() {
             }
 
             const resultado = await response.json();
-            resultadoValor.textContent = resultado.dose.toFixed(2);
+            resultadoValor.textContent = resultado.dose.toFixed(2).replace('.',',');
             resultadoBox.style.display = "block";
-
-            const historico = JSON.parse(localStorage.getItem("historico-medicamentos")) || [];
-            historico.push({
-                especie: especieNome,
-                medicamento: medicamentoNome,
-                data: new Date().toLocaleString("pt-BR"),
-            });
-            if (historico.length > 10) {
-                historico.shift();
-            }
-            localStorage.setItem("historico-medicamentos", JSON.stringify(historico));
-
         } catch (err) {
             console.error("Erro ao calcular:", err);
             alert("Erro ao calcular dose. Verifique as informações fornecidas.");
@@ -190,30 +183,87 @@ function inicializarCalculadoraCoreLogic() {
 
     selectEspecies.addEventListener("change", atualizarDosagem);
     selectMedicamentos.addEventListener("change", atualizarDosagem);
+    btnCalcular.addEventListener("click", calcularDose);
 
-    let calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
+    atualizarSelects();
+}
 
-    function usuarioNaoLogado() {
-        return !localStorage.getItem("jwtToken");
-    }
+//NECESSIDADE ENERGÉTICA
+function inicializarCalculadoraEnergia() {
+    const pesoEnergiaInput = document.getElementById('peso-energia');
+    const caracteristicaSelect = document.getElementById('caracteristica-animal');
+    const resultadoEnergiaSpan = document.getElementById('resultado-energia');
+    const btnsAnimalEnergia = document.querySelectorAll('.btn-animal-energia');
+    let animalEnergia = 'cao';
 
-    function controleCalculoParaVisitante(event) {
-        if (window.location.pathname.endsWith("/") || window.location.pathname.endsWith("index.html")) {
-            if (usuarioNaoLogado()) {
-                if (calculosFeitos >= 3) {
-                    alert("Você atingiu o limite de 3 cálculos como visitante. Por favor, faça login ou cadastre-se para continuar.");
-                    window.location.href = "pagina-login"; // Redireciona para a página de login
-                    return; 
-                }
-                calculosFeitos++;
-                localStorage.setItem("calculos-visitante", calculosFeitos.toString());
-            }
+    if (!pesoEnergiaInput) return;
+
+    btnsAnimalEnergia.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btnsAnimalEnergia.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            animalEnergia = btn.getAttribute('data-animal');
+            calcularEnergia();
+        });
+    });
+
+    pesoEnergiaInput.addEventListener('input', calcularEnergia);
+    caracteristicaSelect.addEventListener('change', calcularEnergia);
+
+    function calcularEnergia() {
+        const peso = parseFloat(pesoEnergiaInput.value);
+        if (isNaN(peso) || peso <= 0) {
+            resultadoEnergiaSpan.textContent = "0,00 Kcal/dia";
+            return;
         }
-        calcularDose();
+        const fatores = {
+            crescimento: 3.0,
+            adulto_ativo: 1.6,
+            lactacao: 4.0,
+            adulto_sedentario: 1.2
+        };
+        const fator = fatores[caracteristicaSelect.value];
+        const rer = 70 * Math.pow(peso, 0.75);
+        const der = rer * fator;
+        resultadoEnergiaSpan.textContent = `${der.toFixed(2).replace('.', ',')} Kcal/dia`;
     }
+}
 
-    btnCalcular.addEventListener("click", controleCalculoParaVisitante);
+// GESTAÇÃO
+function inicializarCalculadoraGestacao() {
+    const inicioGestacaoInput = document.getElementById('inicio-gestacao');
+    const resultadoGestacaoDiv = document.getElementById('resultado-gestacao');
+    const btnsAnimalGestacao = document.querySelectorAll('.btn-animal-gestacao');
+    let animalGestacao = 'cao';
 
+    if (!inicioGestacaoInput) return;
 
-    atualizarSelects(); 
+    btnsAnimalGestacao.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btnsAnimalGestacao.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            animalGestacao = btn.getAttribute('data-animal');
+            calcularGestacao();
+        });
+    });
+
+    inicioGestacaoInput.addEventListener('change', calcularGestacao);
+
+    function calcularGestacao() {
+        const dataInicio = inicioGestacaoInput.value;
+        if (!dataInicio) return;
+        
+        const data = new Date(dataInicio + "T00:00:00");
+        const periodos = {
+            cao: { min: 62, max: 64 },
+            gato: { min: 60, max: 65 }
+        };
+        const gestacao = periodos[animalGestacao];
+        const dataMinima = new Date(data.getTime());
+        dataMinima.setDate(data.getDate() + gestacao.min);
+        const dataMaxima = new Date(data.getTime());
+        dataMaxima.setDate(data.getDate() + gestacao.max);
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        resultadoGestacaoDiv.innerHTML = `Mínima: ${dataMinima.toLocaleDateString('pt-BR', options)} <br> Máxima: ${dataMaxima.toLocaleDateString('pt-BR', options)}`;
+    }
 }

@@ -11,8 +11,8 @@ services:
 
     # Variáveis de ambiente para configurar o banco de dados
     environment:
-      POSTGRES_USER: root           # <-- Defina o usuário do seu banco local
-      POSTGRES_PASSWORD: 1toEEavpoMt4bmERkj2wnNWGrh8PXGal   # <-- Defina uma senha forte
+      POSTGRES_USER: devuser           # <-- Defina o usuário do seu banco local
+      POSTGRES_PASSWORD: docker    # <-- Defina uma senha forte 1toEEavpoMt4bmERkj2wnNWGrh8PXGal
       POSTGRES_DB: calculadora_vet_db    # <-- Defina o nome do banco
 
     # Mapeamento de portas: conecta a porta 5432 do seu PC à porta 5432 do contêiner

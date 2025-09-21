@@ -77,7 +77,8 @@ public class SecurityConfig {
             "/api/dosagem",
             "/api/toxicas",
             "/api/calculo/historico",
-            "/api/calculo/dose"
+            "/api/calculo/dose",
+            "/api/alimentos-toxicos"
         ).permitAll()
 
                 // Qualquer outra requisição que não está na lista acima, precisa de autenticação
