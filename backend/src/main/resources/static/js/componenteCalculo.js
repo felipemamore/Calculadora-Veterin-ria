@@ -191,24 +191,46 @@ function inicializarCalculadoraDose() {
 //NECESSIDADE ENERGÉTICA
 function inicializarCalculadoraEnergia() {
     const pesoEnergiaInput = document.getElementById('peso-energia');
-    const caracteristicaSelect = document.getElementById('caracteristica-animal');
-    const resultadoEnergiaSpan = document.getElementById('resultado-energia');
-    const btnsAnimalEnergia = document.querySelectorAll('.btn-animal-energia');
-    let animalEnergia = 'cao';
-
     if (!pesoEnergiaInput) return;
 
-    btnsAnimalEnergia.forEach(btn => {
-        btn.addEventListener('click', () => {
-            btnsAnimalEnergia.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            animalEnergia = btn.getAttribute('data-animal');
-            calcularEnergia();
-        });
-    });
+    const resultadoEnergiaSpan = document.getElementById('resultado-energia');
+    const btnsAnimalEnergia = document.querySelectorAll('.btn-animal-energia');
+    
+    const racasContainer = document.getElementById('racas-container-energia');
+    const caracteristicasCaoContainer = document.getElementById('caracteristicas-cao-container');
+    const caracteristicasGatoContainer = document.getElementById('caracteristicas-gato-container');
+    
+    const caracteristicaCaoSelect = document.getElementById('caracteristica-cao');
+    const caracteristicaGatoSelect = document.getElementById('caracteristica-gato');
+    
+    let animalEnergia = 'cao'; 
+    const fatores = {
+        cao: {
+            crescimento_cao: 3.0,
+            adulto_moderado_cao: 1.8,
+            lactacao_cao: 5.6,
+            adulto_sedentario_cao: 1.4
+        },
+        gato: {
+            crescimento_gato: 2.5,
+            adulto_ativo_gato: 1.4,
+            lactacao_gato: 3.0, 
+            adulto_sedentario_gato: 1.2
+        }
+    };
 
-    pesoEnergiaInput.addEventListener('input', calcularEnergia);
-    caracteristicaSelect.addEventListener('change', calcularEnergia);
+    function atualizarInterface() {
+        if (animalEnergia === 'cao') {
+            racasContainer.style.display = 'block';
+            caracteristicasCaoContainer.style.display = 'block';
+            caracteristicasGatoContainer.style.display = 'none';
+        } else { 
+            racasContainer.style.display = 'none';
+            caracteristicasCaoContainer.style.display = 'none';
+            caracteristicasGatoContainer.style.display = 'block';
+        }
+        calcularEnergia();
+    }
 
     function calcularEnergia() {
         const peso = parseFloat(pesoEnergiaInput.value);
@@ -216,17 +238,36 @@ function inicializarCalculadoraEnergia() {
             resultadoEnergiaSpan.textContent = "0,00 Kcal/dia";
             return;
         }
-        const fatores = {
-            crescimento: 3.0,
-            adulto_ativo: 1.6,
-            lactacao: 4.0,
-            adulto_sedentario: 1.2
-        };
-        const fator = fatores[caracteristicaSelect.value];
+
+        let fator;
+        if (animalEnergia === 'cao') {
+            const caracteristicaCao = caracteristicaCaoSelect.value;
+            fator = fatores.cao[caracteristicaCao];
+        } else {
+            const caracteristicaGato = caracteristicaGatoSelect.value;
+            fator = fatores.gato[caracteristicaGato];
+        }
+        
+        // Fórmula Padrão: RER = 70 * (peso ^ 0.75)
         const rer = 70 * Math.pow(peso, 0.75);
         const der = rer * fator;
+
         resultadoEnergiaSpan.textContent = `${der.toFixed(2).replace('.', ',')} Kcal/dia`;
     }
+
+    btnsAnimalEnergia.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btnsAnimalEnergia.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            animalEnergia = btn.getAttribute('data-animal');
+            atualizarInterface();
+        });
+    });
+
+    pesoEnergiaInput.addEventListener('input', calcularEnergia);
+    caracteristicaCaoSelect.addEventListener('change', calcularEnergia);
+    caracteristicaGatoSelect.addEventListener('change', calcularEnergia);
+    atualizarInterface();
 }
 
 // GESTAÇÃO

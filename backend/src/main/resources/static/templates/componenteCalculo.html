@@ -33,30 +33,61 @@
         </div>
 
         <div id="energia" class="tab-pane">
-            <div class="row justify-content-center componente-calculo-central">
-                <div class="col-md-8 col-lg-6">
-                    <div class="form-section">
-                        <div class="calculation-box">
-                            <label>Animal</label>
-                            <div class="btn-group"><button class="btn-animal-energia active" data-animal="cao">Cães</button><button class="btn-animal-energia" data-animal="gato">Gatos</button></div>
-                            <label for="peso-energia">Peso (kg)</label>
-                            <input type="number" id="peso-energia" placeholder="Informe o peso em kg" step="0.01">
-                            <label for="caracteristica-animal">Características</label>
-                            <select id="caracteristica-animal">
-                                <option value="crescimento">Filhotes em crescimento (até 30 semanas)</option>
-                                <option value="adulto_ativo">Adultos ativos e/ou gestantes</option>
-                                <option value="lactacao">Em lactação</option>
-                                <option value="adulto_sedentario">Adultos sedentários e/ou idosos</option>
+    <div class="row justify-content-center componente-calculo-central">
+        <div class="col-md-8 col-lg-6">
+            <div class="form-section">
+                <div class="calculation-box">
+                    <label>Animal</label>
+                    <div class="btn-group">
+                        <button class="btn-animal-energia active" data-animal="cao">Cães</button>
+                        <button class="btn-animal-energia" data-animal="gato">Gatos</button>
+                    </div>
+
+                    <label for="peso-energia">Peso (kg)</label>
+                    <input type="number" id="peso-energia" placeholder="Informe o peso em kg" step="0.01">
+
+                    <div id="racas-container-energia">
+                        <label for="racas-select-energia">Raças</label>
+                        <select id="racas-select-energia">
+                            <option value="todas">Todas</option>
+                            <option value="pequenas_medias">Pequenas e Médias</option>
                             </select>
-                            <div class="resultado-box mt-3">
-                                Necessidade Energética: <span id="resultado-energia">0,00 Kcal/dia</span>
-                            </div>
-                        </div>
+                    </div>
+
+                    <div id="caracteristicas-cao-container">
+                        <label for="caracteristica-cao">Características</label>
+                        <select id="caracteristica-cao">
+                            <option value="crescimento_cao">Em crescimento</option>
+                            <option value="adulto_moderado_cao">Adultos com atividade moderada</option>
+                            <option value="lactacao_cao">Em lactação</option>
+                            <option value="adulto_sedentario_cao">Adultos sedentários e/ou idosos</option>
+                        </select>
+                    </div>
+
+                    <div id="caracteristicas-gato-container" style="display: none;">
+                        <label for="caracteristica-gato">Características</label>
+                        <select id="caracteristica-gato">
+                            <option value="crescimento_gato">Filhotes em crescimento (até 30 semanas)</option>
+                            <option value="adulto_ativo_gato">Adultos ativos e/ou gestantes</option>
+                            <option value="lactacao_gato">Em lactação</option>
+                            <option value="adulto_sedentario_gato">Adultos sedentários e/ou idosos</option>
+                        </select>
+                    </div>
+
+                    <div class="resultado-box mt-3">
+                        Necessidade Energética: <span id="resultado-energia">0,00 Kcal/dia</span>
+                    </div>
+                    <div class="fonte-calculo mt-3">
+                        Fonte: 
+                        <a href="https://www.merckvetmanual.com/" target="_blank" rel="noopener noreferrer">
+                            Merck Veterinary Manual
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
         <div id="gestacao" class="tab-pane">
     <div class="row justify-content-center componente-calculo-central">
         <div class="col-md-8 col-lg-6">
