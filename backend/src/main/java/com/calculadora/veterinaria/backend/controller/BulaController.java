@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/bula") // <-- Mudamos a rota para /api/bula
+@RequestMapping("/api/bula")
 public class BulaController {
 
     @Autowired

@@ -29,6 +29,7 @@ function inicializarLayoutCompletoLogic() {
     const inputBuscarEspecie = document.getElementById("buscar-especie");
 
     if (inputBuscarEspecie && speciesList) {
+        inputBuscarEspecie.value = "";
         inputBuscarEspecie.addEventListener("input", function () {
             const filtro = this.value.toLowerCase();
             const speciesItems = speciesList.querySelectorAll("li");
@@ -46,11 +47,17 @@ function inicializarLayoutCompletoLogic() {
     }
 
     //LISTA DE MEDICAMENTOS (Sidebar Direita) -
-    const medicamentosList = document.querySelectorAll(".medication-list li");
-    const inputBuscarMedicamento = document.getElementById("buscar-medicamento");
-    let itemSelecionado = null;
+     const medicationSection = document.querySelector(".medication-section");
+    if (medicationSection) { 
+        const medicamentosList = medicationSection.querySelectorAll(".medication-list li");
+        const inputBuscarMedicamento = medicationSection.querySelector("#buscar-medicamento");
+        let itemSelecionado = null;
 
     if (inputBuscarMedicamento && medicamentosList.length > 0) {
+        inputBuscarMedicamento.value = "";
+        inputBuscarMedicamento.addEventListener('focus', function() {
+                this.value = "";
+            });
         inputBuscarMedicamento.addEventListener("input", function () {
             const filtro = this.value.toLowerCase();
             medicamentosList.forEach((li) => {
@@ -71,11 +78,13 @@ function inicializarLayoutCompletoLogic() {
                 li.classList.add('selecionado');
                 itemSelecionado = li; 
 
-                if (selectMedicamentos) {
-                    selectMedicamentos.value = medicamentoNome;
-                    selectMedicamentos.dispatchEvent(new Event('change'));
-                }
-            });
+                 if (selectMedicamentos) {
+                        selectMedicamentos.value = medicamentoNome;
+                        setTimeout(() => {
+                           selectMedicamentos.dispatchEvent(new Event('change'));
+                        }, 0);
+                    }
+                });
 
             // ABRIR A BULA 
             const linkBula = li.querySelector(".bula-link");
@@ -84,9 +93,10 @@ function inicializarLayoutCompletoLogic() {
                     event.stopPropagation();
                     const medicamentoNome = li.firstChild.textContent.trim();
                     window.location.href = `/bula.html?medicamento=${encodeURIComponent(medicamentoNome)}`;
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     }
 }
 

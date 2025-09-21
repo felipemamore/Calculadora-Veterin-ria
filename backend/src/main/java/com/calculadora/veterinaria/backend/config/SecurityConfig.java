@@ -34,7 +34,6 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
     
-    // Seus Beans existentes estão corretos
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

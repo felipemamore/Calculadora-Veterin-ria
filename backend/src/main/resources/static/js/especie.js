@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 alimentos.forEach(alimento => {
                     const li = document.createElement("li");
                     li.className = 'list-group-item';
-                    // Cria um título em negrito e a descrição abaixo
                     li.innerHTML = `<strong>${alimento.nome}</strong><br><small>${alimento.descricao}</small>`;
                     alimentosToxicosLista.appendChild(li);
                 });
@@ -71,8 +70,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             alimentosToxicosLista.innerHTML = "<li class='list-group-item'>Erro ao carregar dados.</li>";
         }
-
-        // --- Lógica do Histórico (chamada da função) ---
         carregarHistoricoFiltrado(especieNome);
 
     } catch (err) {

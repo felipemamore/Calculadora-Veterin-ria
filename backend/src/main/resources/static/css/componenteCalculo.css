@@ -1,4 +1,3 @@
-/* SEU CSS EXISTENTE VAI AQUI... */
 .componente-calculo-central {
   margin: 20px auto; 
  
@@ -34,7 +33,7 @@
 }
 
 .resultado-box {
-  background: rgba(208, 215, 230, 0.9); /* Deixa semitransparente */
+  background: rgba(208, 215, 230, 0.9);
   padding: 15px 20px;
   border-radius: 6px;
   color: #133b77;
@@ -55,19 +54,10 @@
     max-width: 90%; 
   }
 }
-/* ... etc ... */
-
-
-/* ================================== */
-/* ▼▼▼ CÓDIGO CSS ADICIONADO ▼▼▼ */
-/* ================================== */
-
-/* Estilos para o container principal das calculadoras */
 .calculadora-container {
     width: 100%;
 }
 
-/* Estilos para a navegação das abas */
 .calculadora-tabs {
     display: flex;
     border-bottom: 2px solid #dee2e6;
@@ -92,7 +82,6 @@
     color: #133b77;
 }
 
-/* Controla a visibilidade dos painéis de conteúdo */
 .tab-pane {
     display: none;
 }
@@ -101,7 +90,6 @@
     display: block;
 }
 
-/* Grupo de botões para seleção de animal */
 .btn-group {
     display: flex;
     margin-bottom: 15px;
@@ -133,13 +121,10 @@
     border-color: #133b77;
 }
 
-/*
- * ESTILO PARA A FONTE DE DADOS DAS CALCULADORAS
- */
 .fonte-calculo {
     text-align: center;
     font-size: 12px;
-    color: #6c757d; /* Cor de texto sutil */
+    color: #6c757d; 
 }
 
 .fonte-calculo a {

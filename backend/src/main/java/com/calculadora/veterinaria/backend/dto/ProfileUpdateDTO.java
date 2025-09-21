@@ -6,7 +6,7 @@ public class ProfileUpdateDTO {
     private String crmv;
     private String ocupacao;
     
-    // Getters e Setters...
+    // Getters e Setters
     public String getCpf() {
         return cpf;
     }

@@ -23,8 +23,8 @@ public class AlimentoToxicoController {
         
         List<AlimentoToxicoDTO> dtos = relacoes.stream()
             .map(relacao -> new AlimentoToxicoDTO(
-                relacao.getAlimento().getNome(), // Pega o nome do Alimento
-                relacao.getDescricao()          // Pega a descrição da Relação
+                relacao.getAlimento().getNome(), 
+                relacao.getDescricao()         
             ))
             .collect(Collectors.toList());
             

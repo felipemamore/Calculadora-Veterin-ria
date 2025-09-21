@@ -42,7 +42,7 @@ public class DataLoader implements CommandLineRunner {
     private void loadDataFromCsv() throws IOException, CsvValidationException {
         try (InputStream is = getClass().getResourceAsStream("/dados_dosagens.csv");
      CSVReader reader = new CSVReaderBuilder(new InputStreamReader(is, StandardCharsets.UTF_8))
-             .withSkipLines(1) // Pula a linha do cabeçalho
+             .withSkipLines(1)
              .build()) {
 
     String[] line;

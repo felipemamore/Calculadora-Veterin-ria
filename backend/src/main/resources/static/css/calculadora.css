@@ -261,3 +261,12 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+input#buscar-medicamento:-webkit-autofill,
+input#buscar-medicamento:-webkit-autofill:hover,
+input#buscar-medicamento:-webkit-autofill:focus,
+input#buscar-medicamento:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #999 !important;
+}

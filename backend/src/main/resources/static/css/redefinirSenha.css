@@ -72,5 +72,11 @@ input[type="email"] {
 }
 
 .links a {
-  font-s
+  font-size: 14px;
+  color: #133b77;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
 }

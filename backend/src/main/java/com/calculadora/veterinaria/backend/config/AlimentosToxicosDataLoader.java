@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class AlimentosToxicosDataLoader {
@@ -29,22 +27,16 @@ public class AlimentosToxicosDataLoader {
     @PostConstruct
     public void carregarDados() {
         if (alimentoToxicoEspecieRepository.count() > 0) return;
-
-
-        // Forma mais robusta de ler o arquivo do classpath
         try (InputStream is = getClass().getResourceAsStream("/alimentos-toxicos.csv")) {
             if (is == null) {
                 throw new IOException("Arquivo 'alimentos-toxicos.csv' não encontrado no classpath.");
             }
 
-            // Lê todo o conteúdo do arquivo para uma String
             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
             String csvContent = FileCopyUtils.copyToString(reader);
 
-            // Divide o conteúdo em linhas e processa cada uma
             String[] lines = csvContent.split("\\r?\\n");
             
-            // Pula a primeira linha (cabeçalho)
             for (int i = 1; i < lines.length; i++) {
                 String line = lines[i];
                 if (line.trim().isEmpty()) continue;

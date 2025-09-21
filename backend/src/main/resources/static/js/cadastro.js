@@ -1,10 +1,8 @@
 let API_BASE_URL;
 
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    // Se estiver rodando localmente, aponta para o backend local
     API_BASE_URL = 'http://localhost:8081'; 
 } else {
-    // Se não for local, usa a URL de produção
     API_BASE_URL = 'https://calculadora-veterinaria-api.fly.dev';
 }
 

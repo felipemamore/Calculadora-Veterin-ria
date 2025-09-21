@@ -2,7 +2,6 @@ package com.calculadora.veterinaria.backend.dto;
 
 import com.calculadora.veterinaria.backend.entity.Usuario;
 
-// Este DTO envia os dados para o frontend
 public class AccountDetailsDTO {
     private String nomeCompleto;
     private String email;
