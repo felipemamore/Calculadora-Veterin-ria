@@ -270,3 +270,11 @@ input#buscar-medicamento:-webkit-autofill:active {
     box-shadow: 0 0 0 30px white inset !important;
     -webkit-text-fill-color: #999 !important;
 }
+
+.fonte-bula {
+    font-size: 12px;
+    color: #6c757d;
+}
+.fonte-bula a {
+    color: #555;
+}

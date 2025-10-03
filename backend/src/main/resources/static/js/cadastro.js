@@ -7,7 +7,27 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    
+    const togglePasswordIcons = document.querySelectorAll(".toggle-password");
+
+    togglePasswordIcons.forEach(icon => {
+        icon.addEventListener("click", function () {
+
+            const passwordField = this.previousElementSibling;
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+              
+                this.classList.remove("fa-eye");
+                this.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                
+                this.classList.remove("fa-eye-slash");
+                this.classList.add("fa-eye");
+            }
+        });
+    });
+
     const form = document.querySelector(".cadastro-form");
     if (form) {
         form.addEventListener("submit", async function (e) {
@@ -16,33 +36,33 @@ document.addEventListener("DOMContentLoaded", function() {
             const nomeCompleto = document.getElementById("nomeCompleto").value;
             const email = document.getElementById("email").value;
             const senha = document.getElementById("senha").value;
+            const confirmarSenha = document.getElementById("confirmarSenha").value;
 
-            const payload = {
-              nomeCompleto: nomeCompleto,
-              email: email,
-              senha: senha
-            };
+            if (senha !== confirmarSenha) {
+                alert("As senhas não correspondem. Por favor, tente novamente.");
+                return;
+            }
+
+            const payload = { nomeCompleto, email, senha };
 
             try {
-              const response = await fetch(`${API_BASE_URL}/api/users`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-              });
+                const response = await fetch(`${API_BASE_URL}/api/users`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
 
-              if (response.ok) {
-                alert("Cadastro realizado com sucesso! Faça o login para continuar.");
-                window.location.href = "/pagina-login";
-              } else {
-                const error = await response.text();
-                alert("Erro ao cadastrar: " + error);
-              }
+                if (response.ok) {
+                    alert("Cadastro realizado com sucesso! Faça o login para continuar.");
+                    window.location.href = "/pagina-login";
+                } else {
+                    const error = await response.text();
+                    alert("Erro ao cadastrar: " + error);
+                }
             } catch (error) {
-              console.error("Erro inesperado:", error);
-              alert("Erro inesperado ao tentar se cadastrar.");
+                console.error("Erro inesperado:", error);
+                alert("Erro inesperado ao tentar se cadastrar.");
             }
         });
-    } else {
-        console.error("Elemento .cadastro-form não foi encontrado na página.");
     }
 });

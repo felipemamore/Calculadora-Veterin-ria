@@ -70,9 +70,32 @@
                 </ul>
         </div>
 
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="/js/config.js"></script>
-    <script src="/js/calculadora.js"></script>
     <script src="/js/componenteCalculo.js"></script>
+    <script src="/js/calculadora.js"></script>
+
+    <div class="modal fade" id="bulaModal" tabindex="-1" aria-labelledby="bulaModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bulaModalLabel">Bula do Medicamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="bulaModalBody">
+        <p>Carregando...</p>
+      </div>
+      <div class="modal-footer justify-content-between"> <p class="mb-0 fonte-bula">
+            Fonte: <a href="https://vetsmart.com.br/" target="_blank">Vet Smart</a>
+        </p>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

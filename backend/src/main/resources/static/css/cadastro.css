@@ -1,64 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
-    font-family: Georgia, serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
-    background-color: #ffffff;
+    background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-  }
-  
-  .cadastro-container {
-    background-color: #e4eaf3;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+ 
+.cadastro-container {
+    background-color: #ffffff;
     padding: 40px;
-    border-radius: 10px;
-    width: 500px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px; 
+    box-shadow: 0 8px 32px rgba(28, 57, 104, 0.15);
     text-align: center;
-  }
-  
-  .cadastro-container h2 {
+    border: 1px solid #e7eaf3;
+}
+ 
+.cadastro-container h2 {
     font-size: 28px;
+    font-weight: 700;
     margin-bottom: 30px;
-    color: black;
-  }
-  
-  .cadastro-form {
+    color: #133b77;
+}
+ 
+.cadastro-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; 
     text-align: left;
-  }
-  
-  .cadastro-form label {
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+}
+ 
+.cadastro-form label {
     font-size: 16px;
-    color: black;
-  }
-  
-  .required {
-    color: red;
+    color: #333;
+    font-weight: 600;
+}
+ 
+.required {
+    color: #d9534f;
     margin-left: 4px;
-  }
-  
-  .cadastro-form input {
-    padding: 10px;
+}
+ 
+.cadastro-form input {
+    width: 100%; 
+    padding: 12px 15px;
     font-size: 16px;
-    border: 1px solid #999;
-    border-radius: 5px;
-  }
-  
-  .cadastrar-btn {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
+}
+
+.cadastro-form input:focus {
+    outline: none;
+    border-color: #133b77;
+    box-shadow: 0 0 0 3px rgba(19, 59, 119, 0.1);
+}
+ 
+.cadastrar-btn {
     margin-top: 20px;
     background-color: #133b77;
     color: white;
     font-size: 18px;
     font-weight: bold;
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-  }
-  
-  .cadastrar-btn:hover {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+ 
+.cadastrar-btn:hover {
     background-color: #0f2e5e;
-  }
+    transform: translateY(-2px);
+}
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}

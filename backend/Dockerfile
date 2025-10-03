@@ -32,4 +32,4 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Comando para iniciar a aplicação quando o contêiner for executado
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx800m", "-jar", "app.jar"]

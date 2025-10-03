@@ -92,11 +92,62 @@ function inicializarLayoutCompletoLogic() {
                 linkBula.addEventListener("click", function(event) {
                     event.stopPropagation();
                     const medicamentoNome = li.firstChild.textContent.trim();
-                    window.location.href = `/bula.html?medicamento=${encodeURIComponent(medicamentoNome)}`;
+                    abrirModalBula(medicamentoNome);
                     });
                 }
             });
         }
+    }
+}
+
+async function abrirModalBula(nomeMedicamento) {
+    const bulaModalEl = document.getElementById('bulaModal');
+    if (!bulaModalEl) return;
+
+    const bulaModal = new bootstrap.Modal(bulaModalEl);
+    const modalTitle = document.getElementById('bulaModalLabel');
+    const modalBody = document.getElementById('bulaModalBody');
+
+    modalTitle.textContent = `Bula: ${nomeMedicamento}`;
+    modalBody.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"></div></div>';
+    bulaModal.show();
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/bula?nome=${encodeURIComponent(nomeMedicamento)}`);
+        if (!response.ok) {
+            throw new Error('Não foi possível carregar as informações da bula.');
+        }
+        const bulaData = await response.json();
+
+        modalBody.innerHTML = `
+    <h6>Indicações</h6>
+    <p>${bulaData.indicacoes || 'Não informado.'}</p>
+    <hr>
+    <h6>Contraindicações</h6>
+    <p>${bulaData.contraIndicacoes || 'Não informado.'}</p>
+    <hr>
+    <h6>Efeitos Adversos</h6>
+    <p>${bulaData.efeitosAdversos || 'Não informado.'}</p>
+    <hr>
+    <h6>Reprodução</h6>
+    <p>${bulaData.reproducao || 'Não informado.'}</p>
+    <hr>
+    <h6>Superdosagem</h6>
+    <p>${bulaData.superdosagem || 'Não informado.'}</p>
+    <hr>
+    <h6>Farmacodinâmica</h6>
+    <p>${bulaData.farmacodinamica || 'Não informado.'}</p>
+    <hr>
+    <h6>Farmacocinética</h6>
+    <p>${bulaData.farmacocinetica || 'Não informado.'}</p>
+    <hr>
+    <h6>Monitoramento</h6>
+    <p>${bulaData.monitoramento || 'Não informado.'}</p>
+`;
+
+    } catch (error) {
+        console.error("Erro ao buscar bula:", error);
+        modalBody.innerHTML = `<p class="text-danger">Ocorreu um erro ao carregar as informações. Tente novamente.</p>`;
     }
 }
 

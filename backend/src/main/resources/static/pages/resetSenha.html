@@ -1,24 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nova Senha</title>
-  <link rel="stylesheet" href="/css/redefinirSenha.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Nova Senha</title>
+    <link rel="stylesheet" href="/css/redefinirSenha.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
-  <div class="login-container">
-    <h2>NOVA SENHA</h2>
-    <form id="new-password-form">
-      <label for="senha">Nova Senha<span class="required">*</span></label>
-      <input type="password" id="senha" name="senha" required>
+    <div class="reset-container">
+        <h2>Nova Senha</h2>
+        <p class="info-text">Crie uma senha forte e segura.</p>
+        
+        <form id="new-password-form">
+            <div class="form-group">
+                <label for="senha">Nova Senha<span class="required">*</span></label>
+                <div class="password-wrapper">
+                    <input type="password" id="senha" name="senha" required>
+                    <i class="fa-solid fa-eye toggle-password"></i>
+                </div>
+            </div>
 
-      <label for="confirmarSenha">Confirmar Nova Senha<span class="required">*</span></label>
-      <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+            <div class="form-group">
+                <label for="confirmarSenha">Confirmar Nova Senha<span class="required">*</span></label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+                    <i class="fa-solid fa-eye toggle-password"></i>
+                </div>
+            </div>
 
-      <button type="submit" class="entrar-btn">REDEFINIR SENHA</button>
-    </form>
-  </div>
-  <script src="/js/resetSenha.js"></script>
+            <button type="submit" class="submit-btn">REDEFINIR SENHA</button>
+        </form>
+    </div>
+    
+    <script src="/js/resetSenha.js"></script>
 </body>
 </html>
