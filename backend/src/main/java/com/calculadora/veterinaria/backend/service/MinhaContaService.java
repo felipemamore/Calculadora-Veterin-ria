@@ -39,6 +39,7 @@ public class MinhaContaService {
         usuario.setRg(profileUpdateDto.getRg());
         usuario.setCrmv(profileUpdateDto.getCrmv());
         usuario.setOcupacao(profileUpdateDto.getOcupacao());
+        usuario.setAvatarUrl(profileUpdateDto.getAvatarUrl());
         usuarioRepository.save(usuario);
     }
 }

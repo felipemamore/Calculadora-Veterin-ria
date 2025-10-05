@@ -5,6 +5,7 @@ public class ProfileUpdateDTO {
     private String rg;
     private String crmv;
     private String ocupacao;
+    private String avatarUrl;
     
     // Getters e Setters
     public String getCpf() {
@@ -30,5 +31,12 @@ public class ProfileUpdateDTO {
     }
     public void setOcupacao(String ocupacao) {
         this.ocupacao = ocupacao;
+    }
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

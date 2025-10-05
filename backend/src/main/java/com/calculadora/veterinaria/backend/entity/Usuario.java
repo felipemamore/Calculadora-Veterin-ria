@@ -22,6 +22,7 @@ public class Usuario implements UserDetails {
     private String email;
     private String crmv;
     private String ocupacao;
+    private String avatarUrl;
 
     @NotBlank
     private String senha;
@@ -50,6 +51,8 @@ public class Usuario implements UserDetails {
 
     public String getOcupacao() { return ocupacao; }
     public void setOcupacao(String ocupacao) { this.ocupacao = ocupacao; }
+    public String getAvatarUrl() { return avatarUrl; }
+    public void setAvatarUrl(String avatarUrl) {this.avatarUrl = avatarUrl; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

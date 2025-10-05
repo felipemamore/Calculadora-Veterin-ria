@@ -9,6 +9,7 @@ public class AccountDetailsDTO {
     private String rg;
     private String crmv;
     private String ocupacao;
+    private String avatarUrl;
 
     public AccountDetailsDTO(Usuario usuario) {
         this.nomeCompleto = usuario.getNomeCompleto();
@@ -17,6 +18,7 @@ public class AccountDetailsDTO {
         this.rg = usuario.getRg();
         this.crmv = usuario.getCrmv();
         this.ocupacao = usuario.getOcupacao();
+        this.avatarUrl = usuario.getAvatarUrl();
     }
     
     // Getters
@@ -26,4 +28,5 @@ public class AccountDetailsDTO {
     public String getRg() { return rg; }
     public String getCrmv() { return crmv; }
     public String getOcupacao() { return ocupacao; }
+    public String getAvatarUrl(){return avatarUrl;}
 }

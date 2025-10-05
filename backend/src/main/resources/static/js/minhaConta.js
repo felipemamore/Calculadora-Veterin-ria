@@ -1,5 +1,3 @@
-let API_BASE_URL;
-
 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     API_BASE_URL = 'http://localhost:8081'; 
 } else {
@@ -21,6 +19,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnSalvar: document.getElementById("btn-salvar"),
         btnCancelar: document.getElementById("btn-cancelar"),
         btnVoltar: document.getElementById("btn-voltar"),
+        profileAvatar: document.getElementById('profile-avatar'),
+        btnTrocarAvatar: document.getElementById('btn-trocar-avatar'),
         form: document.getElementById("profile-form")
     };
 
@@ -43,9 +43,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         elements.btnVoltar.classList.toggle('hidden', isEditing);
         elements.btnSalvar.classList.toggle('hidden', !isEditing);
         elements.btnCancelar.classList.toggle('hidden', !isEditing);
+        elements.btnTrocarAvatar.classList.toggle('hidden', !isEditing);
     }
 
+     const avatarList = [
+        'panda.png', 'macaco.png', 'porco.png', 'coelho.png', 'sapo.png',
+        'cachorro.png', 'vaca.png', 'elefante.png', 'raposa.png'
+    ];
+    const avatarPath = '/images/avatars/'; // Confirme se este é o caminho correto
+
+    let selectedAvatarUrl = '';
     let currentUserData = {};
+
+    // Função para abrir o modal de avatares
+    function openAvatarModal() {
+        const avatarGrid = document.querySelector("#avatarModal .avatar-grid");
+        avatarGrid.innerHTML = ''; // Limpa a grade
+
+        avatarList.forEach(avatarFile => {
+            const fullPath = avatarPath + avatarFile;
+            const img = document.createElement('img');
+            img.src = fullPath;
+            img.classList.add('avatar-option');
+            if (fullPath === selectedAvatarUrl) {
+                img.classList.add('selected');
+            }
+            img.onclick = () => {
+                selectedAvatarUrl = fullPath;
+                elements.profileAvatar.src = fullPath;
+                bootstrap.Modal.getInstance(document.getElementById('avatarModal')).hide();
+            };
+            avatarGrid.appendChild(img);
+        });
+
+        new bootstrap.Modal(document.getElementById('avatarModal')).show();
+    }
     try {
         const response = await fetch(`${API_BASE_URL}/api/conta-do-usuario`, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -69,6 +101,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         elements.crmvDisplay.textContent = currentUserData.crmv || 'Não informado';
         elements.crmvInput.value = currentUserData.crmv || '';
+
+        selectedAvatarUrl = currentUserData.avatarUrl || avatarPath + 'default.png';
+        elements.profileAvatar.src = selectedAvatarUrl;
         
     } catch (error) {
         console.error("Erro ao carregar dados da conta:", error);
@@ -84,9 +119,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         elements.rgInput.value = currentUserData.rg || '';
         elements.ocupacaoInput.value = currentUserData.ocupacao || '';
         elements.crmvInput.value = currentUserData.crmv || '';
+        elements.profileAvatar.src = currentUserData.avatarUrl || avatarPath + 'default.png';
+        selectedAvatarUrl = currentUserData.avatarUrl || avatarPath + 'default.png';
         toggleEditMode(false);
     });
-    
+    elements.btnTrocarAvatar.addEventListener('click', openAvatarModal);
     elements.form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -95,6 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             rg: elements.rgInput.value,
             ocupacao: elements.ocupacaoInput.value,
             crmv: elements.crmvInput.value,
+            avatarUrl: selectedAvatarUrl
         };
 
         try {
