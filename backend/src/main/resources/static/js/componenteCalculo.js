@@ -23,103 +23,112 @@ function inicializarComponenteCalculo() {
 function inicializarCalculadoraDose() {
     const selectEspecies = document.getElementById("especies-select");
     const selectMedicamentos = document.getElementById("medicamentos-select");
+    const selectApresentacao = document.getElementById("apresentacao-select");
     const pesoInput = document.getElementById("peso");
     const doseInput = document.getElementById("dose-recomendada");
     const concentracaoInput = document.getElementById("concentracao");
     const resultadoBox = document.querySelector("#dose .resultado-box");
     const resultadoValor = document.getElementById("resultado-valor");
     const btnCalcular = document.querySelector("#dose .calculate-btn");
-
-    if (!selectEspecies) {
-        console.warn("Componente da calculadora de dose não encontrado.");
-        return;
-    }
     
-    async function atualizarSelects() {
+    if (!selectEspecies) return;
+
+    function tratarNaoSeAplica() {
+        const mensagem = "Não se aplica a esta espécie";
+        selectApresentacao.innerHTML = `<option value="">${mensagem}</option>`;
+        doseInput.value = mensagem;
+        concentracaoInput.value = mensagem;
+        doseInput.disabled = true;
+        concentracaoInput.disabled = true;
+        btnCalcular.disabled = true;
+    }
+
+    async function carregarListasIniciais() {
         try {
-            const especiesRes = await fetch(`${API_BASE_URL}/api/especie/todos`);
-            if (!especiesRes.ok) throw new Error(`Erro HTTP ao buscar espécies: ${especiesRes.status}`);
+            const [especiesRes, medicamentosRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/api/especie/todos`),
+                fetch(`${API_BASE_URL}/api/medicamentos/todos`)
+            ]);
+            if (!especiesRes.ok || !medicamentosRes.ok) throw new Error("Falha ao carregar listas iniciais.");
+
             const especies = await especiesRes.json();
-            
             selectEspecies.innerHTML = '<option value="">Selecione</option>';
-            especies.forEach((e) => {
+            especies.forEach(e => {
                 const opt = document.createElement("option");
-                opt.value = e.nome;
+                opt.value = e.id;
                 opt.textContent = e.nome;
                 selectEspecies.appendChild(opt);
             });
 
-            const medicamentosRes = await fetch(`${API_BASE_URL}/api/medicamentos/todos`);
-            if (!medicamentosRes.ok) throw new Error(`Erro HTTP ao buscar medicamentos: ${medicamentosRes.status}`);
             const medicamentos = await medicamentosRes.json();
-            
             selectMedicamentos.innerHTML = '<option value="">Selecione</option>';
-            medicamentos.forEach((m) => {
+            medicamentos.forEach(m => {
                 const opt = document.createElement("option");
-                opt.value = m.nome;
+                opt.value = m.id;
                 opt.textContent = m.nome;
                 selectMedicamentos.appendChild(opt);
             });
         } catch (err) {
-            console.error("Erro ao carregar listas de espécies ou medicamentos:", err);
-            alert("Não foi possível carregar as listas de espécies ou medicamentos. Verifique sua conexão ou se os endpoints da API estão corretos.");
+            console.error("Erro ao carregar listas:", err);
+            alert("Não foi possível carregar as listas de espécies ou medicamentos.");
         }
     }
 
-    async function atualizarDosagem() {
-        const medicamentoNome = selectMedicamentos.value.trim();
-        const especieNome = selectEspecies.value.trim();
+    async function buscarApresentacoes() {
+        const especieId = selectEspecies.value;
+        const medicamentoId = selectMedicamentos.value;
+
+        selectApresentacao.innerHTML = '<option value="">Selecione</option>';
+        selectApresentacao.disabled = true;
+        doseInput.value = "";
+        concentracaoInput.value = "";
+        doseInput.disabled = false;
+        concentracaoInput.disabled = false;
+        btnCalcular.disabled = false;
         resultadoBox.style.display = 'none';
 
-        if (!medicamentoNome || !especieNome) {
-            doseInput.value = "";
-            concentracaoInput.value = "";
-            doseInput.disabled = false;
-            concentracaoInput.disabled = false;
-            btnCalcular.disabled = false;
-            return;
-        }
+        if (!especieId || !medicamentoId) return;
 
         try {
-            const [medicamentoRes, especieRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-                fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
-            ]);
-            
-            if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
-            if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
-            
-            const medicamento = await medicamentoRes.json();
-            const especie = await especieRes.json();
-            
-            const dosagemRes = await fetch(
-                `${API_BASE_URL}/api/dosagem?medicamentoId=${medicamento.id}&especieId=${especie.id}`
-            );
+            const res = await fetch(`${API_BASE_URL}/api/dosagem/apresentacoes?medicamentoId=${medicamentoId}&especieId=${especieId}`);
+            if (!res.ok) throw new Error("Nenhuma apresentação encontrada.");
 
-            if (dosagemRes.status === 404) {
-                const mensagem = "Não se aplica a esta espécie";
-                doseInput.value = mensagem;
-                concentracaoInput.value = mensagem;
-                doseInput.disabled = true;
-                concentracaoInput.disabled = true;
-                btnCalcular.disabled = true;
-            } else if (!dosagemRes.ok) {
-                throw new Error(`Erro na API de dosagem: ${dosagemRes.status}`);
+            const apresentacoes = await res.json();
+            if (apresentacoes.length > 0) {
+                apresentacoes.forEach(ap => {
+                    const opt = document.createElement("option");
+                    opt.value = ap;
+                    opt.textContent = ap;
+                    selectApresentacao.appendChild(opt);
+                });
+                selectApresentacao.disabled = false;
             } else {
-                const dosagem = await dosagemRes.json();
-                doseInput.disabled = false;
-                concentracaoInput.disabled = false;
-                btnCalcular.disabled = false;
-                doseInput.value = dosagem.doseRecomendadaMgPorKg.toFixed(2).replace('.', ',');
-                concentracaoInput.value = dosagem.concentracaoMgPorMl.toFixed(2).replace('.', ',');
+                tratarNaoSeAplica();
             }
         } catch (err) {
-            console.error("Erro ao obter dosagem ou concentração:", err);
-            doseInput.value = "";
-            concentracaoInput.value = "";
-            doseInput.disabled = false;
-            concentracaoInput.disabled = false;
-            btnCalcular.disabled = false;
+            console.error(err);
+            tratarNaoSeAplica();
+        }
+    }
+
+    async function buscarDosagemFinal() {
+        const especieId = selectEspecies.value;
+        const medicamentoId = selectMedicamentos.value;
+        const apresentacao = selectApresentacao.value;
+
+        if (!especieId || !medicamentoId || !apresentacao) return;
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/dosagem?medicamentoId=${medicamentoId}&especieId=${especieId}&apresentacao=${encodeURIComponent(apresentacao)}`);
+            if (!res.ok) throw new Error("Dosagem específica não encontrada.");
+
+            const dosagem = await res.json();
+            doseInput.value = dosagem.doseRecomendadaMgPorKg.toFixed(2).replace('.', ',');
+            concentracaoInput.value = dosagem.concentracaoMgPorMl.toFixed(2).replace('.', ',');
+        } catch (err) {
+            console.error(err);
+            doseInput.value = "Erro";
+            concentracaoInput.value = "Erro";
         }
     }
 
@@ -128,31 +137,22 @@ function inicializarCalculadoraDose() {
         const peso = parseFloat(pesoStr);
         if (isNaN(peso) || peso <= 0) return alert("Informe um peso válido maior que zero.");
 
-        const medicamentoNome = selectMedicamentos.value;
-        const especieNome = selectEspecies.value;
-        if (!medicamentoNome) return alert("Selecione um medicamento.");
-        if (!especieNome) return alert("Selecione uma espécie.");
+        const medicamentoId = selectMedicamentos.value;
+        const especieId = selectEspecies.value;
+        if (!medicamentoId) return alert("Selecione um medicamento.");
+        if (!especieId) return alert("Selecione uma espécie.");
 
         const doseRecomendada = parseFloat(doseInput.value.replace(",", "."));
         const concentracaoMedicamento = parseFloat(concentracaoInput.value.replace(",", "."));
-        if (isNaN(doseRecomendada) || doseRecomendada < 0) return alert("Dose recomendada inválida. Selecione uma espécie e medicamento válidos.");
-        if (isNaN(concentracaoMedicamento) || concentracaoMedicamento <= 0) return alert("Concentração do medicamento inválida. Selecione uma espécie e medicamento válidos.");
+        if (isNaN(doseRecomendada) || isNaN(concentracaoMedicamento) || concentracaoMedicamento <= 0) {
+            return alert("Dados de dosagem inválidos. Verifique as seleções.");
+        }
         
         try {
-            const [medicamentoRes, especieRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/api/medicamentos?nome=${encodeURIComponent(medicamentoNome)}`),
-                fetch(`${API_BASE_URL}/api/especie?nome=${encodeURIComponent(especieNome)}`),
-            ]);
-            if (!medicamentoRes.ok) throw new Error(`Medicamento não encontrado: ${medicamentoRes.status}`);
-            if (!especieRes.ok) throw new Error(`Espécie não encontrada: ${especieRes.status}`);
-            
-            const medicamento = await medicamentoRes.json();
-            const especie = await especieRes.json();
-
             const body = {
                 pesoKg: peso,
-                medicamentoId: medicamento.id,
-                especieId: especie.id,
+                medicamentoId: medicamentoId,
+                especieId: especieId,    
             };
             
             const token = localStorage.getItem('jwtToken'); 
@@ -181,11 +181,12 @@ function inicializarCalculadoraDose() {
         }
     }
 
-    selectEspecies.addEventListener("change", atualizarDosagem);
-    selectMedicamentos.addEventListener("change", atualizarDosagem);
+    selectEspecies.addEventListener("change", buscarApresentacoes);
+    selectMedicamentos.addEventListener("change", buscarApresentacoes);
+    selectApresentacao.addEventListener("change", buscarDosagemFinal);
     btnCalcular.addEventListener("click", calcularDose);
 
-    atualizarSelects();
+    carregarListasIniciais();
 }
 
 //NECESSIDADE ENERGÉTICA

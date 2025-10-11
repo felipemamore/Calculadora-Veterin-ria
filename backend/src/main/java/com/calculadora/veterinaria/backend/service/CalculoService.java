@@ -48,8 +48,11 @@ public class CalculoService {
         Especie especie = especieRepository.findById(request.getEspecieId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Espécie não encontrada"));
 
-        Dosagem dosagem = dosagemRepository.findByMedicamentoIdAndEspecieId(medicamento.getId(), especie.getId())
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dosagem não encontrada para este medicamento e espécie"));
+        List<Dosagem> dosagens = dosagemRepository.findByMedicamentoIdAndEspecieId(medicamento.getId(), especie.getId());
+        if (dosagens.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dosagem não encontrada para este medicamento e espécie");
+        }
+        Dosagem dosagem = dosagens.get(0); 
 
         Usuario usuario = null;
         var authentication = SecurityContextHolder.getContext().getAuthentication();

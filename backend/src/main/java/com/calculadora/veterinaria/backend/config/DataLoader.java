@@ -1,5 +1,4 @@
 package com.calculadora.veterinaria.backend.config;
-
 import com.calculadora.veterinaria.backend.entity.Dosagem;
 import com.calculadora.veterinaria.backend.entity.Especie;
 import com.calculadora.veterinaria.backend.entity.Medicamento;
@@ -8,7 +7,6 @@ import com.calculadora.veterinaria.backend.repository.EspecieRepository;
 import com.calculadora.veterinaria.backend.repository.MedicamentoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
@@ -49,6 +47,7 @@ public class DataLoader implements CommandLineRunner {
     while ((line = reader.readNext()) != null) {
         String doseString = line[2];
         String concentracaoString = line[3];
+        String apresentacao = line[4];
         if (doseString.equals("-") || concentracaoString.equals("-")) {
             continue;
         }
@@ -78,6 +77,7 @@ public class DataLoader implements CommandLineRunner {
         dosagem.setEspecie(especie);
         dosagem.setDoseRecomendadaMgPorKg(dose);
         dosagem.setConcentracaoMgPorMl(concentracao);
+        dosagem.setApresentacao(apresentacao.trim());
         dosagemRepository.save(dosagem);
     }
 }

@@ -154,9 +154,16 @@ body {
     object-fit: cover;
 }
 .btn-trocar-avatar {
-    margin-top: 10px;
-    font-size: 14px;
-    /* Estilize como preferir */
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 20px;;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    margin-top: 20px;
 }
 
 /* Estilos para a galeria de avatares no modal */

@@ -4,7 +4,7 @@ Repositório utilizado para registrar a Calculadora Veterinária, tarefa do Proj
 Ligar e desligar machine: 
 
 fly scale count 1 -a calculadora-veterinaria-api
-fly machine start 2865666b999768
+fly machine start 2865666b999768 -a calculadora-vet-db
 
 fly scale count 0 -a calculadora-veterinaria-api
 fly machine stop 2865666b999768 ou 

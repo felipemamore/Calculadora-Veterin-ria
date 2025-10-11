@@ -19,11 +19,11 @@ public class Dosagem {
     @JoinColumn(name = "especie_id", nullable = false)
     @JsonBackReference
     private Especie especie;
-
-
-
     private Double doseRecomendadaMgPorKg;
     private Double concentracaoMgPorMl;
+
+    @Column(nullable = false)
+    private String apresentacao;
 
     // Getters e setters
     public Long getId() {
@@ -65,5 +65,12 @@ public class Dosagem {
 
     public void setConcentracaoMgPorMl(Double concentracaoMgPorMl) {
         this.concentracaoMgPorMl = concentracaoMgPorMl;
+    }
+    public String getApresentacao() {
+        return apresentacao;
+    }
+
+    public void setApresentacao(String apresentacao) {
+        this.apresentacao = apresentacao;
     }
 }

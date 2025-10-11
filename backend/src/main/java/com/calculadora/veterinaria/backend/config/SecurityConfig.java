@@ -59,7 +59,6 @@ public class SecurityConfig {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             )
             .authorizeHttpRequests(auth -> auth
-                // **LISTA DE PERMISSÕES PÚBLICAS REVISADA E COMPLETA**
                 .requestMatchers(
                     // Recursos estáticos e páginas
             "/css/**", "/js/**", "/images/**", "/pages/**", "/templates/**", "/favicon.ico",
@@ -73,11 +72,12 @@ public class SecurityConfig {
             "/api/senha/**",
             "/api/medicamentos/**",
             "/api/especie/**",
-            "/api/dosagem",
+            "/api/dosagem/**",
             "/api/toxicas",
             "/api/calculo/historico",
             "/api/calculo/dose",
-            "/api/alimentos-toxicos"
+            "/api/alimentos-toxicos",
+            "/api/ai/**"
         ).permitAll()
 
                 // Qualquer outra requisição que não está na lista acima, precisa de autenticação
