@@ -113,9 +113,9 @@
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
-    </dependencies>
 
-    <build>
+    </dependencies>
+     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

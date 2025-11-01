@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 # Arquivo de segredos
-keys.env
+src/**/application-secrets.properties
 
 ### STS ###
 .apt_generated
