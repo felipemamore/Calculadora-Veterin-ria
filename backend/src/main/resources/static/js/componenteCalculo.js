@@ -181,10 +181,38 @@ function inicializarCalculadoraDose() {
         }
     }
 
+    let calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
+
+    // Função que verifica se o usuário está logado
+    function usuarioNaoLogado() {
+        return !localStorage.getItem("jwtToken");
+    }
+
+    // Função que controla o clique no botão "Calcular"
+    function controleCalculoParaVisitante(event) {
+        event.preventDefault(); 
+
+        if (usuarioNaoLogado()) {
+            
+            if (calculosFeitos >= 5) { 
+                alert("Você atingiu o limite de 5 cálculos como visitante. Por favor, faça login ou cadastre-se para continuar.");
+                window.location.href = "/pagina-login"; 
+                return; 
+            }
+            
+            calculosFeitos++;
+            localStorage.setItem("calculos-visitante", calculosFeitos.toString());
+        }
+
+        calcularDose();
+    }
+
+
+
     selectEspecies.addEventListener("change", buscarApresentacoes);
     selectMedicamentos.addEventListener("change", buscarApresentacoes);
     selectApresentacao.addEventListener("change", buscarDosagemFinal);
-    btnCalcular.addEventListener("click", calcularDose);
+    btnCalcular.addEventListener("click", controleCalculoParaVisitante);
 
     carregarListasIniciais();
 }

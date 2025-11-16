@@ -11,15 +11,50 @@ services:
 
     # Variáveis de ambiente para configurar o banco de dados
     environment:
-      POSTGRES_USER: devuser           # <-- Defina o usuário do seu banco local
-      POSTGRES_PASSWORD: docker    # <-- Defina uma senha forte 1toEEavpoMt4bmERkj2wnNWGrh8PXGal
-      POSTGRES_DB: calculadora_vet_db    # <-- Defina o nome do banco
-
+      POSTGRES_USER: devuser           # <-- usuário
+      POSTGRES_PASSWORD: docker    # <-- senha 1toEEavpoMt4bmERkj2wnNWGrh8PXGal
+      POSTGRES_DB: calculadora_vet_db    # nome do banco
     # Mapeamento de portas: conecta a porta 5432 do seu PC à porta 5432 do contêiner
     ports:
       - "5432:5432"
 
     # Persistência de dados: mapeia uma pasta local para guardar os dados do banco
-    # Assim, mesmo que você pare o contêiner, os dados não são perdidos.
+    # Assim, mesmo que pare o contêiner, os dados não são perdidos.
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+    # --------------------------------------------------
+  # 2. O novo serviço da sua aplicação Spring
+  # --------------------------------------------------
+  app-spring:
+    # 'build: .' informa ao Compose para usar o Dockerfile
+    # que está nesta mesma pasta para construir a imagem.
+    build: .
+    
+    container_name: app-spring-boot
+    restart: unless-stopped
+    
+    # 'depends_on' garante que o postgres-db inicie ANTES da sua aplicação.
+    # Isso evita que sua aplicação falhe ao tentar se conectar
+    # a um banco que ainda não está pronto.
+    depends_on:
+      - postgres-db
+
+    # Mapeia a porta 8080 do host para a 8080 do contêiner
+    ports:
+      - "8080:8080"
+
+    # Variáveis de ambiente que serão injetadas na sua aplicação Spring.
+    # Elas configuram a conexão com o banco de dados.
+    environment:
+      # O 'host' é 'postgres-db', o nome do serviço do banco acima.
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/calculadora_vet_db
+      - SPRING_DATASOURCE_USERNAME=devuser
+      - SPRING_DATASOURCE_PASSWORD=docker
+      # (Opcional, mas recomendado) Garante que o schema
+      # seja criado ou atualizado quando a aplicação subir.
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+# Define o volume de dados persistentes para o Postgres
+volumes:
+  postgres-data: {}
