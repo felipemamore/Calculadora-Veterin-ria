@@ -77,9 +77,7 @@ public class RecuperacaoSenhaService {
         tokenRepository.save(resetToken);
 
         String link = appBaseUrl + "/pages/resetSenha.html?token=" + token;
-        String mensagem = "Você solicitou a redefinição de senha. Clique no link abaixo para continuar:\n" + link;
-
-        emailService.enviarEmail(usuario.getEmail(), "Recuperação de Senha", mensagem);
+        emailService.enviarEmail(usuario.getEmail(), "Recuperação de Senha", link);
 
         return true;
     }

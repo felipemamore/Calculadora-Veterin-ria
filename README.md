@@ -13,3 +13,5 @@ fly machine stop 2865666b999768 -a calculadora-vet-db
 Conectar no BD:
 
 fly proxy 5432 -a calculadora-vet-db
+
+message.setFrom("no-reply@calculadora-vet.com"); linha para utilizar o mailtrap no emailservice

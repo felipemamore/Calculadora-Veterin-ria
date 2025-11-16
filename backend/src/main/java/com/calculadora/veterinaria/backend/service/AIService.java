@@ -106,6 +106,25 @@ public class AIService {
         ));
     });
 
+    context.append("\n--- REGRAS DE CÁLCULO DE NECESSIDADE ENERGÉTICA (NED/DER) ---\n");
+    context.append("A fórmula é: DER = RER * Fator\n");
+    context.append("Onde RER (Necessidade Energética de Repouso) = 70 * (Peso em kg)^0.75\n");
+    context.append("Fatores para CÃES:\n");
+    context.append("- Em crescimento: Fator = 3.0\n");
+    context.append("- Adultos com atividade moderada: Fator = 1.8\n");
+    context.append("- Em lactação: Fator = 5.6\n");
+    context.append("- Adultos sedentários e/ou idosos: Fator = 1.4\n");
+    context.append("Fatores para GATOS:\n");
+    context.append("- Filhotes em crescimento: Fator = 2.5\n");
+    context.append("- Adultos ativos e/ou gestantes: Fator = 1.4\n");
+    context.append("- Em lactação: Fator = 3.0\n");
+    context.append("- Adultos sedentários e/ou idosos: Fator = 1.2\n");
+    context.append("Ao calcular, mostre o resultado final em Kcal/dia.\n");
+    context.append("\n--- REGRAS DE CÁLCULO DE GESTAÇÃO ---\n");
+    context.append("A duração da gestação para Cães (Canina) é de 62 a 64 dias.\n");
+    context.append("A duração da gestação para Gatos (Felina) é de 60 a 65 dias.\n");
+    context.append("Ao calcular, forneça a data mínima e a data máxima do parto com base na data de início fornecida.\n");
+
     return context.toString();
 }
 }
