@@ -77,6 +77,7 @@ public class SecurityConfig {
             "/api/calculo/historico",
             "/api/calculo/dose",
             "/api/alimentos-toxicos",
+            "api/silvestres/**",
             "/api/ai/**"
         ).permitAll()
 

@@ -1,0 +1,217 @@
+medicamento,especie,dose_recomendada_mg,acao
+Acetaminofeno,Anfibios,-,Analgesico e antitermico
+Acetaminofeno,Aves,50,Analgesico e antitermico
+Acetaminofeno,Camundongos,2,Analgesico e antitermico
+Acetaminofeno,Chinchilas,2,Analgesico e antitermico
+Acetaminofeno,Cobaios,2,Analgesico e antitermico
+Acetaminofeno,Coelhos,2,Analgesico e antitermico
+Acetaminofeno,Elefantes,-,Analgesico e antitermico
+Acetaminofeno,Ferrets,-,Analgesico e antitermico
+Acetaminofeno,Gerbos,2,Analgesico e antitermico
+Acetaminofeno,Hamsters,2,Analgesico e antitermico
+Acetaminofeno,Mamíferos,-,Analgesico e antitermico
+Acetaminofeno,Ouriços,-,Analgesico e antitermico
+Acetaminofeno,Peixes,-,Analgesico e antitermico
+Acetaminofeno,Primatas,2,Analgesico e antitermico
+Acetaminofeno,Ratos,2,Analgesico e antitermico
+Acetaminofeno,Répteis,-,Analgesico e antitermico
+Acetaminofeno,Saguis,-,Analgesico e antitermico
+Acetaminofeno,Ursos,-,Analgesico e antitermico
+Aciclovir,Anfibios,-,Antiviral
+Aciclovir,Aves,100,Antiviral
+Aciclovir,Camundongos,-,Antiviral
+Aciclovir,Chinchilas,-,Antiviral
+Aciclovir,Cobaios,-,Antiviral
+Aciclovir,Coelhos,-,Antiviral
+Aciclovir,Elefantes,-,Antiviral
+Aciclovir,Ferrets,-,Antiviral
+Aciclovir,Gerbos,-,Antiviral
+Aciclovir,Hamsters,-,Antiviral
+Aciclovir,Mamíferos,-,Antiviral
+Aciclovir,Ouriços,40,Antiviral
+Aciclovir,Peixes,-,Antiviral
+Aciclovir,Primatas,-,Antiviral
+Aciclovir,Ratos,-,Antiviral
+Aciclovir,Répteis,80,Antiviral
+Aciclovir,Saguis,-,Antiviral
+Aciclovir,Ursos,-,Antiviral
+Afoxolaner,Anfibios,,Ectoparasiticida 
+Afoxolaner,Aves,"2,5",Ectoparasiticida 
+Afoxolaner,Camundongos,-,Ectoparasiticida 
+Afoxolaner,Chinchilas,-,Ectoparasiticida 
+Afoxolaner,Cobaios,-,Ectoparasiticida 
+Afoxolaner,Coelhos,-,Ectoparasiticida 
+Afoxolaner,Elefantes,-,Ectoparasiticida 
+Afoxolaner,Ferrets,-,Ectoparasiticida 
+Afoxolaner,Gerbos,-,Ectoparasiticida 
+Afoxolaner,Hamsters,-,Ectoparasiticida 
+Afoxolaner,Mamíferos,-,Ectoparasiticida 
+Afoxolaner,Ouriços,"2,5",Ectoparasiticida 
+Afoxolaner,Peixes,-,Ectoparasiticida 
+Afoxolaner,Primatas,-,Ectoparasiticida 
+Afoxolaner,Ratos,-,Ectoparasiticida 
+Afoxolaner,Répteis,-,Ectoparasiticida 
+Afoxolaner,Saguis,-,Ectoparasiticida 
+Afoxolaner,Ursos,-,Ectoparasiticida 
+Albendazol,Anfibios,-,Anti-helmintico e protozoocida
+Albendazol,Aves,50,Anti-helmintico e protozoocida
+Albendazol,Camundongos,-,Anti-helmintico e protozoocida
+Albendazol,Chinchilas,50,Anti-helmintico e protozoocida
+Albendazol,Cobaios,5,Anti-helmintico e protozoocida
+Albendazol,Coelhos,20,Anti-helmintico e protozoocida
+Albendazol,Elefantes,-,Anti-helmintico e protozoocida
+Albendazol,Ferrets,-,Anti-helmintico e protozoocida
+Albendazol,Gerbos,-,Anti-helmintico e protozoocida
+Albendazol,Hamsters,-,Anti-helmintico e protozoocida
+Albendazol,Mamíferos,-,Anti-helmintico e protozoocida
+Albendazol,Ouriços,-,Anti-helmintico e protozoocida
+Albendazol,Peixes,10,Anti-helmintico e protozoocida
+Albendazol,Primatas,25,Anti-helmintico e protozoocida
+Albendazol,Ratos,-,Anti-helmintico e protozoocida
+Albendazol,Répteis,50,Anti-helmintico e protozoocida
+Albendazol,Saguis,-,Anti-helmintico e protozoocida
+Albendazol,Ursos,-,Anti-helmintico e protozoocida
+Amoxicilina,Anfibios,-,Antibiotico 
+Amoxicilina,Aves,100,Antibiotico 
+Amoxicilina,Camundongos,25,Antibiotico 
+Amoxicilina,Chinchilas,-,Antibiotico 
+Amoxicilina,Cobaios,-,Antibiotico 
+Amoxicilina,Coelhos,-,Antibiotico 
+Amoxicilina,Elefantes,-,Antibiotico 
+Amoxicilina,Ferrets,20,Antibiotico 
+Amoxicilina,Gerbos,-,Antibiotico 
+Amoxicilina,Hamsters,-,Antibiotico 
+Amoxicilina,Mamíferos,-,Antibiotico 
+Amoxicilina,Ouriços,15,Antibiotico 
+Amoxicilina,Peixes,50,Antibiotico 
+Amoxicilina,Primatas,10,Antibiotico 
+Amoxicilina,Ratos,25,Antibiotico 
+Amoxicilina,Répteis,20,Antibiotico 
+Amoxicilina,Saguis,-,Antibiotico 
+Amoxicilina,Ursos,-,Antibiotico 
+Cefalexina,Anfibios,-,Antibiotico 
+Cefalexina,Aves,100,Antibiotico 
+Cefalexina,Camundongos,20,Antibiotico 
+Cefalexina,Chinchilas,-,Antibiotico 
+Cefalexina,Cobaios,20,Antibiotico 
+Cefalexina,Coelhos,-,Antibiotico 
+Cefalexina,Elefantes,-,Antibiotico 
+Cefalexina,Ferrets,15,Antibiotico 
+Cefalexina,Gerbos,20,Antibiotico 
+Cefalexina,Hamsters,20,Antibiotico 
+Cefalexina,Mamíferos,-,Antibiotico 
+Cefalexina,Ouriços,25,Antibiotico 
+Cefalexina,Peixes,-,Antibiotico 
+Cefalexina,Primatas,20,Antibiotico 
+Cefalexina,Ratos,20,Antibiotico 
+Cefalexina,Répteis,20,Antibiotico 
+Cefalexina,Saguis,-,Antibiotico 
+Cefalexina,Ursos,-,Antibiotico 
+Cetoprofeno,Anfibios,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Aves,1,Anti-inflamatorio e analgesico
+Cetoprofeno,Camundongos,5,Anti-inflamatorio e analgesico
+Cetoprofeno,Chinchilas,2,Anti-inflamatorio e analgesico
+Cetoprofeno,Cobaios,2,Anti-inflamatorio e analgesico
+Cetoprofeno,Coelhos,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Elefantes,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Ferrets,3,Anti-inflamatorio e analgesico
+Cetoprofeno,Gerbos,5,Anti-inflamatorio e analgesico
+Cetoprofeno,Hamsters,5,Anti-inflamatorio e analgesico
+Cetoprofeno,Mamíferos,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Ouriços,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Peixes,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Primatas,2,Anti-inflamatorio e analgesico
+Cetoprofeno,Ratos,5,Anti-inflamatorio e analgesico
+Cetoprofeno,Répteis,2,Anti-inflamatorio e analgesico
+Cetoprofeno,Saguis,-,Anti-inflamatorio e analgesico
+Cetoprofeno,Ursos,-,Anti-inflamatorio e analgesico
+Ciprofloxacina,Anfibios,10,Antibiotico bactericida
+Ciprofloxacina,Aves,20,Antibiotico bactericida
+Ciprofloxacina,Camundongos,10,Antibiotico bactericida
+Ciprofloxacina,Chinchilas,10,Antibiotico bactericida
+Ciprofloxacina,Cobaios,10,Antibiotico bactericida
+Ciprofloxacina,Coelhos,20,Antibiotico bactericida
+Ciprofloxacina,Elefantes,-,Antibiotico bactericida
+Ciprofloxacina,Ferrets,10,Antibiotico bactericida
+Ciprofloxacina,Gerbos,10,Antibiotico bactericida
+Ciprofloxacina,Hamsters,10,Antibiotico bactericida
+Ciprofloxacina,Mamíferos,-,Antibiotico bactericida
+Ciprofloxacina,Ouriços,10,Antibiotico bactericida
+Ciprofloxacina,Peixes,-,Antibiotico bactericida
+Ciprofloxacina,Primatas,10,Antibiotico bactericida
+Ciprofloxacina,Ratos,10,Antibiotico bactericida
+Ciprofloxacina,Répteis,10,Antibiotico bactericida
+Ciprofloxacina,Saguis,-,Antibiotico bactericida
+Ciprofloxacina,Ursos,-,Antibiotico bactericida
+Dexametasona,Anfibios,-,Anti-inflamatorio esteroidal 
+Dexametasona,Aves,"0,16",Anti-inflamatorio esteroidal 
+Dexametasona,Camundongos,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Chinchilas,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Cobaios,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Coelhos,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Elefantes,-,Anti-inflamatorio esteroidal 
+Dexametasona,Ferrets,-,Anti-inflamatorio esteroidal 
+Dexametasona,Gerbos,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Hamsters,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Mamíferos,-,Anti-inflamatorio esteroidal 
+Dexametasona,Ouriços,-,Anti-inflamatorio esteroidal 
+Dexametasona,Peixes,-,Anti-inflamatorio esteroidal 
+Dexametasona,Primatas,"0,25",Anti-inflamatorio esteroidal 
+Dexametasona,Ratos,"0,5",Anti-inflamatorio esteroidal 
+Dexametasona,Répteis,-,Anti-inflamatorio esteroidal 
+Dexametasona,Saguis,-,Anti-inflamatorio esteroidal 
+Dexametasona,Ursos,-,Anti-inflamatorio esteroidal 
+Dipirona,Anfibios,-,Analgesico
+Dipirona,Aves,25,Analgesico
+Dipirona,Camundongos,25,Analgesico
+Dipirona,Chinchilas,25,Analgesico
+Dipirona,Cobaios,25,Analgesico
+Dipirona,Coelhos,-,Analgesico
+Dipirona,Elefantes,-,Analgesico
+Dipirona,Ferrets,-,Analgesico
+Dipirona,Gerbos,25,Analgesico
+Dipirona,Hamsters,25,Analgesico
+Dipirona,Mamíferos,-,Analgesico
+Dipirona,Ouriços,-,Analgesico
+Dipirona,Peixes,-,Analgesico
+Dipirona,Primatas,-,Analgesico
+Dipirona,Ratos,25,Analgesico
+Dipirona,Répteis,-,Analgesico
+Dipirona,Saguis,-,Analgesico
+Dipirona,Ursos,-,Analgesico
+Itraconazol,Anfibios,10,Antifungico
+Itraconazol,Aves,5,Antifungico
+Itraconazol,Camundongos,"2,5",Antifungico
+Itraconazol,Chinchilas,"2,5",Antifungico
+Itraconazol,Cobaios,"2,5",Antifungico
+Itraconazol,Coelhos,5,Antifungico
+Itraconazol,Elefantes,-,Antifungico
+Itraconazol,Ferrets,10,Antifungico
+Itraconazol,Gerbos,"2,5",Antifungico
+Itraconazol,Hamsters,"2,5",Antifungico
+Itraconazol,Mamíferos,-,Antifungico
+Itraconazol,Ouriços,10,Antifungico
+Itraconazol,Peixes,1,Antifungico
+Itraconazol,Primatas,5,Antifungico
+Itraconazol,Ratos,"2,5",Antifungico
+Itraconazol,Répteis,5,Antifungico
+Itraconazol,Saguis,-,Antifungico
+Itraconazol,Ursos,-,Antifungico
+Tramadol,Anfibios,-,Analgesico
+Tramadol,Aves,5,Analgesico
+Tramadol,Camundongos,10,Analgesico
+Tramadol,Chinchilas,10,Analgesico
+Tramadol,Cobaios,10,Analgesico
+Tramadol,Coelhos,10,Analgesico
+Tramadol,Elefantes,-,Analgesico
+Tramadol,Ferrets,10,Analgesico
+Tramadol,Gerbos,10,Analgesico
+Tramadol,Hamsters,10,Analgesico
+Tramadol,Mamíferos,-,Analgesico
+Tramadol,Ouriços,2,Analgesico
+Tramadol,Peixes,-,Analgesico
+Tramadol,Primatas,2,Analgesico
+Tramadol,Ratos,10,Analgesico
+Tramadol,Répteis,5,Analgesico
+Tramadol,Saguis,-,Analgesico
+Tramadol,Ursos,-,Analgesico

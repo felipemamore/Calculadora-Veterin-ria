@@ -1,4 +1,4 @@
-package com.calculadora.veterinaria.backend.controller; // Verifique se o pacote está correto
+package com.calculadora.veterinaria.backend.controller;
 
 import com.calculadora.veterinaria.backend.entity.Dosagem;
 import com.calculadora.veterinaria.backend.repository.DosagemRepository;

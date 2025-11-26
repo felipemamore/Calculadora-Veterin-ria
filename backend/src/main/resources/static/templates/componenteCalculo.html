@@ -3,6 +3,7 @@
         <button class="tab-link active" data-tab="dose">Dose de Medicamento</button>
         <button class="tab-link" data-tab="energia">Necessidade Energética</button>
         <button class="tab-link" data-tab="gestacao">Gestação</button>
+        <button class="tab-link" data-tab="silvestres">Silvestres</button>
     </div>
 
     <div class="calculadora-content">
@@ -129,4 +130,37 @@
             </div>
         </div>
     </div>
+    <div id="silvestres" class="tab-pane">
+    <div class="row justify-content-center componente-calculo-central">
+        <div class="col-md-8 col-lg-6">
+            <div class="form-section">
+                <div class="calculation-box">
+                    
+                    <label for="silvestres-grupo">Grupo</label>
+                    <select id="silvestres-grupo">
+                        <option value="">Carregando...</option>
+                    </select>
+
+                    <label for="silvestres-medicamento">Medicamento</label>
+                    <select id="silvestres-medicamento" disabled>
+                        <option value="">Selecione o Grupo primeiro</option>
+                    </select>
+
+                    <label for="silvestres-peso">Peso (g)</label> <input type="number" id="silvestres-peso" placeholder="Informe o peso em gramas">
+
+                    <button class="calculate-btn btn btn-primary mt-3" id="btn-calcular-silvestre">Calcular</button>
+
+                    <div class="resultado-box mt-3" style="display:none" id="resultado-box-silvestre">
+                        💉 Dose Total: <span id="resultado-valor-silvestre">0.00</span> mg
+                        <div class="formula" id="info-detalhe-silvestre"></div>
+                        <div class="formula" style="font-size: 12px; color: #666;">
+                            Cálculo baseado em Alometria (TMB)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

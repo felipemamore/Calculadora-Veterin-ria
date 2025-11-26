@@ -1,12 +1,9 @@
 package com.calculadora.veterinaria.backend.controller;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.calculadora.veterinaria.backend.dto.MedicamentoDTO;
 import com.calculadora.veterinaria.backend.entity.Medicamento;
 import com.calculadora.veterinaria.backend.repository.MedicamentoRepository;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

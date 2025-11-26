@@ -17,6 +17,7 @@ function inicializarComponenteCalculo() {
     inicializarCalculadoraDose();
     inicializarCalculadoraEnergia();
     inicializarCalculadoraGestacao();
+    inicializarCalculadoraSilvestres();
 }
 
 //DOSE DE MEDICAMENTO
@@ -336,4 +337,133 @@ function inicializarCalculadoraGestacao() {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         resultadoGestacaoDiv.innerHTML = `Mínima: ${dataMinima.toLocaleDateString('pt-BR', options)} <br> Máxima: ${dataMaxima.toLocaleDateString('pt-BR', options)}`;
     }
+}
+
+// CALCULADORA DE SILVESTRES (ALOMETRIA)
+function inicializarCalculadoraSilvestres() {
+    const selectGrupo = document.getElementById("silvestres-grupo");
+    const selectMedicamento = document.getElementById("silvestres-medicamento");
+    const inputPeso = document.getElementById("silvestres-peso");
+    const btnCalcular = document.getElementById("btn-calcular-silvestre");
+    const resultadoBox = document.getElementById("resultado-box-silvestre");
+    const resultadoValor = document.getElementById("resultado-valor-silvestre");
+    const infoDetalhe = document.getElementById("info-detalhe-silvestre");
+
+    if (!selectGrupo) return;
+
+    // 1. Carregar Grupos ao iniciar (Aves, Répteis, etc.)
+    async function carregarGrupos() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/silvestres/grupos`);
+            if (!response.ok) throw new Error("Erro ao carregar grupos");
+            
+            const grupos = await response.json();
+            selectGrupo.innerHTML = '<option value="">Selecione</option>';
+            grupos.forEach(grupo => {
+                const opt = document.createElement("option");
+                opt.value = grupo;
+                opt.textContent = grupo;
+                selectGrupo.appendChild(opt);
+            });
+        } catch (error) {
+            console.error(error);
+            selectGrupo.innerHTML = '<option value="">Erro ao carregar</option>';
+        }
+    }
+
+    // 2. Carregar Medicamentos quando o Grupo muda
+    async function carregarMedicamentos() {
+        const grupo = selectGrupo.value;
+        
+        // Resetar campos
+        selectMedicamento.innerHTML = '<option value="">Selecione</option>';
+        selectMedicamento.disabled = true;
+        resultadoBox.style.display = 'none';
+
+        if (!grupo) return;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/silvestres/medicamentos?grupo=${encodeURIComponent(grupo)}`);
+            if (!response.ok) throw new Error("Erro ao carregar medicamentos");
+
+            const medicamentos = await response.json(); // Espera lista de objetos DosagemSilvestre
+            
+            if (medicamentos.length > 0) {
+                medicamentos.forEach(med => {
+                    const opt = document.createElement("option");
+                    opt.value = med.medicamento; // Usamos o nome como ID para o cálculo
+                    opt.textContent = med.medicamento;
+                    selectMedicamento.appendChild(opt);
+                });
+                selectMedicamento.disabled = false;
+            } else {
+                selectMedicamento.innerHTML = '<option value="">Nenhum medicamento encontrado</option>';
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // 3. Realizar o Cálculo
+    async function calcular() {
+        const grupo = selectGrupo.value;
+        const medicamento = selectMedicamento.value;
+        const peso = parseFloat(inputPeso.value);
+
+        if (!grupo || !medicamento) {
+            alert("Selecione o grupo e o medicamento.");
+            return;
+        }
+        if (isNaN(peso) || peso <= 0) {
+            alert("Informe um peso válido em gramas.");
+            return;
+        }
+
+        // Prepara o payload para o backend
+        const payload = {
+            grupo: grupo,
+            medicamento: medicamento,
+            peso: peso // Backend espera peso em gramas conforme combinamos
+        };
+
+        // Pega o token para autorização
+        const token = localStorage.getItem('jwtToken');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/silvestres/calcular`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error("Erro ao calcular");
+
+            const resultado = await response.json();
+            
+            // Exibe o resultado
+            resultadoValor.textContent = resultado.doseTotalMg.toFixed(2).replace('.', ',');
+            
+            // Mostra detalhes extras se houver (ex: Ação: Antibiótico)
+            if (resultado.acao) {
+                infoDetalhe.textContent = `Ação: ${resultado.acao}`;
+            } else {
+                infoDetalhe.textContent = "";
+            }
+            
+            resultadoBox.style.display = 'block';
+
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao realizar o cálculo. Tente novamente.");
+        }
+    }
+
+    // Event Listeners
+    selectGrupo.addEventListener("change", carregarMedicamentos);
+    btnCalcular.addEventListener("click", calcular);
+
+    // Inicializa
+    carregarGrupos();
 }
