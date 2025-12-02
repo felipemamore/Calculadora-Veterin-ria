@@ -43,6 +43,7 @@ services:
     # Mapeia a porta 8080 do host para a 8080 do contêiner
     ports:
       - "8080:8080"
+      - "8000:8000"
 
     # Variáveis de ambiente que serão injetadas na sua aplicação Spring.
     # Elas configuram a conexão com o banco de dados.

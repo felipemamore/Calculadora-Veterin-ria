@@ -1,9 +1,13 @@
 package com.calculadora.veterinaria.backend.service;
 import com.calculadora.veterinaria.backend.dto.GroqRequest;
 import com.calculadora.veterinaria.backend.dto.GroqResponse;
+import com.calculadora.veterinaria.backend.entity.DosagemSilvestre;
 import com.calculadora.veterinaria.backend.repository.AlimentoToxicoEspecieRepository;
 import com.calculadora.veterinaria.backend.repository.DosagemRepository;
+import com.calculadora.veterinaria.backend.repository.DosagemSilvestreRepository;
 import com.calculadora.veterinaria.backend.repository.MedicacaoToxicaRepository;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +26,8 @@ public class AIService {
     private AlimentoToxicoEspecieRepository alimentoToxicoEspecieRepository;
     @Autowired
     private MedicacaoToxicaRepository medicacaoToxicaRepository;
+    @Autowired
+    private DosagemSilvestreRepository dosagemSilvestreRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,7 +45,7 @@ public class AIService {
         headers.setBearerAuth(apiKey);
 
         // Monta o prompt
-        String dataContext = buildDataContext();
+        String dataContext = buildDataContext(userQuestion);
 
         String systemPrompt = String.format(
             "Você é um assistente veterinário prestativo. Responda a pergunta do usuário baseando-se estritamente nos dados de referência a seguir. " +
@@ -57,11 +63,15 @@ public class AIService {
         HttpEntity<GroqRequest> entity = new HttpEntity<>(requestBody, headers);
 
         // Faz a chamada POST
-        GroqResponse response = restTemplate.postForObject(url, entity, GroqResponse.class);
+        try {
+            GroqResponse response = restTemplate.postForObject(url, entity, GroqResponse.class);
 
-        // Extrai o texto da resposta
-        if (response != null && !response.getChoices().isEmpty()) {
-            return response.getChoices().get(0).getMessage().getContent();
+            if (response != null && !response.getChoices().isEmpty()) {
+                return response.getChoices().get(0).getMessage().getContent();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao processar a resposta da IA (Limite de tokens ou erro de conexão). Tente ser mais específico.";
         }
 
         return "Não foi possível obter uma resposta da IA.";
@@ -69,42 +79,90 @@ public class AIService {
 
 
 
-    private String buildDataContext() {
+    private String buildDataContext(String question) {
     StringBuilder context = new StringBuilder();
+    String termoBusca = question.toLowerCase();
+
+    AtomicBoolean hasData = new AtomicBoolean(false);
 
     // 1. Adiciona dados de Dosagens
     context.append("--- DADOS DE DOSAGEM ---\n");
     dosagemRepository.findAll().forEach(dosagem -> {
-        context.append(String.format(
-            "Medicamento %s para %s em apresentação '%s': Dose recomendada de %.2f mg/kg e concentração de %.2f mg/mL.\n",
-            dosagem.getMedicamento().getNome(),
-            dosagem.getEspecie().getNome(),
-            dosagem.getApresentacao(),
-            dosagem.getDoseRecomendadaMgPorKg(),
-            dosagem.getConcentracaoMgPorMl()
-        ));
-    });
+        String nomeMed = dosagem.getMedicamento().getNome().toLowerCase();
+            String nomeEsp = dosagem.getEspecie().getNome().toLowerCase();
+            
+            // Só adiciona se o nome do remédio ou da espécie estiver na pergunta
+            if (termoBusca.contains(nomeMed) || termoBusca.contains(nomeEsp)) {
+                context.append(String.format(
+                    "Med: %s | Esp: %s | Apr: %s | Dose: %.2f mg/kg | Conc: %.2f mg/mL\n", // Formato compactado
+                    dosagem.getMedicamento().getNome(),
+                    dosagem.getEspecie().getNome(),
+                    dosagem.getApresentacao(),
+                    dosagem.getDoseRecomendadaMgPorKg(),
+                    dosagem.getConcentracaoMgPorMl()
+                ));
+                hasData.set(true);
+            }
+        });
 
     // 2. Adiciona dados de Alimentos Tóxicos
-    context.append("\n--- DADOS DE ALIMENTOS TÓXICOS ---\n");
-    alimentoToxicoEspecieRepository.findAll().forEach(relacao -> {
-        context.append(String.format(
-            "Alimento %s é tóxico para %s. Descrição: %s\n",
-            relacao.getAlimento().getNome(),
-            relacao.getEspecie().getNome(),
-            relacao.getDescricao()
-        ));
-    });
+    if (termoBusca.contains("tóxico") || termoBusca.contains("toxico") || termoBusca.contains("comer") || termoBusca.contains("alimento")) {
+            context.append("\n--- DADOS DE ALIMENTOS TÓXICOS ---\n");
+            alimentoToxicoEspecieRepository.findAll().forEach(relacao -> {
+                String nomeAlimento = relacao.getAlimento().getNome().toLowerCase();
+                // Adiciona se a pergunta tiver o nome do alimento ou for genérica sobre toxicidade
+                if (termoBusca.contains(nomeAlimento) || termoBusca.contains("quais")) {
+                    context.append(String.format(
+                        "%s é tóxico para %s. %s\n",
+                        relacao.getAlimento().getNome(),
+                        relacao.getEspecie().getNome(),
+                        relacao.getDescricao()
+                    ));
+                }
+            });
+        }
 
     // 3. Adiciona dados de Medicações Tóxicas
-    context.append("\n--- DADOS DE MEDICAÇÕES TÓXICAS ---\n");
-    medicacaoToxicaRepository.findAll().forEach(relacao -> {
-        context.append(String.format(
-            "Medicamento %s é considerado tóxico para %s.\n",
-            relacao.getMedicamento().getNome(),
-            relacao.getEspecie().getNome()
-        ));
-    });
+    if (termoBusca.contains("tóxico") || termoBusca.contains("faz mal") || termoBusca.contains("proibido")) {
+            context.append("\n--- DADOS DE MEDICAÇÕES TÓXICAS ---\n");
+            medicacaoToxicaRepository.findAll().forEach(relacao -> {
+                String nomeMed = relacao.getMedicamento().getNome().toLowerCase();
+                if (termoBusca.contains(nomeMed) || termoBusca.contains("quais")) {
+                    context.append(String.format(
+                        "%s é tóxico para %s.\n",
+                        relacao.getMedicamento().getNome(),
+                        relacao.getEspecie().getNome()
+                    ));
+                }
+            });
+        }
+
+    // 4. Adiciona dados de Dosagens para Silvestres
+    context.append("\n--- DADOS SILVESTRES ---\n");
+        dosagemSilvestreRepository.findAll().forEach(silvestre -> {
+            String nomeMed = silvestre.getMedicamento().toLowerCase();
+            String grupo = silvestre.getGrupo().toLowerCase();
+            
+            if (termoBusca.contains(nomeMed) || termoBusca.contains(grupo) || termoBusca.contains("silvestre")) {
+                context.append(String.format(
+                    "Med: %s | Grupo: %s | Dose: %.2f mg/kg\n",
+                    silvestre.getMedicamento(),
+                    silvestre.getGrupo(),
+                    silvestre.getDoseMgKg()
+                ));
+            }
+        });
+
+    context.append("\n--- REGRAS DE CÁLCULO PARA SILVESTRES (ALOMETRIA) ---\n");
+    context.append("Para animais silvestres, o cálculo não é linear. Usamos Alometria baseada na TMB (Taxa Metabólica Basal).\n");
+    context.append("Fórmula da TMB: K * (Peso em kg)^0.75\n");
+    context.append("Fórmula da Dose Total (mg): Dose da Tabela * (TMB / 10)\n");
+    context.append("Constantes K utilizadas:\n");
+    context.append("- Répteis e Anfíbios: K = 10\n");
+    context.append("- Marsupiais: K = 49\n");
+    context.append("- Mamíferos: K = 70\n");
+    context.append("- Aves (Não-Passeriformes): K = 78\n");
+    context.append("- Aves (Passeriformes): K = 129\n");
 
     context.append("\n--- REGRAS DE CÁLCULO DE NECESSIDADE ENERGÉTICA (NED/DER) ---\n");
     context.append("A fórmula é: DER = RER * Fator\n");

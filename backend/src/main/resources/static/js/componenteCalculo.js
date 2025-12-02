@@ -184,12 +184,12 @@ function inicializarCalculadoraDose() {
 
     let calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
 
-    // Função que verifica se o usuário está logado
+    //Função que verifica se o usuário está logado
     function usuarioNaoLogado() {
         return !localStorage.getItem("jwtToken");
     }
 
-    // Função que controla o clique no botão "Calcular"
+    //Função que controla o clique no botão "Calcular"
     function controleCalculoParaVisitante(event) {
         event.preventDefault(); 
 
@@ -386,12 +386,12 @@ function inicializarCalculadoraSilvestres() {
             const response = await fetch(`${API_BASE_URL}/api/silvestres/medicamentos?grupo=${encodeURIComponent(grupo)}`);
             if (!response.ok) throw new Error("Erro ao carregar medicamentos");
 
-            const medicamentos = await response.json(); // Espera lista de objetos DosagemSilvestre
+            const medicamentos = await response.json();
             
             if (medicamentos.length > 0) {
                 medicamentos.forEach(med => {
                     const opt = document.createElement("option");
-                    opt.value = med.medicamento; // Usamos o nome como ID para o cálculo
+                    opt.value = med.medicamento;
                     opt.textContent = med.medicamento;
                     selectMedicamento.appendChild(opt);
                 });
@@ -423,7 +423,7 @@ function inicializarCalculadoraSilvestres() {
         const payload = {
             grupo: grupo,
             medicamento: medicamento,
-            peso: peso // Backend espera peso em gramas conforme combinamos
+            peso: peso
         };
 
         // Pega o token para autorização
@@ -442,7 +442,6 @@ function inicializarCalculadoraSilvestres() {
 
             const resultado = await response.json();
             
-            // Exibe o resultado
             resultadoValor.textContent = resultado.doseTotalMg.toFixed(2).replace('.', ',');
             
             // Mostra detalhes extras se houver (ex: Ação: Antibiótico)
@@ -460,10 +459,36 @@ function inicializarCalculadoraSilvestres() {
         }
     }
 
+    let calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
+
+    function usuarioNaoLogado() {
+        return !localStorage.getItem("jwtToken");
+    }
+
+    function controleCalculoParaVisitante(event) {
+        event.preventDefault(); 
+
+        if (usuarioNaoLogado()) {
+            calculosFeitos = parseInt(localStorage.getItem("calculos-visitante") || "0");
+
+            if (calculosFeitos >= 5) { 
+                alert("Você atingiu o limite de 5 cálculos como visitante. Por favor, faça login ou cadastre-se para continuar.");
+                window.location.href = "/pagina-login"; 
+                return; 
+            }
+            
+            calculosFeitos++;
+            localStorage.setItem("calculos-visitante", calculosFeitos.toString());
+        }
+
+        calcular();
+    }
+
+
+
     // Event Listeners
     selectGrupo.addEventListener("change", carregarMedicamentos);
-    btnCalcular.addEventListener("click", calcular);
+    btnCalcular.addEventListener("click", controleCalculoParaVisitante);
 
-    // Inicializa
     carregarGrupos();
 }

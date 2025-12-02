@@ -47,10 +47,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
      const avatarList = [
-        'panda.png', 'macaco.png', 'porco.png', 'coelho.png', 'sapo.png',
-        'cachorro.png', 'vaca.png', 'elefante.png', 'raposa.png'
+        'panda.png', 'cobra.png', 'macaco.png', 'porco.png', 'coelho.png', 'sapo.png',
+        'cachorro.png', 'vaca.png', 'elefante.png', 'raposa.png', 'tartaruga.png', 'leao.png', 'coruja.png',
+        'zebra.png', 'girafa.png', 'pinguim.png', 'tigre.png', 'gato.png', 'hipopotamo.png',
+        'urso.png'
     ];
-    const avatarPath = '/images/avatars/'; // Confirme se este é o caminho correto
+    const avatarPath = '/images/avatars/';
 
     let selectedAvatarUrl = '';
     let currentUserData = {};
