@@ -1,1 +1,0 @@
-fly proxy 5432 -a calculadora-vet-db
