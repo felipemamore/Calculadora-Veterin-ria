@@ -23,3 +23,12 @@ Este projeto implementa o mapeamento objeto-relacional (ORM) utilizando JPA com 
 
 Todos os relacionamentos foram mapeados com as anotações JPA (`@ManyToOne`, `@OneToMany`) de forma adequada para persistência em banco de dados relacional.
 
+Ligar e desligar machine:
+fly scale count 1 -a calculadora-veterinaria-api
+fly machine start 2865666b999768 -a calculadora-vet-db
+fly scale count 0 -a calculadora-veterinaria-api
+fly machine stop 2865666b999768 ou
+fly machine stop 2865666b999768 -a calculadora-vet-db
+Conectar no BD:
+fly proxy 5432 -a calculadora-vet-db
+

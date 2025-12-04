@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       Canina: "images/canina.jpg",
       Felina: "images/felina.jpg",
       Equina: "images/equina.jpg",
-      Bovino: "images/bovina.jpg",
+      Bovino: "images/bovina.png",
       Mamíferos: "images/mamifero.png",
       Aves: "images/aves.jpg",
-      Répteis: "images/repteis.jpg",
+      Répteis: "images/repteis.png",
       Roedores: "images/roedores.jpg"
     };
     document.getElementById("imagem-especie").src = imagens[especieNome] || "images/default.jpg";
