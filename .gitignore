@@ -39,3 +39,8 @@ build/
 
 ##recovery code twilio
 VB6XB8ZK2UCMANQ7MF6BDFNF
+
+## other files##
+buildspec.yml
+conectar-db.sh
+dump_mysql.sql
