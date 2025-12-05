@@ -40,6 +40,12 @@
                                 💉 Dose total: <span id="resultado-valor">0.00</span> mL
                                 <div class="formula">Fórmula: (peso × dose) ÷ concentração</div>
                             </div>
+                            <div class="fonte-calculo mt-3">
+                                Fonte:
+                                <a href="https://vetsmart.com.br/" target="_blank" rel="noopener noreferrer">
+                                    Vet Smart
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,36 +137,72 @@
         </div>
     </div>
     <div id="silvestres" class="tab-pane">
-    <div class="row justify-content-center componente-calculo-central">
-        <div class="col-md-8 col-lg-6">
-            <div class="form-section">
-                <div class="calculation-box">
-                    
-                    <label for="silvestres-grupo">Grupo</label>
-                    <select id="silvestres-grupo">
-                        <option value="">Carregando...</option>
-                    </select>
+        <div class="row justify-content-center componente-calculo-central">
+            <div class="col-md-8 col-lg-6">
+                <div class="form-section">
+                    <div class="calculation-box">
 
-                    <label for="silvestres-medicamento">Medicamento</label>
-                    <select id="silvestres-medicamento" disabled>
-                        <option value="">Selecione o Grupo primeiro</option>
-                    </select>
+                        <label for="silvestres-grupo">Grupo</label>
+                        <select id="silvestres-grupo">
+                            <option value="">Carregando...</option>
+                        </select>
 
-                    <label for="silvestres-peso">Peso (g)</label> <input type="number" id="silvestres-peso" placeholder="Informe o peso em gramas">
+                        <label for="silvestres-medicamento">Medicamento</label>
+                        <select id="silvestres-medicamento" disabled>
+                            <option value="">Selecione o Grupo primeiro</option>
+                        </select>
 
-                    <button class="calculate-btn btn btn-primary mt-3" id="btn-calcular-silvestre">Calcular</button>
+                        <label for="silvestres-peso">Peso (g)</label> <input type="number" id="silvestres-peso"
+                            placeholder="Informe o peso em gramas">
 
-                    <div class="resultado-box mt-3" style="display:none" id="resultado-box-silvestre">
-                        💉 Dose Total: <span id="resultado-valor-silvestre">0.00</span> mg
-                        <div class="formula" id="info-detalhe-silvestre"></div>
-                        <div class="formula" style="font-size: 12px; color: #666;">
-                            Cálculo baseado em Alometria (TMB)
+                        <button class="calculate-btn btn btn-primary mt-3" id="btn-calcular-silvestre">Calcular</button>
+
+                        <div class="resultado-box mt-3" style="display:none" id="resultado-box-silvestre">
+                            💉 Dose Total: <span id="resultado-valor-silvestre">0.00</span> mg
+                            <div class="formula" id="info-detalhe-silvestre"></div>
+                            <div class="formula"
+                                style="font-size: 12px; color: #666; line-height: 1.5; font-family: sans-serif;">
+
+                                <strong>Cálculo baseado em Alometria (TMB)</strong>
+
+                                <p style="font-size: 14px; margin: 10px 0;">
+                                    TMB = K &times; P<sup>0,75</sup>
+                                </p>
+
+                                <p style="margin-bottom: 5px;"><strong>Onde:</strong></p>
+
+                                <ul style="margin-top: 0; padding-left: 20px;">
+                                    <li><strong>P</strong> = peso do animal (kg)</li>
+                                    <li><strong>K</strong> = constante que varia conforme o grupo de animais:
+                                        <ul style="margin-top: 5px; margin-bottom: 10px; color: #555;">
+                                            <li>Aves passeriformes: 129</li>
+                                            <li>Aves não passeriformes: 78</li>
+                                            <li>Mamíferos placentários: 70</li>
+                                            <li>Marsupiais, xenartros e monotrematas: 49</li>
+                                            <li>Répteis: 10</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <ol start="2" style="padding-left: 20px;">
+                                    <li>Dividir a dose total indicada para o animal modelo pela sua TMB;</li>
+                                    <li>Multiplicar o resultado pela TMB do animal alvo. O resultado é a dose total a
+                                        ser utilizada;</li>
+                                    <li>Dividir a dose total pelo peso do animal. O resultado é a dose em mg/kg.</li>
+                                </ol>
+
+                            </div>
                         </div>
-                    </div>
+                        <div class="fonte-calculo mt-3">
+                            Fonte:
+                            <a href="https://www.drogavet.com.br/" target="_blank" rel="noopener noreferrer">
+                                DrogaVET
+                            </a>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>

@@ -1,7 +1,6 @@
 package com.calculadora.veterinaria.backend.service;
 import com.calculadora.veterinaria.backend.dto.GroqRequest;
 import com.calculadora.veterinaria.backend.dto.GroqResponse;
-import com.calculadora.veterinaria.backend.entity.DosagemSilvestre;
 import com.calculadora.veterinaria.backend.repository.AlimentoToxicoEspecieRepository;
 import com.calculadora.veterinaria.backend.repository.DosagemRepository;
 import com.calculadora.veterinaria.backend.repository.DosagemSilvestreRepository;
