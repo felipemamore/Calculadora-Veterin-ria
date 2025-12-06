@@ -6,6 +6,11 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
     API_BASE_URL = 'https://calculadora-veterinaria-api.fly.dev';
 }
 
+function validarSenhaForte(senha) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    return regex.test(senha);
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const togglePasswordIcons = document.querySelectorAll(".toggle-password");
 
@@ -40,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (senha !== confirmarSenha) {
                 alert("As senhas não correspondem. Por favor, tente novamente.");
+                return;
+            }
+            if (!validarSenhaForte(senha)) {
+                alert("A senha é muito fraca!\n\nEla deve conter:\n- Pelo menos 8 caracteres\n- Letra maiúscula e minúscula\n- Um número\n- Um caractere especial (ex: @, #, $)");
                 return;
             }
 
