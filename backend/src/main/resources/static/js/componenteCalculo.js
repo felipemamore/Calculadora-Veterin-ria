@@ -145,6 +145,7 @@ function inicializarCalculadoraDose() {
 
         const doseRecomendada = parseFloat(doseInput.value.replace(",", "."));
         const concentracaoMedicamento = parseFloat(concentracaoInput.value.replace(",", "."));
+        
         if (isNaN(doseRecomendada) || isNaN(concentracaoMedicamento) || concentracaoMedicamento <= 0) {
             return alert("Dados de dosagem inválidos. Verifique as seleções.");
         }
@@ -174,7 +175,59 @@ function inicializarCalculadoraDose() {
             }
 
             const resultado = await response.json();
-            resultadoValor.textContent = resultado.dose.toFixed(2).replace('.',',');
+            
+            // --- LÓGICA DE APRESENTAÇÃO E UNIDADES ---
+            
+            // Pega o texto da apresentação e normaliza para minúsculas para facilitar a busca
+            const apresentacaoTexto = selectApresentacao.options[selectApresentacao.selectedIndex].text.toLowerCase();
+            
+            const unidadeSpan = document.getElementById("unidade-medida");
+            const formulaTexto = document.getElementById("formula-texto");
+            const iconeSpan = document.getElementById("icone-resultado");
+            
+            // Variáveis padrão (Líquidos: Ampola, Frasco, Injetável, Solução, Elixir, Bolsa)
+            let unidade = "mL";
+            let icone = "💉";
+            let textoFormula = "Fórmula: (peso × dose) ÷ concentração (mg/mL)";
+            let valorFinal = resultado.dose;
+
+            // 1. Verifica Sólidos
+            if (apresentacaoTexto.includes("comprimido")) {
+                unidade = "comprimido(s)";
+                icone = "💊";
+                textoFormula = "Fórmula: (peso × dose) ÷ mg por comprimido";
+            } 
+            else if (apresentacaoTexto.includes("capsula") || apresentacaoTexto.includes("cápsula")) {
+                unidade = "cápsula(s)";
+                icone = "💊";
+                textoFormula = "Fórmula: (peso × dose) ÷ mg por cápsula";
+            }
+            // 2. Verifica Semissólidos (Pomada)
+            else if (apresentacaoTexto.includes("pomada")) {
+                unidade = "g"; // Resultado em gramas (mg de remédio / concentração mg/g)
+                icone = "🧴";
+                textoFormula = "Fórmula: (peso × dose) ÷ concentração (mg/g)";
+            }
+            // 3. Verifica Gotas
+            else if (apresentacaoTexto.includes("gotas")) {
+                // ATENÇÃO: Se o backend retorna mL, e você quer mostrar gotas:
+                // Geralmente 1 mL = 20 gotas (para soluções aquosas padrão).
+                // Se quiser converter, descomente a linha abaixo:
+                // valorFinal = valorFinal * 20; 
+                
+                unidade = "gotas";
+                icone = "💧";
+                textoFormula = "Fórmula: (peso × dose) ÷ concentração";
+            }
+
+            // Atualiza o HTML
+            resultadoValor.textContent = valorFinal.toFixed(2).replace('.',',');
+            if (unidadeSpan) unidadeSpan.textContent = unidade;
+            if (iconeSpan) iconeSpan.textContent = icone;
+            if (formulaTexto) formulaTexto.textContent = textoFormula;
+            
+            // --- FIM DA LÓGICA ---
+
             resultadoBox.style.display = "block";
         } catch (err) {
             console.error("Erro ao calcular:", err);

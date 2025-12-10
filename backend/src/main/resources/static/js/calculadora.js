@@ -84,20 +84,31 @@ function inicializarLayoutCompletoLogic() {
                 //SELECIONAR o medicamento
                 li.addEventListener("click", function () {
                     const medicamentoNome = li.firstChild.textContent.trim();
-                    const selectMedicamentos = document.getElementById("medicamentos-select");
-
+                    
                     if (itemSelecionado) {
                         itemSelecionado.classList.remove('selecionado');
                     }
-
                     li.classList.add('selecionado');
                     itemSelecionado = li;
 
+                    const selectMedicamentos = document.getElementById("medicamentos-select");
+
                     if (selectMedicamentos) {
-                        selectMedicamentos.value = medicamentoNome;
-                        setTimeout(() => {
+                        let opcaoEncontrada = false;
+                        
+                        for (let i = 0; i < selectMedicamentos.options.length; i++) {
+                            if (selectMedicamentos.options[i].text.trim() === medicamentoNome) {
+                                selectMedicamentos.selectedIndex = i;
+                                opcaoEncontrada = true;
+                                break;
+                            }
+                        }
+
+                        if (opcaoEncontrada) {
                             selectMedicamentos.dispatchEvent(new Event('change'));
-                        }, 0);
+                        } else {
+                            console.warn("Medicamento não encontrado no dropdown central para a espécie atual:", medicamentoNome);
+                        }
                     }
                 });
 

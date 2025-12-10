@@ -109,7 +109,6 @@ public class AIService {
             context.append("\n--- DADOS DE ALIMENTOS TÓXICOS ---\n");
             alimentoToxicoEspecieRepository.findAll().forEach(relacao -> {
                 String nomeAlimento = relacao.getAlimento().getNome().toLowerCase();
-                // Adiciona se a pergunta tiver o nome do alimento ou for genérica sobre toxicidade
                 if (termoBusca.contains(nomeAlimento) || termoBusca.contains("quais")) {
                     context.append(String.format(
                         "%s é tóxico para %s. %s\n",
@@ -122,19 +121,33 @@ public class AIService {
         }
 
     // 3. Adiciona dados de Medicações Tóxicas
-    if (termoBusca.contains("tóxico") || termoBusca.contains("faz mal") || termoBusca.contains("proibido")) {
-            context.append("\n--- DADOS DE MEDICAÇÕES TÓXICAS ---\n");
-            medicacaoToxicaRepository.findAll().forEach(relacao -> {
-                String nomeMed = relacao.getMedicamento().getNome().toLowerCase();
-                if (termoBusca.contains(nomeMed) || termoBusca.contains("quais")) {
-                    context.append(String.format(
-                        "%s é tóxico para %s.\n",
-                        relacao.getMedicamento().getNome(),
-                        relacao.getEspecie().getNome()
-                    ));
-                }
-            });
-        }
+    // ATUALIZADO: Agora aceita "tóxica", "toxica", "toxicidade", "veneno", etc.
+    if (termoBusca.contains("tóxi") || termoBusca.contains("toxi") || 
+        termoBusca.contains("faz mal") || termoBusca.contains("proibido") || 
+        termoBusca.contains("perigo") || termoBusca.contains("lista") || 
+        termoBusca.contains("quais")) {
+        
+        context.append("\n--- DADOS DE MEDICAÇÕES TÓXICAS ---\n");
+        
+        medicacaoToxicaRepository.findAll().forEach(relacao -> {
+            String nomeMed = relacao.getMedicamento().getNome().toLowerCase();
+            String nomeEsp = relacao.getEspecie().getNome().toLowerCase();
+            
+            if (termoBusca.contains(nomeMed) || 
+                termoBusca.contains(nomeEsp) || 
+                termoBusca.contains("quais") || 
+                termoBusca.contains("lista") ||
+                termoBusca.contains("tóxi") ||
+                termoBusca.contains("toxi")) {
+                
+                context.append(String.format(
+                    "- %s é estritamente PROIBIDO/TÓXICO para %s.\n",
+                    relacao.getMedicamento().getNome(),
+                    relacao.getEspecie().getNome()
+                ));
+            }
+        });
+    }
 
     // 4. Adiciona dados de Dosagens para Silvestres
     context.append("\n--- DADOS SILVESTRES ---\n");

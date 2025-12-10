@@ -28,8 +28,6 @@ public class MedicacaoToxicaDataLoader {
 
     @PostConstruct
     public void carregarMedicacoesToxicas() {
-        if (medicacaoToxicaRepository.count() > 0) return;
-
         Map<String, List<String>> toxicasPorEspecie = new HashMap<>();
         toxicasPorEspecie.put("Canina", List.of("Meloxicam", "Dipirona", "Furosemida", "Ciprofloxacino", "Adrenalina"));
         toxicasPorEspecie.put("Felina", List.of("Meloxicam", "Dipirona", "Enrofloxacina", "Tramal", "Quetamina"));
@@ -40,29 +38,39 @@ public class MedicacaoToxicaDataLoader {
         toxicasPorEspecie.put("Répteis", List.of("Meloxicam", "Ceftriaxona", "Metadona"));
         toxicasPorEspecie.put("Roedores", List.of("Dipirona", "Enrofloxacina", "Amoxilina"));
 
+        System.out.println("Iniciando verificação de Medicações Tóxicas...");
+
         for (Map.Entry<String, List<String>> entry : toxicasPorEspecie.entrySet()) {
             String nomeEspecie = entry.getKey();
             List<String> nomesMedicamentos = entry.getValue();
 
             Optional<Especie> especieOpt = especieRepository.findByNomeIgnoreCase(nomeEspecie);
-            if (especieOpt.isEmpty()) continue;
-
+            if (especieOpt.isEmpty()) {
+                System.out.println("⚠️ Espécie não encontrada: " + nomeEspecie);
+                continue; 
+            }
             Especie especie = especieOpt.get();
 
             for (String nomeMed : nomesMedicamentos) {
-                Optional<Medicamento> medicamentoOpt = medicamentoRepository.findByNomeIgnoreCase(nomeMed);
-                if (medicamentoOpt.isEmpty()) continue;
+                // Tenta achar o remédio, se não achar, CRIA UM NOVO (Resiliência)
+                Medicamento medicamento = medicamentoRepository.findByNomeIgnoreCase(nomeMed)
+                    .orElseGet(() -> {
+                        System.out.println("Criando medicamento faltante: " + nomeMed);
+                        Medicamento novo = new Medicamento();
+                        novo.setNome(nomeMed);
+                        return medicamentoRepository.save(novo);
+                    });
 
-                Medicamento medicamento = medicamentoOpt.get();
-
-                boolean existe = medicacaoToxicaRepository.existsByEspecieAndMedicamento(especie, medicamento);
-                if (!existe) {
+                // Só salva se ainda não existir essa relação específica
+                if (!medicacaoToxicaRepository.existsByEspecieAndMedicamento(especie, medicamento)) {
                     MedicacaoToxica toxica = new MedicacaoToxica();
                     toxica.setEspecie(especie);
                     toxica.setMedicamento(medicamento);
                     medicacaoToxicaRepository.save(toxica);
+                    System.out.println("✅ Nova toxicidade cadastrada: " + nomeMed + " para " + nomeEspecie);
                 }
             }
         }
+        System.out.println("Verificação de Medicações Tóxicas concluída.");
     }
 }
