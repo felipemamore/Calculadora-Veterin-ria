@@ -121,7 +121,6 @@ public class AIService {
         }
 
     // 3. Adiciona dados de Medicações Tóxicas
-    // ATUALIZADO: Agora aceita "tóxica", "toxica", "toxicidade", "veneno", etc.
     if (termoBusca.contains("tóxi") || termoBusca.contains("toxi") || 
         termoBusca.contains("faz mal") || termoBusca.contains("proibido") || 
         termoBusca.contains("perigo") || termoBusca.contains("lista") || 
